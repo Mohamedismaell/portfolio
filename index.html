@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mohamed Ismael – Frontend Developer</title>
+  <meta name="description" content="Mohamed Ismael - Frontend developer portfolio: projects, skills, and contact." />
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --brand:#22d3ee; --accent:#a78bfa; --card:#0f172a; --ring:rgba(34,211,238,.3);
+    }
+    :root.light{
+      --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569; --brand:#06b6d4; --accent:#7c3aed; --card:#f1f5f9; --ring:rgba(6,182,212,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;backdrop-filter:saturate(180%) blur(8px);background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0));}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+    .nav .links{display:flex;gap:18px}
+    .btn{display:inline-flex;gap:10px;align-items:center;border:1px solid transparent;border-radius:999px;padding:10px 16px;background:var(--brand);color:#003; font-weight:600}
+    .btn.ghost{background:transparent;border-color:var(--brand);color:var(--text)}
+    .btn:focus{outline:2px solid var(--ring);outline-offset:2px}
+    .grid{display:grid;gap:18px}
+    .hero{padding:56px 24px 24px}
+    .hero h1{font-size:clamp(28px,5vw,48px);line-height:1.1;margin:0 0 12px}
+    .hero p{color:var(--muted);max-width:60ch;margin:0}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--card);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-weight:600}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px}
+    section{padding:24px}
+    h2{font-size:clamp(20px,3.5vw,28px);margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--card);border:1px solid rgba(255,255,255,.08)}
+    .projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card .cover{height:150px;background:linear-gradient(135deg,var(--brand),var(--accent))}
+    .card .body{padding:14px;display:flex;flex-direction:column;gap:10px}
+    .card .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .footer{padding:24px;color:var(--muted);text-align:center}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .toggle{border-radius:999px;padding:8px 12px;border:1px solid rgba(255,255,255,.15);cursor:pointer;background:var(--card)}
+    .contact{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    @media (max-width:860px){.contact{grid-template-columns:1fr}}
+    /* RTL helper */
+    .rtl{direction:rtl}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav container">
+      <a href="#" class="row" aria-label="Logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".1"/><path d="M6 14l4-8 4 8 4-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <strong>Mohamed Ismael</strong>
+      </a>
+      <div class="links">
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button id="theme" class="toggle" type="button" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero panel">
+      <span class="badge">Frontend Developer · Available for freelance</span>
+      <h1>Hi, I’m <span style="color:var(--brand)">Mohamed Ismael</span>. I craft fast, accessible UIs for web & mobile.</h1>
+      <p class="muted">Specialized in responsive interfaces, performance, and clean component-driven architecture. I build with HTML, CSS, JavaScript, and Flutter.</p>
+      <div class="row" style="margin-top:16px">
+        <a class="btn" href="#contact">Hire Me</a>
+        <a class="btn ghost" href="#projects">View Projects</a>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Featured Projects</h2>
+      <p class="muted">A few things I’ve built recently.</p>
+      <div class="grid projects">
+        <!-- Card 1 -->
+        <article class="card">
+          <div class="cover" role="img" aria-label="Project gradient cover"></div>
+          <div class="body">
+            <h3>Landing Page Revamp</h3>
+            <p class="muted">Modernized a marketing site with responsive layout, a11y, and 40% faster LCP.</p>
+            <div class="tags">
+              <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JS</span>
+            </div>
+            <div class="row">
+              <a class="btn ghost" href="#">Live</a>
+              <a class="btn ghost" href="#">Code</a>
+            </div>
+          </div>
+        </article>
+        <!-- Card 2 -->
+        <article class="card">
+          <div class="cover"></div>
+          <div class="body">
+            <h3>Flutter Quiz App</h3>
+            <p class="muted">Cross‑platform quiz with clean state, smooth transitions, and offline data.</p>
+            <div class="tags">
+              <span class="chip">Flutter</span><span class="chip">Dart</span>
+            </div>
+            <div class="row">
+              <a class="btn ghost" href="#">Live</a>
+              <a class="btn ghost" href="#">Code</a>
+            </div>
+          </div>
+        </article>
+        <!-- Card 3 -->
+        <article class="card">
+          <div class="cover"></div>
+          <div class="body">
+            <h3>Dashboard Components</h3>
+            <p class="muted">Reusable charts & tables with accessible keyboard navigation.</p>
+            <div class="tags">
+              <span class="chip">React</span><span class="chip">TypeScript</span>
+            </div>
+            <div class="row">
+              <a class="btn ghost" href="#">Live</a>
+              <a class="btn ghost" href="#">Code</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="panel">
+      <h2>Skills</h2>
+      <div class="skills">
+        <span class="chip">HTML5</span>
+        <span class="chip">CSS3 / Tailwind</span>
+        <span class="chip">JavaScript (ES6+)</span>
+        <span class="chip">Flutter / Dart</span>
+        <span class="chip">React</span>
+        <span class="chip">Git & GitHub</span>
+        <span class="chip">Responsive Design</span>
+        <span class="chip">Accessibility (a11y)</span>
+        <span class="chip">Performance</span>
+      </div>
+    </section>
+
+    <!-- ABOUT (with RTL toggle example) -->
+    <section id="about">
+      <div class="panel">
+        <h2>About</h2>
+        <p class="muted">I’m Mohamed Ismael, a frontend developer focused on crafting delightful, fast, and accessible user interfaces. Comfortable shipping to Netlify/Vercel and integrating basic backend APIs.</p>
+        <div class="row" style="margin-top:10px">
+          <button type="button" class="toggle" id="rtl">Toggle RTL (AR)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="panel">
+        <h2>Contact</h2>
+        <p class="muted">Let’s build something great. I usually reply within 24 hours.</p>
+        <form name="contact" onsubmit="event.preventDefault(); alert('Thanks! I\\'ll get back to you.');">
+          <div class="grid" style="grid-template-columns:1fr 1fr">
+            <label> Name<br><input required name="name" class="field"></label>
+            <label> Email<br><input required type="email" name="email" class="field"></label>
+          </div>
+          <label> Message<br><textarea required name="message" rows="5" class="field"></textarea></label>
+          <div class="row" style="margin-top:10px"><button class="btn" type="submit">Send Message</button></div>
+        </form>
+      </div>
+      <aside class="panel">
+        <h3>Links</h3>
+        <ul class="muted" style="list-style:none;padding:0;margin:0;display:grid;gap:8px">
+          <li>GitHub — <a href="https://github.com/Mohamedismaell">@Mohamedismaell</a></li>
+          <li>LinkedIn — <a href="https://www.linkedin.com/in/mohamed-ismail-b3089b268/">mohamed-ismail</a></li>
+          <li>Email — <a href="mailto:esmailemohamed466@gmail.com">esmailemohamed466@gmail.com</a></li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> Mohamed Ismael. All rights reserved.</footer>
+
+  <style>
+    .field{width:100%;margin-top:6px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:var(--card);color:var(--text)}
+    .field:focus{outline:2px solid var(--ring);outline-offset:2px}
+  </style>
+
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('theme');
+    themeBtn.addEventListener('click',()=>{
+      const light = document.documentElement.classList.toggle('light');
+      themeBtn.textContent = light ? '☀️' : '🌙';
+    });
+    // RTL toggle for About section (for Arabic preview)
+    document.getElementById('rtl').addEventListener('click',()=>{
+      document.getElementById('about').classList.toggle('rtl');
+    });
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
