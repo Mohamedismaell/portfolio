@@ -1,11 +1,9 @@
 import { getGithubStats } from "@/lib/github-stats";
+import { FolderGit2, GitCommit } from "lucide-react";
 import GithubActivityChart from "./GithubActivityChart";
-import { FolderGit2, Activity } from "lucide-react";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
-
-  if (!stats) return null;
 
   return (
     <section className="py-28 px-6 lg:px-20 max-w-7xl mx-auto">
@@ -14,7 +12,7 @@ export default async function GithubStatsSection() {
         GitHub Activity
       </h2>
 
-      {/* MAIN GLASS CARD (MATCH PORTFOLIO STYLE) */}
+      {/* MAIN GLASS CARD (MATCHES YOUR PORTFOLIO STYLE) */}
       <div
         className="
           relative rounded-[32px]
@@ -25,7 +23,7 @@ export default async function GithubStatsSection() {
           overflow-hidden
         "
       >
-        {/* GRADIENT GLOW (same style as skills/projects) */}
+        {/* PORTFOLIO GLOW */}
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"
           style={{
@@ -36,23 +34,23 @@ export default async function GithubStatsSection() {
           }}
         />
 
-        {/* STATS CARDS */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* TOP STATS */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
           <StatCard
-            title="Repositories"
+            title="Active Repositories"
             value={stats.publicRepos}
-            icon={<FolderGit2 size={20} />}
+            icon={<FolderGit2 size={24} />}
           />
 
           <StatCard
-            title="Activity Level"
-            value="Active"
-            icon={<Activity size={20} />}
+            title="Total Commits (Last Year)"
+            value={stats.totalCommits}
+            icon={<GitCommit size={24} />}
           />
         </div>
 
-        {/* REAL ACTIVITY CHART */}
-        <GithubActivityChart data={stats.activityData} />
+        {/* 🔥 COMMITS BAR CHART (REPLACES GREEN HEATMAP) */}
+        <GithubActivityChart data={stats.topRepos} />
       </div>
     </section>
   );
@@ -64,7 +62,7 @@ function StatCard({
   icon,
 }: {
   title: string;
-  value: any;
+  value: number;
   icon: React.ReactNode;
 }) {
   return (
@@ -77,18 +75,22 @@ function StatCard({
         p-6 text-center
         transition-all duration-300
         hover:bg-white/[0.08]
+        hover:border-white/20
         hover:shadow-[0_20px_60px_rgba(71,90,215,0.25)]
+        group
       "
     >
-      <div className="flex justify-center mb-3 text-[#475AD7]">
+      <div className="flex justify-center mb-4 text-[#475AD7] group-hover:scale-110 transition-transform">
         {icon}
       </div>
 
-      <h3 className="text-3xl font-bold text-white mb-1">
+      <h3 className="text-4xl font-bold text-white mb-2">
         {value}
       </h3>
 
-      <p className="text-gray-400 text-sm">{title}</p>
+      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">
+        {title}
+      </p>
     </div>
   );
 }

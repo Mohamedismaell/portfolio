@@ -20,7 +20,7 @@ export default function AboutSection() {
         >
           <div className="relative h-[450px] rounded-3xl overflow-hidden border border-white/10">
             <Image
-              src="/projects/news/01 - Splash Screen.png"
+              src="/projects/news/cover.png"
               alt="Mohamed Ismael"
               fill
               className="object-cover"

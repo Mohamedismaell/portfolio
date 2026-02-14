@@ -60,7 +60,7 @@ export default function Hero() {
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-transparent z-10 opacity-60"></div>
             <Image
-              src="/projects/news/01 - Splash Screen.png"
+              src="/projects/news/cover.png"
               alt="Mohamed Ismael"
               fill
               className="object-cover"

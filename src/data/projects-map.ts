@@ -35,32 +35,6 @@ export const projectsMap: Record<string, any> = {
     github: "https://github.com/Mohamedismaell/News",
     image: "/projects/news/cover.png",
 
-    showcase: [
-      {
-        image: "/projects/news/Screenshot_1771039363-portrait.png",
-        title: "Home Feed",
-        description:
-          "Displays latest news with categorized sections and smooth scrolling UI optimized for performance.",
-      },
-      {
-        image: "/projects/news/Screenshot_1771039367-portrait.png",
-        title: "Categories System",
-        description:
-          "Users can browse news by category with a clean grid layout and dynamic API filtering.",
-      },
-      {
-        image: "/projects/news/Screenshot_1771039732-portrait.png",
-        title: "Article Details",
-        description:
-          "Detailed news view with image header, description, and external source integration.",
-      },
-      {
-        image: "/projects/news/Screenshot_1771039384-portrait.png",
-        title: "Bookmarks",
-        description:
-          "Save favorite articles locally using persistent storage and quick access tab.",
-      },
-    ],
 
     heroScreens: [
       '/projects/news/splash.png',
@@ -74,13 +48,13 @@ export const projectsMap: Record<string, any> = {
       '/projects/news/profile.png',
     ],
     gallery: [
-      "/projects/2D_preview/welcome.png",
-      "/projects/2D_preview/homeedit.png",
-      "/projects/2D_preview/image1.png",
-      "/projects/2D_preview/image2.png",
-      "/projects/2D_preview/image3.png",
-      "/projects/2D_preview/image4.png",
-      "/projects/2D_preview/image5.png",
+      "/projects/news/2D_preview/welcome.png",
+      "/projects/news/2D_preview/homeedit.png",
+      "/projects/news/2D_preview/image1.png",
+      "/projects/news/2D_preview/image2.png",
+      "/projects/news/2D_preview/image3.png",
+      "/projects/news/2D_preview/image4.png",
+      "/projects/news/2D_preview/image5.png",
     ],
     sections: [
       {
@@ -93,7 +67,7 @@ export const projectsMap: Record<string, any> = {
           "Smooth scrolling UI",
           "Optimized image loading",
         ],
-        image: "/projects/news/Screenshot_1771039363-portrait.png",
+        image: "/projects/news/home.png",
       },
       {
         label: "SCREEN 02",
@@ -105,7 +79,7 @@ export const projectsMap: Record<string, any> = {
           "Cubit state management",
           "Clean architecture separation",
         ],
-        image: "/projects/news/Screenshot_1771039367-portrait.png",
+        image: "/projects/news/categories.png",
       },
       {
         label: "SCREEN 03",
@@ -117,7 +91,7 @@ export const projectsMap: Record<string, any> = {
           "Bookmark toggle system",
           "Fast retrieval performance",
         ],
-        image: "/projects/news/Screenshot_1771039384-portrait.png",
+        image: "/projects/news/bookmarks.png",
       },
     ],
 
