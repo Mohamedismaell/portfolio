@@ -14,7 +14,7 @@ export default function HomePage() {
       <SkillsSection />
       <ProjectsSection />
       <GithubStatsSection />
-      <AboutSection />
+      {/* <AboutSection /> */}
       <ContactSection />
       <Footer />
       <ThemeToggle />
