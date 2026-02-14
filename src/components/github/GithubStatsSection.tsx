@@ -1,6 +1,6 @@
 import { getGithubStats } from "@/lib/github-stats";
 import { FolderGit2, GitCommit } from "lucide-react";
-import GithubActivityChart from "./GithubActivityChart";
+import MonthlyCommitsChart from "./MonthlyCommitsChart";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
@@ -50,7 +50,9 @@ export default async function GithubStatsSection() {
         </div>
 
         {/* 🔥 COMMITS BAR CHART (REPLACES GREEN HEATMAP) */}
-        <GithubActivityChart data={stats.topRepos} />
+        <MonthlyCommitsChart data={stats.monthlyCommits} />
+
+
       </div>
     </section>
   );
