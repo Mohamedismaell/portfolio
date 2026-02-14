@@ -114,7 +114,7 @@ export default function ProjectsSection() {
                 </p>
 
                 {/* TECH PILLS (BIGGER + CLEANER) */}
-                {/* <div className="flex flex-wrap gap-2.5 mb-6">
+                <div className="flex flex-wrap gap-2.5 mb-6">
                   {project.tech?.slice(0, 6).map((tech: string) => (
                     <span
                       key={tech}
@@ -135,7 +135,7 @@ export default function ProjectsSection() {
                       {tech}
                     </span>
                   ))}
-                </div> */}
+                </div>
 
 
                 {/* ACTIONS (keeps your existing modal + routing working) */}

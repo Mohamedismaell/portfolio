@@ -3,13 +3,43 @@
 import { motion } from "framer-motion";
 
 export default function Hero() {
+  const scrollToProjects = () => {
+    const section = document.getElementById("projects");
+    if (!section) return;
+
+    // Smooth animated scroll with offset for navbar
+    const y =
+      section.getBoundingClientRect().top +
+      window.pageYOffset -
+      80;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center pt-24 px-6">
-      {/* GLASS CONTAINER (matches your portfolio style) */}
+      {/* OUTER GLOW (MATCHES YOUR PORTFOLIO CARDS) */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background: `
+            radial-gradient(circle at 20% 30%, #475AD733, transparent 60%),
+            radial-gradient(circle at 80% 70%, #8B5CF622, transparent 60%)
+          `,
+        }}
+      />
+
+      {/* GLASS CONTAINER (RESTORED DESIGN) */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0, y: 60, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.9,
+          ease: "easeOut",
+        }}
         className="
           relative
           max-w-4xl w-full
@@ -22,14 +52,12 @@ export default function Hero() {
           overflow-hidden
         "
       >
-        {/* PORTFOLIO GRADIENT GLOW */}
+        {/* INNER GRADIENT OVERLAY (LIKE PROJECT CARDS) */}
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"
           style={{
-            background: `
-              radial-gradient(circle at 20% 30%, #475AD733, transparent 60%),
-              radial-gradient(circle at 80% 70%, #8B5CF622, transparent 60%)
-            `,
+            background:
+              "linear-gradient(135deg, rgba(71,90,215,0.12), rgba(139,92,246,0.08))",
           }}
         />
 
@@ -43,28 +71,23 @@ export default function Hero() {
           Mohamed Ismael
         </motion.h1>
 
-        {/* ROLE */}
+        {/* ROLE (GRADIENT TEXT LIKE YOUR PORTFOLIO) */}
         <motion.h2
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="
-            text-xl sm:text-2xl lg:text-3xl
-            mt-5
-            font-semibold
-            bg-clip-text text-transparent
-          "
+          className="text-xl sm:text-2xl lg:text-3xl mt-5 font-semibold bg-clip-text text-transparent"
           style={{
             backgroundImage: "linear-gradient(135deg, #475AD7, #8B5CF6)",
           }}
         >
-          Junior Flutter Developer & Software Engineer
+          Flutter Developer & Software Engineer
         </motion.h2>
 
-        {/* ABOUT (Merged instead of separate About section) */}
+        {/* ABOUT (MERGED HERO + ABOUT — PREMIUM STYLE) */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="
             mt-6
@@ -75,82 +98,82 @@ export default function Hero() {
             mx-auto
           "
         >
-          {/* Building scalable structures and finding innovative solutions that drive business growth. Specializing in handling complex cases, architecting robust systems,
-          and delivering mobile applications that solve real-world problems and scale with your business. */}
-
-          Building scalable, production-grade mobile applications with Clean Architecture and modern UI systems.
-          I focus on performance, maintainable codebases, and solving complex technical challenges to deliver apps that are reliable, scalable, and user-focused.
+          Building scalable structures and architecting robust mobile
+          applications that solve real-world problems and scale with
+          business growth. Specialized in Clean Architecture, complex
+          state management, and production-grade Flutter apps with
+          modern UI systems.
         </motion.p>
 
-        {/* SECOND PARAGRAPH (Professional depth) */}
-        {/* <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.55 }}
-          className="
-            mt-4
-            text-gray-400
-            text-base sm:text-lg
-            max-w-2xl
-            mx-auto
-          "
-        >
-          Specialized in Flutter, API integration, scalable architecture, and
-          performance optimization — delivering real-world apps ready for
-          production and app stores.
-        </motion.p> */}
-
-        {/* STATS (Glass + Portfolio style) */}
+        {/* STATS (SAME DESIGN LANGUAGE AS YOUR CARDS) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="
-            mt-10
-            grid grid-cols-1 sm:grid-cols-3
-            gap-6
-          "
+          className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6"
         >
           <Stat value="3+" label="Production Projects" />
           <Stat value="2025+" label="Active Development" />
           <Stat value="Flutter" label="Core Expertise" />
         </motion.div>
 
-        {/* CTA BUTTONS */}
+        {/* CTA BUTTONS (FIXED ANIMATION + GLOW + SLIDE SCROLL) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
+          className="mt-14 flex flex-col sm:flex-row gap-4 justify-center"
         >
+          {/* VIEW PROJECTS (SMOOTH SLIDE + GLOW HOVER) */}
           <button
+            onClick={scrollToProjects}
             className="
+              group relative
               px-8 py-3
               rounded-xl
               font-semibold
               text-white
-              bg-gradient-to-r from-[#475AD7] to-[#8B5CF6]
-              hover:scale-105
+              overflow-hidden
               transition-all duration-300
-              shadow-[0_15px_40px_rgba(71,90,215,0.4)]
+              hover:scale-105
+              active:scale-95
             "
-            onClick={() =>
-              document.getElementById("projects")?.scrollIntoView({
-                behavior: "smooth",
-              })
-            }
+            style={{
+              background:
+                "linear-gradient(135deg, #475AD7, #8B5CF6)",
+              boxShadow:
+                "0 15px 40px rgba(71,90,215,0.45)",
+            }}
           >
-            View Projects
+            {/* HOVER GLOW LAYER */}
+            <span
+              className="
+                absolute inset-0 opacity-0
+                group-hover:opacity-100
+                transition duration-500
+              "
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
+              }}
+            />
+            <span className="relative z-10">
+              View Projects
+            </span>
           </button>
 
+          {/* HIRE ME */}
           <button
             className="
               px-8 py-3
               rounded-xl
               border border-white/20
               text-white
+              backdrop-blur-xl
               hover:border-[#475AD7]
-              hover:bg-white/5
+              hover:bg-white/[0.05]
+              hover:scale-105
+              active:scale-95
               transition-all duration-300
             "
           >
@@ -162,22 +185,36 @@ export default function Hero() {
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+function Stat({
+  value,
+  label,
+}: {
+  value: string;
+  label: string;
+}) {
   return (
     <div
       className="
-        rounded-2xl
+        relative rounded-2xl
         border border-white/10
         bg-white/[0.04]
         backdrop-blur-xl
-        py-6
-        px-4
+        py-6 px-4
+        transition-all duration-300
+        hover:bg-white/[0.08]
+        hover:shadow-[0_20px_60px_rgba(71,90,215,0.25)]
       "
     >
-      <h3 className="text-2xl lg:text-3xl font-bold text-[#475AD7] mb-1">
+      <h3 className="text-2xl lg:text-3xl font-bold mb-1 bg-clip-text text-transparent"
+        style={{
+          backgroundImage: "linear-gradient(135deg, #475AD7, #8B5CF6)",
+        }}
+      >
         {value}
       </h3>
-      <p className="text-gray-400 text-sm">{label}</p>
+      <p className="text-gray-400 text-sm">
+        {label}
+      </p>
     </div>
   );
 }

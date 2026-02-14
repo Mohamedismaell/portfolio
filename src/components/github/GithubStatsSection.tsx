@@ -49,7 +49,6 @@ export default async function GithubStatsSection() {
           />
         </div>
 
-        {/* 🔥 COMMITS BAR CHART (REPLACES GREEN HEATMAP) */}
         <MonthlyCommitsChart data={stats.monthlyCommits} />
 
 
@@ -96,3 +95,5 @@ function StatCard({
     </div>
   );
 }
+// Building scalable, production-grade mobile applications with Clean Architecture and modern UI systems.
+//         I focus on performance, maintainable codebases, and solving complex technical challenges to deliver apps that are reliable, scalable, and user-focused.

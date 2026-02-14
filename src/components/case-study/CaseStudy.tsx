@@ -36,14 +36,7 @@ export default function CaseStudy({ project }: any) {
             {project.title}
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-blue-400 text-lg mb-6"
-          >
-            {project.role}
-          </motion.p>
+
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -51,7 +44,7 @@ export default function CaseStudy({ project }: any) {
             transition={{ delay: 0.3 }}
             className="text-gray-400 text-lg leading-relaxed mb-8"
           >
-            {project.description}
+            {project.shortDescription}
           </motion.p>
 
           <motion.a

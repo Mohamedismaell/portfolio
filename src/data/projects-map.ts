@@ -1,15 +1,15 @@
 export const projectsMap: Record<string, any> = {
   "news-app": {
     slug: "news-app",
-    title: "News App",
+    title: "Quick Read",
     color: "#475AD7",
     role: "Flutter Developer",
     duration: "2025",
     // platform: "Android & iOS",
     shortDescription:
-      "Scalable Flutter news app with REST APIs and clean architecture.",
+      "Stay informed with a high-performance news platform built using scalable Clean Architecture and optimized state management. The application supports real-time news fetching, smart caching for offline reading, category-based filtering, and bookmark management for a personalized experience.",
     description:
-      "A scalable Flutter news application with REST APIs, category filtering, bookmarking, and clean architecture.",
+      "Designed with a modular architecture and efficient API handling to ensure fast load times, maintainability, and production-ready performance across different devices.",
 
     highlights: [
       "20+ articles per API request",
@@ -40,7 +40,7 @@ export const projectsMap: Record<string, any> = {
       '/projects/news/splash.png',
       '/projects/news/onboarding(1).png',
       '/projects/news/onboarding(2).png',
-      '/projects/news/home.png',
+      '/projects/news/homedisplay.png',
       '/projects/news/post_details.png',
       '/projects/news/categories.png',
       '/projects/news/explore_category(2).png',
@@ -67,7 +67,7 @@ export const projectsMap: Record<string, any> = {
           "Smooth scrolling UI",
           "Optimized image loading",
         ],
-        image: "/projects/news/home.png",
+        image: "/projects/news/homedisplay.png",
       },
       {
         label: "SCREEN 02",
