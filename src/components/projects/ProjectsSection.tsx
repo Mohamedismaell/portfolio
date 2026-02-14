@@ -2,15 +2,11 @@
 
 import { motion } from "framer-motion";
 import { projectsMap } from "@/data/projects-map";
-import { Github, Eye, Smartphone } from "lucide-react";
+import { Github } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import ScreenshotsModal from "@/components/ScreenshotsModal";
+import ProjectHighlights from "../case-study/ProjectHighlights";
 
 export default function ProjectsSection() {
-  const params = useParams();
-  const locale = (params?.locale as string) || "en";
   const projects = Object.values(projectsMap);
 
   return (
@@ -25,7 +21,7 @@ export default function ProjectsSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
         {projects.map((project: any, index: number) => {
-          const color = project.color || "#15803d"; // fallback
+          const color = project.color || "#475AD7";
 
           return (
             <motion.div
@@ -35,40 +31,48 @@ export default function ProjectsSection() {
               transition={{ delay: index * 0.1 }}
               className="group relative"
             >
-              {/* OUTER GLOW (STRONG COLOR) */}
+              {/* OUTER GLOW (ALL DIRECTIONS) */}
               <div
-                className="absolute -inset-[1px] rounded-[36px] opacity-0 group-hover:opacity-100 transition duration-500 blur-2xl"
+                className="absolute -inset-1 rounded-[36px] blur-2xl opacity-40 group-hover:opacity-80 transition duration-500"
                 style={{
-                  background: `radial-gradient(circle at 50% 50%, ${color}55, transparent 70%)`,
+                  background: `radial-gradient(circle at center, ${color}55, transparent 70%)`,
                 }}
               />
 
               {/* MAIN GLASS CARD */}
               <div
                 className="
-                  relative
-                  rounded-[32px]
+                  relative rounded-[32px]
                   p-5
                   backdrop-blur-2xl
                   border border-white/10
                   bg-white/[0.03]
-                  shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                  overflow-hidden
                   transition-all duration-500
                   group-hover:scale-[1.03]
-                  group-hover:shadow-[0_30px_80px_rgba(0,0,0,0.8)]
-                  overflow-hidden
                 "
+                style={{
+                  boxShadow: `0 10px 40px ${color}22`,
+                }}
               >
-                {/* COLOR GRADIENT BACKGROUND */}
+                {/* COLOR OVERLAY (ALWAYS COLORED, STRONGER ON HOVER) */}
                 <div
-                  className="absolute inset-0 opacity-40 group-hover:opacity-70 transition"
+                  className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
                   style={{
-                    background: `linear-gradient(135deg, ${color}30, transparent 60%)`,
+                    background: `linear-gradient(135deg, ${color}22, ${color}08)`,
                   }}
                 />
 
-                {/* IMAGE CONTAINER (WHITE CARD LIKE REFERENCE) */}
-                <div className="relative w-full aspect-[4/3] rounded-[24px] overflow-hidden bg-white mb-6 shadow-inner">
+                {/* HOVER INTENSITY LAYER */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"
+                  style={{
+                    background: `linear-gradient(135deg, ${color}55, ${color}22)`,
+                  }}
+                />
+
+                {/* IMAGE CONTAINER (GLASS TOP) */}
+                <div className="relative w-full h-56 rounded-2xl overflow-hidden bg-white/90 mb-5 shadow-inner">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -76,100 +80,107 @@ export default function ProjectsSection() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
 
-                  {/* CATEGORY BADGE */}
+                  {/* Floating Category Badge */}
                   <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium text-white backdrop-blur-md"
+                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md border"
                     style={{
-                      backgroundColor: `${color}cc`,
+                      backgroundColor: `${color}CC`,
+                      borderColor: `${color}`,
+                      color: "#fff",
                     }}
                   >
                     {project.category || "Mobile App"}
                   </div>
-
-                  {/* STATUS BADGE */}
-                  <div
-                    className="absolute bottom-3 left-3 px-3 py-1.5 rounded-lg text-xs font-semibold text-white backdrop-blur-md flex items-center gap-2"
-                    style={{
-                      backgroundColor: `${color}cc`,
-                    }}
-                  >
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    Live Project
-                  </div>
                 </div>
 
-                {/* TEXT CONTENT */}
-                <div className="relative px-2">
-                  {/* TITLE */}
-                  <h3 className="text-xl font-bold text-white mb-2">
+                {/* Header */}
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-white">
                     {project.title}
                   </h3>
 
-                  {/* DESCRIPTION */}
-                  <p className="text-gray-400 text-sm mb-5 line-clamp-2">
-                    {project.shortDescription}
-                  </p>
-
-                  {/* TECH TAGS */}
-                  {project.tech && (
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech.slice(0, 6).map((tech: string) => (
-                        <span
-                          key={tech}
-                          className="
-                            px-3 py-1 rounded-full
-                            text-[10px] uppercase tracking-wider font-semibold
-                            bg-white/5 text-gray-300
-                            border border-white/10
-                            backdrop-blur-md
-                          "
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* ACTION BUTTONS */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* DETAILS */}
-                    <Link
-                      href={`/${locale}/projects/${project.slug}`}
-                      className="
-                        flex items-center justify-center gap-2
-                        py-3 rounded-full
-                        text-white text-xs font-medium
-                        border border-white/10
-                        backdrop-blur-md
-                        transition
-                        hover:scale-[1.02]
-                      "
-                      style={{
-                        backgroundColor: `${color}20`,
-                      }}
-                    >
-                      <Eye size={14} />
-                      Details
-                    </Link>
-
-                    {/* SCREENSHOTS (CONNECTED TO YOUR MODAL) */}
-                    <div
-                      className="
-                        flex items-center justify-center
-                        rounded-full
-                        border border-white/10
-                        backdrop-blur-md
-                        transition
-                        hover:scale-[1.02]
-                      "
-                      style={{
-                        backgroundColor: `${color}20`,
-                      }}
-                    >
-                      <ScreenshotsModal images={project.gallery || []} />
-                    </div>
-                  </div>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    className="text-gray-400 hover:text-white transition"
+                  >
+                    <Github size={18} />
+                  </a>
                 </div>
+
+                {/* Description */}
+                <p className="text-gray-300 text-sm mb-5 line-clamp-3">
+                  {project.shortDescription}
+                </p>
+
+                {/* TECH PILLS (BIGGER + CLEANER) */}
+                {/* <div className="flex flex-wrap gap-2.5 mb-6">
+                  {project.tech?.slice(0, 6).map((tech: string) => (
+                    <span
+                      key={tech}
+                      className="
+        px-3.5 py-1.5
+        rounded-full
+        text-xs font-semibold
+        border
+        backdrop-blur-md
+        transition-all duration-300
+      "
+                      style={{
+                        background: `${color}22`,
+                        borderColor: `${color}55`,
+                        color: "#F3F4F6",
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div> */}
+
+
+                {/* ACTIONS (keeps your existing modal + routing working) */}
+                {/* GLASS DIVIDER (BETWEEN TECH & ACTIONS) */}
+                {/* GLASS DIVIDER (THICKER + GLOW) */}
+                <div className="relative w-full h-[2px] my-6">
+                  <div
+                    className="absolute inset-0 rounded-full opacity-80"
+                    style={{
+                      background: `linear-gradient(
+        90deg,
+        transparent,
+        ${color}AA,
+        ${color}55,
+        transparent
+      )`,
+                    }}
+                  />
+                  {/* Soft blur glow */}
+                  <div
+                    className="absolute inset-0 blur-md opacity-60"
+                    style={{
+                      background: `linear-gradient(
+        90deg,
+        transparent,
+        ${color}66,
+        transparent
+      )`,
+                    }}
+                  />
+                </div>
+
+
+                {/* ACTIONS (keeps your existing modal + routing working) */}
+                <div className="mt-2">
+
+                  <ProjectHighlights
+                    tech={project.tech}
+                    year={project.duration}
+                    platform={project.platform}
+                    gallery={project.gallery}
+                    slug={project.slug}
+                  />
+                </div>
+
               </div>
             </motion.div>
           );

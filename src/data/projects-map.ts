@@ -74,8 +74,8 @@ export const projectsMap: Record<string, any> = {
       '/projects/news/profile.png',
     ],
     gallery: [
-      "/projects/2D_preview/homeedit.png",
       "/projects/2D_preview/welcome.png",
+      "/projects/2D_preview/homeedit.png",
       "/projects/2D_preview/image1.png",
       "/projects/2D_preview/image2.png",
       "/projects/2D_preview/image3.png",

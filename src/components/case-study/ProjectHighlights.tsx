@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Eye } from "lucide-react";
+import { Eye, Images } from "lucide-react";
 import ScreenshotsModal from "../ScreenshotsModal";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -13,72 +13,88 @@ export default function ProjectHighlights({
   gallery = [],
   slug,
   github,
+  color = "#475AD7",
 }: any) {
   const params = useParams();
   const locale = (params?.locale as string) || "en";
 
+  const buttonBase = `
+    group relative
+    flex items-center justify-center gap-2
+    px-4 py-3
+    rounded-xl
+    border border-white/10
+    bg-white/5
+    text-sm font-semibold text-white
+    backdrop-blur-md
+    transition-all duration-300
+    hover:bg-white
+    hover:text-black
+    hover:border-white
+    hover:shadow-xl
+    hover:-translate-y-[2px]
+    active:translate-y-0
+  `;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-
+      transition={{ duration: 0.35 }}
+      className="relative"
     >
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none" />
+      {/* COLOR GLOW BACKDROP */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none opacity-40"
+        style={{
+          background: `radial-gradient(circle at center, ${color}35, transparent 70%)`,
+        }}
+      />
 
-      <div className="grid grid-cols-2 gap-3 mb-4">
-
+      {/* BUTTON GRID */}
+      <div className="grid grid-cols-2 gap-3 relative">
+        {/* DETAILS BUTTON */}
         <Link
           href={`/${locale}/projects/${slug}`}
-          className="
-            flex items-center justify-center gap-2
-            px-4 py-3
-            rounded-xl
-            bg-white/5
-            border border-white/10
-            hover:bg-white/10
-            transition
-            text-sm text-white
-          "
+          className={buttonBase}
+          style={{
+            boxShadow: `0 6px 25px ${color}30`,
+          }}
         >
-          <Eye size={16} />
-          Details
+          {/* Hover Color Glow */}
+          <span
+            className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300"
+            style={{
+              background: `linear-gradient(135deg, ${color}40, transparent)`,
+            }}
+          />
+
+          <Eye size={16} className="relative z-10" />
+          <span className="relative z-10">Details</span>
         </Link>
 
+        {/* SCREENSHOTS BUTTON (SAME STYLE WRAPPER) */}
+        <div
+          className="relative group"
+          style={{
+            boxShadow: `0 6px 25px ${color}30`,
+          }}
+        >
+          {/* Hover Glow Layer */}
+          <span
+            className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none"
+            style={{
+              background: `linear-gradient(135deg, ${color}40, transparent)`,
+            }}
+          />
 
-        <ScreenshotsModal images={gallery} />
+          <ScreenshotsModal
+            images={gallery}
+            // icon={<Images size={16} />}
+            className={buttonBase}
+          />
+        </div>
       </div>
-
-
-      {/* APP STORE / PLAY) */}
-      {/* <div className="grid grid-cols-2 gap-3">
-        <div
-          className="
-            flex items-center justify-center gap-2
-            px-4 py-3
-            rounded-xl
-            bg-white/[0.04]
-            border border-white/10
-            text-sm text-gray-300
-          "
-        >
-          <Calendar size={16} />
-          {year || "2025"}
-        </div>
-
-        <div
-          className="
-            flex items-center justify-center gap-2
-            px-4 py-3
-            rounded-xl
-            bg-white/[0.04]
-            border border-white/10
-            text-sm text-gray-300
-          "
-        >
-          <Smartphone size={16} />
-          {platform || "Flutter App"}
-        </div>
-      </div> */}
     </motion.div>
   );
 }

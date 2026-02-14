@@ -1,12 +1,20 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, ReactNode } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function ScreenshotsModal({ images = [] }: { images: string[] }) {
+export default function ScreenshotsModal({
+    images = [],
+    className = "",
+    icon,
+}: {
+    images: string[];
+    className?: string;
+    icon?: ReactNode;
+}) {
     const [open, setOpen] = useState(false);
     const [index, setIndex] = useState(0);
 
@@ -30,10 +38,7 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
         };
 
         window.addEventListener("keydown", handleKey);
-
-        if (open) {
-            document.body.style.overflow = "hidden";
-        }
+        if (open) document.body.style.overflow = "hidden";
 
         return () => {
             window.removeEventListener("keydown", handleKey);
@@ -43,8 +48,8 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
 
     const handleDragEnd = (_: any, info: any) => {
         const swipe = info.offset.x;
-        if (swipe < -100) next();
-        if (swipe > 100) prev();
+        if (swipe < -80) next();
+        if (swipe > 80) prev();
     };
 
     return (
@@ -53,30 +58,24 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
             <button
                 onClick={() => hasImages && setOpen(true)}
                 disabled={!hasImages}
-                className={`
-          flex items-center justify-center gap-2
-          px-4 py-3 rounded-xl border transition text-sm
-          ${hasImages
-                        ? "bg-white/5 border-white/10 hover:bg-white/10 text-white"
-                        : "bg-white/5 border-white/5 text-gray-500 cursor-not-allowed"
-                    }
-        `}
+                className={`${className} w-full flex items-center justify-center gap-2`}
             >
+                {icon || <Images size={16} />}
                 Screenshots
             </button>
 
-            {/* MODAL */}
             {open &&
                 createPortal(
                     <div
                         className="
               fixed inset-0 z-[9999]
-              bg-black/80 backdrop-blur-2xl
+              bg-black/40
+              backdrop-blur-xl
               flex items-center justify-center
             "
                         onClick={() => setOpen(false)}
                     >
-                        {/* Close */}
+                        {/* CLOSE */}
                         <button
                             onClick={() => setOpen(false)}
                             className="absolute top-8 right-8 text-white/70 hover:text-white transition z-50"
@@ -84,84 +83,94 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                             <X size={32} />
                         </button>
 
-                        {/* Glow background */}
-                        <div className="absolute w-[700px] h-[700px] bg-blue-500/20 blur-[180px] rounded-full" />
-
-                        {/* Content wrapper */}
+                        {/* CONTENT */}
                         <div
-                            className="relative w-full h-full flex flex-col items-center justify-center px-4"
+                            className="relative w-full h-full flex flex-col items-center justify-center px-6"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* MAIN IMAGE AREA */}
-                            <div className="relative w-full flex items-center justify-center max-h-[85vh]">
+                            {/* MAIN IMAGE (CRISP — NO BLUR BACKGROUND) */}
+                            <div className="relative flex items-center justify-center w-full max-h-[80vh]">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={index}
                                         drag="x"
                                         dragConstraints={{ left: 0, right: 0 }}
                                         onDragEnd={handleDragEnd}
-                                        initial={{ x: 500, opacity: 0 }}
+                                        initial={{ x: 250, opacity: 0 }}
                                         animate={{ x: 0, opacity: 1 }}
-                                        exit={{ x: -500, opacity: 0 }}
+                                        exit={{ x: -250, opacity: 0 }}
                                         transition={{
-                                            type: "spring",
-                                            stiffness: 240,
-                                            damping: 26,
+                                            duration: 0.28,
+                                            ease: "easeOut",
                                         }}
                                         className="
                       relative
-                      w-auto
-                      max-w-[95vw]
-                      h-auto
-                      max-h-[80vh]
-                      rounded-3xl
+                      max-w-[90vw]
+                      max-h-[75vh]
+                      rounded-2xl
                       overflow-hidden
-                      border border-white/10
-                      bg-black/30
-                      backdrop-blur-xl
-                      shadow-[0_40px_120px_rgba(0,0,0,0.9)]
+                      border border-white/20
+                      shadow-[0_30px_100px_rgba(0,0,0,0.8)]
+                      bg-transparent
                     "
                                     >
                                         <Image
                                             src={images[index]}
                                             alt="App Screenshot"
-                                            width={1200}
-                                            height={2000}
+                                            width={1400}
+                                            height={2200}
                                             priority
                                             className="
                         w-auto h-auto
-                        max-w-[95vw]
-                        max-h-[80vh]
+                        max-w-[90vw]
+                        max-h-[75vh]
                         object-contain
+                        rounded-2xl
                       "
                                         />
                                     </motion.div>
                                 </AnimatePresence>
 
-                                {/* Left Arrow */}
+                                {/* LEFT ARROW */}
                                 <button
                                     onClick={prev}
-                                    className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition"
+                                    className="
+                    absolute left-4 md:left-12 top-1/2 -translate-y-1/2
+                    bg-white/10 backdrop-blur-md
+                    p-4 rounded-full
+                    hover:bg-white/20
+                    transition
+                  "
                                 >
                                     <ChevronLeft size={28} />
                                 </button>
 
-                                {/* Right Arrow */}
+                                {/* RIGHT ARROW */}
                                 <button
                                     onClick={next}
-                                    className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition"
+                                    className="
+                    absolute right-4 md:right-12 top-1/2 -translate-y-1/2
+                    bg-white/10 backdrop-blur-md
+                    p-4 rounded-full
+                    hover:bg-white/20
+                    transition
+                  "
                                 >
                                     <ChevronRight size={28} />
                                 </button>
                             </div>
 
-                            {/* THUMBNAILS */}
-                            <div className="mt-8 w-full flex justify-center">
+                            {/* FLOATING GLASS THUMB SWITCHER (OUTSIDE IMAGE) */}
+                            <div className="mt-10 w-full flex justify-center">
                                 <div
                                     className="
-                    flex gap-3 overflow-x-auto max-w-full
-                    bg-black/40 backdrop-blur-md
-                    px-5 py-4 rounded-2xl border border-white/10
+                    flex gap-3 overflow-x-auto
+                    px-6 py-4
+                    rounded-2xl
+                    border border-white/10
+                    bg-white/5
+                    backdrop-blur-2xl
+                    shadow-[0_20px_60px_rgba(0,0,0,0.6)]
                   "
                                 >
                                     {images.map((img, i) => (
@@ -170,12 +179,15 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                                             onClick={() => setIndex(i)}
                                             className={`
                         relative
-                        w-16 h-28
-                        rounded-xl overflow-hidden
-                        border transition shrink-0
+                        w-20 h-32
+                        rounded-xl
+                        overflow-hidden
+                        border
+                        transition-all duration-300
+                        shrink-0
                         ${i === index
-                                                    ? "border-blue-500 scale-105"
-                                                    : "border-white/10 opacity-60 hover:opacity-100"
+                                                    ? "border-white scale-105"
+                                                    : "border-white/20 opacity-60 hover:opacity-100"
                                                 }
                       `}
                                         >
