@@ -11,20 +11,22 @@ export default function ProjectHighlights({
   year,
   platform,
   gallery = [],
+  slug,
   github,
 }: any) {
+  const params = useParams();
+  const locale = (params?.locale as string) || "en";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
 
     >
-      {/* Glow Effect */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none" />
 
-      {/* ACTION BUTTONS */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        {/* 🔥 DETAILS (NOW NAVIGATES) */}
+
         <Link
           href={`/${locale}/projects/${slug}`}
           className="
@@ -42,7 +44,7 @@ export default function ProjectHighlights({
           Details
         </Link>
 
-        {/* SCREENSHOTS MODAL */}
+
         <ScreenshotsModal images={gallery} />
       </div>
 

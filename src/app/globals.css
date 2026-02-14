@@ -16,13 +16,10 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-      circle at 20% 30%,
+  background: radial-gradient(circle at 20% 30%,
       rgba(79, 140, 255, 0.08),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 80% 10%,
+      transparent 40%),
+    radial-gradient(circle at 80% 10%,
       rgba(139, 92, 246, 0.08),
       transparent 40%);
   z-index: -1;
@@ -32,7 +29,7 @@ body::before {
   html {
     scroll-behavior: smooth;
   }
-  
+
   h1 {
     @apply text-3xl sm:text-4xl lg:text-6xl;
   }
@@ -54,11 +51,9 @@ body::before {
   content: '';
   position: absolute;
   inset: -20%;
-  background: radial-gradient(
-    circle at center,
-    rgba(59, 130, 246, 0.15),
-    transparent 60%
-  );
+  background: radial-gradient(circle at center,
+      rgba(59, 130, 246, 0.15),
+      transparent 60%);
   filter: blur(80px);
   z-index: -1;
 }

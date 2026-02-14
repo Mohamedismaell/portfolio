@@ -10,28 +10,28 @@ export default function AutoPlayScreens({
   screens: string[];
 }) {
   const [index, setIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
 
   // Auto play (pause on hover)
   useEffect(() => {
-    if (isHovered) return;
+    // if (isHovered) return;
 
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % screens.length);
-    }, 3000);
+    }, 2500);
 
     return () => clearInterval(interval);
-  }, [screens.length, isHovered]);
+  }, [screens.length,]);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
+
       className="relative w-full h-[620px] flex flex-col items-center justify-center"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    // onMouseEnter={() => setIsHovered(true)}
+    // onMouseLeave={() => setIsHovered(false)}
     >
       {/* Subtle Gradient Glow Background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

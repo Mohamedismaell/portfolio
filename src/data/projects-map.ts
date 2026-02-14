@@ -2,6 +2,7 @@ export const projectsMap: Record<string, any> = {
   "news-app": {
     slug: "news-app",
     title: "News App",
+    color: "#475AD7",
     role: "Flutter Developer",
     duration: "2025",
     // platform: "Android & iOS",
@@ -16,7 +17,6 @@ export const projectsMap: Record<string, any> = {
       "Error & loading states handling",
       "Responsive UI design",
     ],
-
     features: [
       "Category-based news browsing",
       "Search functionality",
@@ -33,7 +33,7 @@ export const projectsMap: Record<string, any> = {
 
     tech: ["Flutter", "REST API", "Cubit", "Clean Architecture"],
     github: "https://github.com/Mohamedismaell/News",
-    image: "/projects/news/Screenshot_1771039363-portrait.png",
+    image: "/projects/news/cover.png",
 
     showcase: [
       {
@@ -63,76 +63,86 @@ export const projectsMap: Record<string, any> = {
     ],
 
     heroScreens: [
-      "/projects/news/Screenshot_1771039363-portrait.png",
-      "/projects/news/Screenshot_1771039367-portrait.png",
-      "/projects/news/Screenshot_1771039732-portrait.png",
+      '/projects/news/splash.png',
+      '/projects/news/onboarding(1).png',
+      '/projects/news/onboarding(2).png',
+      '/projects/news/home.png',
+      '/projects/news/post_details.png',
+      '/projects/news/categories.png',
+      '/projects/news/explore_category(2).png',
+      '/projects/news/bookmarks.png',
+      '/projects/news/profile.png',
     ],
     gallery: [
-      "/projects/news/Screenshot_1771039363-portrait.png",
-      "/projects/news/Screenshot_1771039367-portrait.png",
-      "/projects/news/Screenshot_1771039732-portrait.png",
+      "/projects/2D_preview/homeedit.png",
+      "/projects/2D_preview/welcome.png",
+      "/projects/2D_preview/image1.png",
+      "/projects/2D_preview/image2.png",
+      "/projects/2D_preview/image3.png",
+      "/projects/2D_preview/image4.png",
+      "/projects/2D_preview/image5.png",
     ],
-    //   sections: [
-    //     {
-    //       label: "SCREEN 01",
-    //       title: "Home Feed Experience",
-    //       description:
-    //         "Displays latest news using REST APIs with smooth scrolling, loading states, and optimized UI performance.",
-    //       features: [
-    //         "Real-time API news fetching",
-    //         "Smooth scrolling UI",
-    //         "Optimized image loading",
-    //       ],
-    //       image: "/projects/news/Screenshot_1771039363-portrait.png",
-    //     },
-    //     {
-    //       label: "SCREEN 02",
-    //       title: "Category Filtering System",
-    //       description:
-    //         "Users can browse news by category with dynamic API calls and structured state management using Cubit.",
-    //       features: [
-    //         "Dynamic category filtering",
-    //         "Cubit state management",
-    //         "Clean architecture separation",
-    //       ],
-    //       image: "/projects/news/Screenshot_1771039367-portrait.png",
-    //     },
-    //     {
-    //       label: "SCREEN 03",
-    //       title: "Bookmarks & Saved Articles",
-    //       description:
-    //         "Save favorite articles locally with persistent storage for quick offline access.",
-    //       features: [
-    //         "Local persistence storage",
-    //         "Bookmark toggle system",
-    //         "Fast retrieval performance",
-    //       ],
-    //       image: "/projects/news/Screenshot_1771039384-portrait.png",
-    //     },
-    //   ],
+    sections: [
+      {
+        label: "SCREEN 01",
+        title: "Home Feed Experience",
+        description:
+          "Displays latest news using REST APIs with smooth scrolling, loading states, and optimized UI performance.",
+        features: [
+          "Real-time API news fetching",
+          "Smooth scrolling UI",
+          "Optimized image loading",
+        ],
+        image: "/projects/news/Screenshot_1771039363-portrait.png",
+      },
+      {
+        label: "SCREEN 02",
+        title: "Category Filtering System",
+        description:
+          "Users can browse news by category with dynamic API calls and structured state management using Cubit.",
+        features: [
+          "Dynamic category filtering",
+          "Cubit state management",
+          "Clean architecture separation",
+        ],
+        image: "/projects/news/Screenshot_1771039367-portrait.png",
+      },
+      {
+        label: "SCREEN 03",
+        title: "Bookmarks & Saved Articles",
+        description:
+          "Save favorite articles locally with persistent storage for quick offline access.",
+        features: [
+          "Local persistence storage",
+          "Bookmark toggle system",
+          "Fast retrieval performance",
+        ],
+        image: "/projects/news/Screenshot_1771039384-portrait.png",
+      },
+    ],
 
-    //   architecture: {
-    //     title: "Clean Architecture Implementation",
-    //     layers: [
-    //       {
-    //         name: "Presentation Layer (Flutter)",
-    //         description:
-    //           "UI screens, widgets, and Cubit/BLoC state management responsible for rendering and user interaction.",
-    //       },
-    //       {
-    //         name: "Domain Layer (Business Logic)",
-    //         description:
-    //           "Use cases and entities that define core business rules independent from frameworks.",
-    //       },
-    //       {
-    //         name: "Data Layer (API & Repositories)",
-    //         description:
-    //           "REST API services, DTO models, and repository implementations handling remote and local data sources.",
-    //       },
-    //     ],
-    //   },
-    // }
-    // ,
+    architecture: {
+      title: "Clean Architecture Implementation",
+      layers: [
+        {
+          name: "Presentation Layer (Flutter)",
+          description:
+            "UI screens, widgets, and Cubit/BLoC state management responsible for rendering and user interaction.",
+        },
+        {
+          name: "Domain Layer (Business Logic)",
+          description:
+            "Use cases and entities that define core business rules independent from frameworks.",
+        },
+        {
+          name: "Data Layer (API & Repositories)",
+          description:
+            "REST API services, DTO models, and repository implementations handling remote and local data sources.",
+        },
+      ],
+    },
+
+
 
     // tasky: {
     //   slug: "tasky",

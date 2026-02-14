@@ -20,15 +20,18 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
         setIndex((prev) => (prev - 1 + images.length) % images.length);
     }, [images.length]);
 
+    // ESC + arrows + scroll lock
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
+            if (!open) return;
             if (e.key === "Escape") setOpen(false);
             if (e.key === "ArrowRight") next();
             if (e.key === "ArrowLeft") prev();
         };
 
+        window.addEventListener("keydown", handleKey);
+
         if (open) {
-            window.addEventListener("keydown", handleKey);
             document.body.style.overflow = "hidden";
         }
 
@@ -40,13 +43,13 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
 
     const handleDragEnd = (_: any, info: any) => {
         const swipe = info.offset.x;
-
-        if (swipe < -80) next();
-        if (swipe > 80) prev();
+        if (swipe < -100) next();
+        if (swipe > 100) prev();
     };
 
     return (
         <>
+            {/* BUTTON */}
             <button
                 onClick={() => hasImages && setOpen(true)}
                 disabled={!hasImages}
@@ -62,12 +65,18 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                 Screenshots
             </button>
 
+            {/* MODAL */}
             {open &&
                 createPortal(
                     <div
-                        className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-2xl flex flex-col items-center justify-center"
-                        onClick={() => setOpen(false)} // click outside closes
+                        className="
+              fixed inset-0 z-[9999]
+              bg-black/80 backdrop-blur-2xl
+              flex items-center justify-center
+            "
+                        onClick={() => setOpen(false)}
                     >
+                        {/* Close */}
                         <button
                             onClick={() => setOpen(false)}
                             className="absolute top-8 right-8 text-white/70 hover:text-white transition z-50"
@@ -75,51 +84,61 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                             <X size={32} />
                         </button>
 
+                        {/* Glow background */}
+                        <div className="absolute w-[700px] h-[700px] bg-blue-500/20 blur-[180px] rounded-full" />
 
-                        <div className="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[160px] rounded-full" />
-
-
+                        {/* Content wrapper */}
                         <div
-                            className="relative flex flex-col items-center justify-center w-full h-full"
+                            className="relative w-full h-full flex flex-col items-center justify-center px-4"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="relative w-full flex items-center justify-center">
+                            {/* MAIN IMAGE AREA */}
+                            <div className="relative w-full flex items-center justify-center max-h-[85vh]">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={index}
                                         drag="x"
                                         dragConstraints={{ left: 0, right: 0 }}
                                         onDragEnd={handleDragEnd}
-                                        initial={{ x: 400, opacity: 0 }}
+                                        initial={{ x: 500, opacity: 0 }}
                                         animate={{ x: 0, opacity: 1 }}
-                                        exit={{ x: -400, opacity: 0 }}
+                                        exit={{ x: -500, opacity: 0 }}
                                         transition={{
                                             type: "spring",
-                                            stiffness: 260,
-                                            damping: 25,
+                                            stiffness: 240,
+                                            damping: 26,
                                         }}
                                         className="
                       relative
-                      w-[340px]
-                      sm:w-[420px]
-                      md:w-[520px]
-                      lg:w-[580px]
-                      h-[640px]
-                      sm:h-[760px]
-                      md:h-[860px]
-                      drop-shadow-[0_50px_140px_rgba(0,0,0,0.9)]
+                      w-auto
+                      max-w-[95vw]
+                      h-auto
+                      max-h-[80vh]
+                      rounded-3xl
+                      overflow-hidden
+                      border border-white/10
+                      bg-black/30
+                      backdrop-blur-xl
+                      shadow-[0_40px_120px_rgba(0,0,0,0.9)]
                     "
                                     >
                                         <Image
                                             src={images[index]}
                                             alt="App Screenshot"
-                                            fill
+                                            width={1200}
+                                            height={2000}
                                             priority
-                                            className="object-contain rounded-3xl"
+                                            className="
+                        w-auto h-auto
+                        max-w-[95vw]
+                        max-h-[80vh]
+                        object-contain
+                      "
                                         />
                                     </motion.div>
                                 </AnimatePresence>
 
+                                {/* Left Arrow */}
                                 <button
                                     onClick={prev}
                                     className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition"
@@ -127,6 +146,7 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                                     <ChevronLeft size={28} />
                                 </button>
 
+                                {/* Right Arrow */}
                                 <button
                                     onClick={next}
                                     className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition"
@@ -135,20 +155,24 @@ export default function ScreenshotsModal({ images = [] }: { images: string[] }) 
                                 </button>
                             </div>
 
-                            <div className="mt-6 w-full flex justify-center px-4">
-                                <div className="
-                  flex gap-3 overflow-x-auto max-w-full
-                  bg-black/40 backdrop-blur-md
-                  px-4 py-3 rounded-2xl border border-white/10
-                ">
+                            {/* THUMBNAILS */}
+                            <div className="mt-8 w-full flex justify-center">
+                                <div
+                                    className="
+                    flex gap-3 overflow-x-auto max-w-full
+                    bg-black/40 backdrop-blur-md
+                    px-5 py-4 rounded-2xl border border-white/10
+                  "
+                                >
                                     {images.map((img, i) => (
                                         <button
                                             key={i}
                                             onClick={() => setIndex(i)}
                                             className={`
                         relative
-                        w-14 h-24 sm:w-16 sm:h-28
-                        rounded-lg overflow-hidden border transition shrink-0
+                        w-16 h-28
+                        rounded-xl overflow-hidden
+                        border transition shrink-0
                         ${i === index
                                                     ? "border-blue-500 scale-105"
                                                     : "border-white/10 opacity-60 hover:opacity-100"
