@@ -57,15 +57,15 @@ export default function Hero() {
           className="relative mx-auto w-[260px] sm:w-[320px] lg:w-[380px] h-[340px] sm:h-[420px] lg:h-[480px] perspective-1000"
         >
           <div className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-             {/* Gradient Overlay */}
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-transparent z-10 opacity-60"></div>
             <Image
-              src="/profile.png"
+              src="/projects/news/01 - Splash Screen.png"
               alt="Mohamed Ismael"
               fill
               className="object-cover"
               priority
-               onError={(e) => {
+              onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = 'https://placehold.co/400x500/1a1f2e/ffffff?text=MI';
               }}

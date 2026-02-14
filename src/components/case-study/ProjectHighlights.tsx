@@ -1,33 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Eye, ImageIcon, Calendar, Smartphone } from "lucide-react";
+import { Eye } from "lucide-react";
+import ScreenshotsModal from "../ScreenshotsModal";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export default function ProjectHighlights({
   tech = [],
   year,
   platform,
+  gallery = [],
+  github,
 }: any) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
-      // className="
-      //   relative
-      //   bg-gradient-to-br from-white/5 to-white/[0.02]
-      //   border border-white/10
-      //   backdrop-blur-xl
-      //   rounded-2xl
-      //   p-6
-      //   shadow-[0_10px_40px_rgba(0,0,0,0.4)]
-      // "
+
     >
       {/* Glow Effect */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none" />
 
       {/* ACTION BUTTONS */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <button
+        {/* 🔥 DETAILS (NOW NAVIGATES) */}
+        <Link
+          href={`/${locale}/projects/${slug}`}
           className="
             flex items-center justify-center gap-2
             px-4 py-3
@@ -41,24 +40,12 @@ export default function ProjectHighlights({
         >
           <Eye size={16} />
           Details
-        </button>
+        </Link>
 
-        <button
-          className="
-            flex items-center justify-center gap-2
-            px-4 py-3
-            rounded-xl
-            bg-white/5
-            border border-white/10
-            hover:bg-white/10
-            transition
-            text-sm text-white
-          "
-        >
-          <ImageIcon size={16} />
-          Screenshots
-        </button>
+        {/* SCREENSHOTS MODAL */}
+        <ScreenshotsModal images={gallery} />
       </div>
+
 
       {/* APP STORE / PLAY) */}
       {/* <div className="grid grid-cols-2 gap-3">

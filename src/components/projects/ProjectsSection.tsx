@@ -44,6 +44,7 @@ export default function ProjectsSection() {
 
             {/* Content */}
             <div className="p-6">
+
               {/* Header */}
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-xl font-bold text-white">
@@ -69,7 +70,7 @@ export default function ProjectsSection() {
                 {project.tech.slice(0, 4).map((tech: string) => (
                   <span
                     key={tech}
-className="text-sm px-3 py-1.5 rounded-full bg-white/10 text-gray-300 border border-white/10"
+                    className="text-sm px-3 py-1.5 rounded-full bg-white/10 text-gray-300 border border-white/10"
                   >
                     {tech}
                   </span>
@@ -80,6 +81,9 @@ className="text-sm px-3 py-1.5 rounded-full bg-white/10 text-gray-300 border bor
                   tech={project.tech}
                   year={project.duration}
                   platform={project.platform}
+                  gallery={project.gallery}
+                  slug={project.slug}
+                // github={project.github}
                 />
               </div>
 
