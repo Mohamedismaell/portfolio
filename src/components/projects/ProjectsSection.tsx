@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import { projectsMap } from "@/data/projects-map";
 import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 
 export default function ProjectsSection() {
   const params = useParams();
-  const locale = params?.locale as string || "en";
+  const locale = (params?.locale as string) || "en";
   const projects = Object.values(projectsMap);
 
   return (
@@ -16,51 +17,74 @@ export default function ProjectsSection() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-3xl lg:text-5xl font-bold mb-12 text-white"
+        className="text-3xl lg:text-5xl font-bold mb-16 text-white"
       >
-        Projects
+        Featured Projects
       </motion.h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-        {projects.map((project, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {projects.map((project: any, index: number) => (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
+            key={project.slug}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="group relative bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition-colors duration-300"
+            className="group relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl hover:border-blue-500/40 transition-all duration-500"
           >
-            <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-blue-500/20 rounded-xl text-blue-400">
-                 {/* Icon placeholder or dynamic icon based on tech */}
-                 <Github size={24} />
-              </div>
-              <a href={project.github} target="_blank" className="text-gray-400 hover:text-white transition">
-                <Github size={20} />
-              </a>
-            </div>
-            
-            <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-            <p className="text-gray-400 text-sm mb-4 line-clamp-3">{project.description}</p>
-            
-            <div className="flex flex-wrap gap-2 mb-6">
-              {project.tech.slice(0, 3).map((t: string) => (
-                <span key={t} className="text-xs px-2 py-1 bg-white/5 rounded-md text-gray-300 border border-white/5">
-                  {t}
-                </span>
-              ))}
+            {/* Image Cover */}
+            <div className="relative h-52 w-full overflow-hidden">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-transparent" />
             </div>
 
-            <Link
-              href={`/${locale}/projects/${project.title
-                .toLowerCase()
-                .replace(/ /g, "-")}`}
-              className="inline-flex items-center gap-2 text-sm text-blue-400 group-hover:translate-x-1 transition-transform"
-            >
-              View Case Study <ArrowRight size={16} />
-            </Link>
+            {/* Content */}
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-xl font-bold text-white">
+                  {project.title}
+                </h3>
+
+                <a
+                  href={project.github}
+                  target="_blank"
+                  className="text-gray-400 hover:text-white transition"
+                >
+                  <Github size={18} />
+                </a>
+              </div>
+
+              {/* Description */}
+              <p className="text-gray-400 text-sm mb-5 line-clamp-3">
+                {project.shortDescription}
+              </p>
+
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.tech.slice(0, 4).map((tech: string) => (
+                  <span
+                    key={tech}
+                    className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-300 border border-white/10"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Link
+                href={`/${locale}/projects/${project.slug}`}
+                className="inline-flex items-center gap-2 text-blue-400 text-sm font-medium group-hover:gap-3 transition-all"
+              >
+                View Case Study
+                <ArrowRight size={16} />
+              </Link>
+            </div>
           </motion.div>
         ))}
       </div>
