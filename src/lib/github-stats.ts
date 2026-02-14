@@ -5,12 +5,11 @@ export interface GithubStats {
 }
 
 export async function getGithubStats(): Promise<GithubStats> {
-    const username = "Mohamedismaell";
 
     try {
-        // 1️⃣ Get repositories
+
         const repoRes = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100`,
+            `https://api.github.com/users/Mohamedismaell/repos?per_page=100`,
             {
                 headers: { "User-Agent": "Portfolio-App" },
                 next: { revalidate: 3600 },
@@ -18,9 +17,8 @@ export async function getGithubStats(): Promise<GithubStats> {
         );
         const repos = repoRes.ok ? await repoRes.json() : [];
 
-        // 2️⃣ Get contributions heatmap 
         const contribRes = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
+            `https://github-contributions-api.jogruber.de/v4/Mohamedismaell?y=last`,
             { next: { revalidate: 3600 } }
         );
 
