@@ -3,26 +3,132 @@ export const projectsMap: Record<string, any> = {
     slug: "news-app",
     title: "News App",
     role: "Flutter Developer",
+    duration: "2025",
+    // platform: "Android & iOS",
     shortDescription:
-      "Scalable Flutter news app with REST APIs, category filtering, and clean architecture.",
+      "Scalable Flutter news app with REST APIs and clean architecture.",
     description:
-      "A scalable Flutter news application that integrates multiple REST APIs with category filtering, state management, and responsive UI.",
+      "A scalable Flutter news application with REST APIs, category filtering, bookmarking, and clean architecture.",
+
+    highlights: [
+      "20+ articles per API request",
+      "Multi-category filtering",
+      "Error & loading states handling",
+      "Responsive UI design",
+    ],
+
+    features: [
+      "Category-based news browsing",
+      "Search functionality",
+      "Bookmark system",
+      "Clean Architecture structure",
+      "API caching and error handling",
+    ],
+
     challenge:
-      "Handling multiple API endpoints, managing loading/error states, and maintaining a clean scalable architecture.",
+      "Handling multiple API endpoints, state synchronization, and scalable architecture while keeping smooth UI performance.",
+
     solution:
-      "Implemented Clean Architecture with Cubit, modular data layers, and reusable UI components.",
+      "Implemented Clean Architecture with Cubit, modular layers, and reusable UI components for scalability and maintainability.",
+
     tech: ["Flutter", "REST API", "Cubit", "Clean Architecture"],
     github: "https://github.com/Mohamedismaell/News",
-    demo: "",
     image: "/projects/news/cover.png",
-    gallery: [
+
+    showcase: [
+      {
+        image: "/projects/news/Screenshot_1771039363-portrait.png",
+        title: "Home Feed",
+        description:
+          "Displays latest news with categorized sections and smooth scrolling UI optimized for performance.",
+      },
+      {
+        image: "/projects/news/Screenshot_1771039367-portrait.png",
+        title: "Categories System",
+        description:
+          "Users can browse news by category with a clean grid layout and dynamic API filtering.",
+      },
+      {
+        image: "/projects/news/Screenshot_1771039732-portrait.png",
+        title: "Article Details",
+        description:
+          "Detailed news view with image header, description, and external source integration.",
+      },
+      {
+        image: "/projects/news/Screenshot_1771039384-portrait.png",
+        title: "Bookmarks",
+        description:
+          "Save favorite articles locally using persistent storage and quick access tab.",
+      },
+    ],
+
+    heroScreens: [
       "/projects/news/Screenshot_1771039363-portrait.png",
       "/projects/news/Screenshot_1771039367-portrait.png",
       "/projects/news/Screenshot_1771039732-portrait.png",
-      "/projects/news/Screenshot_1771039384-portrait.png",
     ],
-  },
 
+    sections: [
+      {
+        label: "SCREEN 01",
+        title: "Home Feed Experience",
+        description:
+          "Displays latest news using REST APIs with smooth scrolling, loading states, and optimized UI performance.",
+        features: [
+          "Real-time API news fetching",
+          "Smooth scrolling UI",
+          "Optimized image loading",
+        ],
+        image: "/projects/news/Screenshot_1771039363-portrait.png",
+      },
+      {
+        label: "SCREEN 02",
+        title: "Category Filtering System",
+        description:
+          "Users can browse news by category with dynamic API calls and structured state management using Cubit.",
+        features: [
+          "Dynamic category filtering",
+          "Cubit state management",
+          "Clean architecture separation",
+        ],
+        image: "/projects/news/Screenshot_1771039367-portrait.png",
+      },
+      {
+        label: "SCREEN 03",
+        title: "Bookmarks & Saved Articles",
+        description:
+          "Save favorite articles locally with persistent storage for quick offline access.",
+        features: [
+          "Local persistence storage",
+          "Bookmark toggle system",
+          "Fast retrieval performance",
+        ],
+        image: "/projects/news/Screenshot_1771039384-portrait.png",
+      },
+    ],
+
+    architecture: {
+      title: "Clean Architecture Implementation",
+      layers: [
+        {
+          name: "Presentation Layer (Flutter)",
+          description:
+            "UI screens, widgets, and Cubit/BLoC state management responsible for rendering and user interaction.",
+        },
+        {
+          name: "Domain Layer (Business Logic)",
+          description:
+            "Use cases and entities that define core business rules independent from frameworks.",
+        },
+        {
+          name: "Data Layer (API & Repositories)",
+          description:
+            "REST API services, DTO models, and repository implementations handling remote and local data sources.",
+        },
+      ],
+    },
+  }
+,
   tasky: {
     slug: "tasky",
     title: "Tasky App",

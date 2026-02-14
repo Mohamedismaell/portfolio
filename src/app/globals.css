@@ -49,3 +49,16 @@ body::before {
 .font-arabic {
   font-family: var(--font-cairo), "Tajawal", sans-serif;
 }
+
+.case-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    circle at center,
+    rgba(59, 130, 246, 0.15),
+    transparent 60%
+  );
+  filter: blur(80px);
+  z-index: -1;
+}

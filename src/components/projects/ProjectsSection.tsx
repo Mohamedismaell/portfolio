@@ -6,7 +6,7 @@ import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-
+import ProjectHighlights from "../case-study/ProjectHighlights";
 export default function ProjectsSection() {
   const params = useParams();
   const locale = (params?.locale as string) || "en";
@@ -69,21 +69,28 @@ export default function ProjectsSection() {
                 {project.tech.slice(0, 4).map((tech: string) => (
                   <span
                     key={tech}
-                    className="text-xs px-3 py-1 rounded-full bg-white/10 text-gray-300 border border-white/10"
+className="text-sm px-3 py-1.5 rounded-full bg-white/10 text-gray-300 border border-white/10"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
+              <div className="mb-8">
+                <ProjectHighlights
+                  tech={project.tech}
+                  year={project.duration}
+                  platform={project.platform}
+                />
+              </div>
 
               {/* CTA */}
-              <Link
+              {/* <Link
                 href={`/${locale}/projects/${project.slug}`}
                 className="inline-flex items-center gap-2 text-blue-400 text-sm font-medium group-hover:gap-3 transition-all"
               >
                 View Case Study
                 <ArrowRight size={16} />
-              </Link>
+              </Link> */}
             </div>
           </motion.div>
         ))}
