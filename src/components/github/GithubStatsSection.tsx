@@ -4,25 +4,31 @@ import MonthlyCommitsChart from "./MonthlyCommitsChart";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
+  console.log("Resend key exists:", !!process.env.RESEND_API_KEY);
 
   return (
     <section className="py-28 px-6 lg:px-20 max-w-7xl mx-auto">
-      {/* TITLE */}
-      <h2 className="text-3xl lg:text-5xl font-bold mb-16 text-white text-center">
-        GitHub Activity
-      </h2>
+
 
       {/* MAIN GLASS CARD (MATCHES YOUR PORTFOLIO STYLE) */}
       <div
         className="
-          relative rounded-[32px]
-          border border-white/10
-          backdrop-blur-2xl
-          bg-white/[0.03]
-          p-8 lg:p-12
-          overflow-hidden
+        relative rounded-[32px]
+        border border-white/10
+        backdrop-blur-2xl
+        bg-white/[0.03]
+        p-8 lg:p-12
+        overflow-hidden
         "
       >
+        {/* TITLE */}
+        <h2 className="
+  text-3xl lg:text-5xl font-bold mb-16 text-center
+  text-white
+  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
+">
+          GitHub Activity
+        </h2>
         {/* PORTFOLIO GLOW */}
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"

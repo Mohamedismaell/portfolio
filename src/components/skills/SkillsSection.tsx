@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { PRIMARY, PRIMARY_LIGHT } from "@/lib/theme";
+
 import {
   Smartphone,
   Code2,
@@ -35,7 +37,7 @@ type SkillCategory = {
   skills: Skill[];
 };
 
-const PRIMARY = "#475AD7";
+
 const FlutterIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
     <path
@@ -147,20 +149,26 @@ export default function SkillsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl lg:text-5xl font-bold mb-16 text-white text-center"
+          className="
+  text-3xl lg:text-5xl font-bold mb-16 text-center
+  text-white
+  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
+"
+
         >
           Skills & Technologies
         </motion.h2>
         {/* GLOBAL GRADIENT GLOW */}
         <div
-          className="absolute inset-0 opacity-25 pointer-events-none"
+          className="absolute inset-0 opacity-30 pointer-events-none"
           style={{
             background: `
-              radial-gradient(circle at 20% 30%, ${PRIMARY}33, transparent 60%),
-              radial-gradient(circle at 80% 70%, ${PRIMARY}22, transparent 60%)
-            `,
+      radial-gradient(circle at 20% 30%, ${PRIMARY}40, transparent 60%),
+      radial-gradient(circle at 80% 70%, ${PRIMARY}25, transparent 60%)
+    `,
           }}
         />
+
 
         {/* GRID COLUMNS */}
         <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
@@ -183,7 +191,7 @@ export default function SkillsSection() {
                     overflow-hidden
                   "
                   style={{
-                    boxShadow: `0 8px 30px ${PRIMARY}22`,
+                    boxShadow: `0 12px 40px ${PRIMARY}33`,
                   }}
                 >
                   <TitleIcon

@@ -56,6 +56,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { Toaster } from "sonner";
+
 export default async function LocaleLayout({
   children,
   params
@@ -94,8 +96,10 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="bg-[#0B0F19] text-white overflow-x-hidden">
+        <Toaster position="top-right" richColors />
         <CursorGlow />
         <NextIntlClientProvider messages={messages}>
+
           <ResponsiveNavbar />
           <PageTransition>
             {children}

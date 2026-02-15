@@ -66,7 +66,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
+          className="
+  text-3xl lg:text-5xl font-bold mb-8 text-center
+  text-white
+  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
+"
         >
           Mohamed Ismael
         </motion.h1>

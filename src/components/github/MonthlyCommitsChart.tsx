@@ -31,7 +31,7 @@ export default function MonthlyCommitsChart({ data = [] }: Props) {
                 {data.map((item, index) => {
                     const height =
                         item.commits === 0
-                            ? 6 // small baseline instead of invisible
+                            ? 0 // small baseline instead of invisible
                             : Math.max((item.commits / maxCommits) * 100, 12);
 
                     return (
@@ -40,9 +40,10 @@ export default function MonthlyCommitsChart({ data = [] }: Props) {
                             className="flex flex-col items-center flex-1 h-full justify-end group"
                         >
                             {/* COMMIT NUMBER */}
-                            <span className="text-sm text-white/80 mb-2 font-semibold">
+                            <span className="text-base lg:text-lg text-white font-bold mb-3">
                                 {item.commits}
                             </span>
+
 
                             {/* COLUMN TRACK (glass style like your portfolio) */}
                             <div className="relative w-full h-full flex items-end">

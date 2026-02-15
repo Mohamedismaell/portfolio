@@ -14,7 +14,11 @@ export default function ProjectsSection() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="text-3xl lg:text-5xl font-bold mb-20 text-white text-center"
+        className="
+  text-3xl lg:text-5xl font-bold mb-16 text-center
+  text-white
+  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
+"
       >
         Featured Projects
       </motion.h2>
@@ -81,7 +85,7 @@ export default function ProjectsSection() {
                   />
 
                   {/* Floating Category Badge */}
-                  <div
+                  {/* <div
                     className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md border"
                     style={{
                       backgroundColor: `${color}CC`,
@@ -90,7 +94,7 @@ export default function ProjectsSection() {
                     }}
                   >
                     {project.category || "Mobile App"}
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Header */}
@@ -104,7 +108,7 @@ export default function ProjectsSection() {
                     target="_blank"
                     className="text-gray-400 hover:text-white transition"
                   >
-                    <Github size={18} />
+                    <Github size={24} />
                   </a>
                 </div>
 

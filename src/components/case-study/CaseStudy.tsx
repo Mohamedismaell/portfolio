@@ -1,66 +1,122 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import FeaturesSection from "./FeaturesSection";
 import AutoPlayScreens from "./AutoPlayScreens";
 import FeatureStorySection from "./FeatureStorySection";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { Github } from "lucide-react";
-import Image from "next/image";
 
 export default function CaseStudy({ project }: any) {
+  const { scrollY } = useScroll();
 
-  // 🔥 Prevent scroll + animation desync on route navigation
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.6]);
+  const heroY = useTransform(scrollY, [0, 400], [0, 80]);
+
+  const scrollToNext = () => {
+    const el = document.getElementById("next-section");
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const absoluteY = rect.top + window.pageYOffset;
+
+    const topSpacing = window.innerHeight * 0.18;
+    const targetY = absoluteY - topSpacing;
+
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const duration = 850;
+    let startTime: number | null = null;
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+
+      const progress = timestamp - startTime;
+      const percent = Math.min(progress / duration, 1);
+      const eased = easeInOutCubic(percent);
+
+      window.scrollTo(0, startY + distance * eased);
+
+      if (progress < duration) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <main className="pt-28 pb-24 px-6 lg:px-20 max-w-7xl mx-auto">
-
-      {/* ================= HERO (ANIMATE NOT whileInView) ================= */}
+    <motion.main
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8 }}
+      className="relative pt-32 pb-40 px-6 lg:px-20 max-w-7xl mx-auto"
+    >
+      {/* ================= HERO ================= */}
       <motion.section
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }} // FIXED: was whileInView
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        className="grid lg:grid-cols-2 gap-16 items-center mb-40"
+        style={{ opacity: heroOpacity, y: heroY }}
+        className="relative grid lg:grid-cols-2 gap-16 items-center mb-56"
       >
-        {/* LEFT: TEXT */}
+        {/* Glass Background */}
+        {/* <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/5 -z-10" /> */}
+        <div className="absolute -inset-20 bg-[#475AD7]/10 blur-3xl -z-20" />
+
+        {/* LEFT */}
         <div className="max-w-xl">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }} // FIXED
-            transition={{ delay: 0.1 }}
-            className="text-4xl lg:text-6xl font-bold text-white mb-6"
-          >
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)]">
             {project.title}
-          </motion.h1>
+          </h1>
 
-
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-gray-400 text-lg leading-relaxed mb-8"
-          >
+          <p className="text-gray-400 text-lg leading-relaxed mb-8">
             {project.shortDescription}
-          </motion.p>
+          </p>
 
           <motion.a
             href={project.github}
             target="_blank"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="
+              group relative inline-flex items-center gap-2
+              px-8 py-3 rounded-xl font-semibold text-white
+              transition-all duration-300
+            "
+            style={{
+              background:
+                "linear-gradient(135deg, #475AD7, #8B5CF6)",
+              boxShadow:
+                "0 15px 40px rgba(71,90,215,0.45)",
+            }}
           >
-            <Github size={18} />
-            View Source Code
+            <span
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
+              }}
+            />
+            <Github size={18} className="relative z-10" />
+            <span className="relative z-10">
+              View Source Code
+            </span>
           </motion.a>
         </div>
 
-        {/* RIGHT: AUTO PLAY SCREENS */}
+        {/* RIGHT */}
         {project.heroScreens && (
           <div className="relative flex justify-center items-center">
             <AutoPlayScreens screens={project.heroScreens} />
@@ -68,38 +124,69 @@ export default function CaseStudy({ project }: any) {
         )}
       </motion.section>
 
+      {/* ================= EXPLORE MORE (Moved Up) ================= */}
+      <div className="flex flex-col items-center mb-24">
+        <motion.span
+          animate={{ y: [0, 12, 0] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+          className="
+            text-white font-bold tracking-widest text-lg mb-5
+            drop-shadow-[0_0_8px_rgba(71,90,215,0.8)]
+          "
+        >
+          EXPLORE MORE
+        </motion.span>
+
+        <motion.button
+          onClick={scrollToNext}
+          animate={{ y: [0, 18, 0] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+          className="
+            w-12 h-20 border-2 border-white/60 rounded-full
+            flex justify-center pt-4 backdrop-blur-xl
+            shadow-[0_0_25px_rgba(71,90,215,0.4)]
+          "
+        >
+          <motion.div
+            animate={{ y: [0, 14, 0] }}
+            transition={{ repeat: Infinity, duration: 1 }}
+            className="
+              w-2 h-5 bg-gradient-to-b from-[#475AD7] to-[#8B5CF6]
+              rounded-full
+            "
+          />
+        </motion.button>
+      </div>
+
+      {/* Divider */}
+      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/30 to-transparent mb-40" />
+
       {/* ================= FEATURE STORY ================= */}
       {project.sections && (
-        <FeatureStorySection sections={project.sections} />
+        <motion.section
+          id="next-section"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.4 }}
+          className="mb-56"
+        >
+          <FeatureStorySection sections={project.sections} />
+        </motion.section>
       )}
-
-      {/* ================= CHALLENGE & SOLUTION ================= */}
-      <section className="grid lg:grid-cols-2 gap-12 mb-32">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold mb-4 text-white">
-            Challenge
-          </h2>
-          <p className="text-gray-400 leading-relaxed">
-            {project.challenge}
-          </p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold mb-4 text-white">
-            Solution
-          </h2>
-          <p className="text-gray-400 leading-relaxed">
-            {project.solution}
-          </p>
-        </div>
-      </section>
 
       {/* ================= FEATURES ================= */}
       {project.features && (
-        <section className="mb-32">
+        <motion.section
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.4 }}
+          className="mb-56"
+        >
           <FeaturesSection features={project.features} />
-        </section>
+        </motion.section>
       )}
-    </main>
+    </motion.main>
   );
 }

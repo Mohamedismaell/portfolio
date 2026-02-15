@@ -1,8 +1,7 @@
 import Hero from "@/components/hero/Hero";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import SkillsSection from "@/components/skills/SkillsSection";
-import AboutSection from "@/components/about/AboutSection";
-import ContactSection from "@/components/contact/ContactSection";
+import HireSection from "@/components/contact/HireSection";
 import Footer from "@/components/footer/Footer";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import GithubStatsSection from "@/components/github/GithubStatsSection";
@@ -15,7 +14,7 @@ export default function HomePage() {
       <ProjectsSection />
       <GithubStatsSection />
       {/* <AboutSection /> */}
-      <ContactSection />
+      <HireSection />
       <Footer />
       <ThemeToggle />
     </main>

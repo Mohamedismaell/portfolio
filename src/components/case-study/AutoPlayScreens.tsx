@@ -57,7 +57,7 @@ export default function AutoPlayScreens({
                   alt={`app-screen-${i}`}
                   fill
                   priority={i === 0}
-                  className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+                  className="object-contain "
                   sizes="(max-width: 768px) 90vw, 400px"
                 />
               </div>
