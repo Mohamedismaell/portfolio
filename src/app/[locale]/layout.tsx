@@ -11,7 +11,8 @@ const cairo = Cairo({ subsets: ["arabic", "latin"], variable: '--font-cairo' });
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mohamedismael.dev"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+
   title: {
     default: "Mohamed Ismael | Flutter Developer & Software Engineer",
     template: "%s | Mohamed Ismael",
@@ -33,7 +34,8 @@ export const metadata: Metadata = {
     title: "Mohamed Ismael | Flutter Developer & Software Engineer",
     description:
       "Professional Flutter Developer specializing in scalable apps, Clean Architecture, and modern UI systems.",
-    url: "https://mohamedismael.dev",
+    url: process.env.NEXT_PUBLIC_SITE_URL,
+
     siteName: "Mohamed Ismael Portfolio",
     images: [
       {
