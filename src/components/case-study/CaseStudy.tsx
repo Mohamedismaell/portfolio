@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import FeaturesSection from "./FeaturesSection";
+import { useEffect, useState } from "react"; // Added useState
+import ArchitectureSection from "./ArchitectureSection";
 import AutoPlayScreens from "./AutoPlayScreens";
 import FeatureStorySection from "./FeatureStorySection";
 import {
@@ -10,12 +10,27 @@ import {
   useTransform,
 } from "framer-motion";
 import { Github } from "lucide-react";
+import TechStackSection from "./TechStackSection";
+import ChallengesTimeline from "./ChallengesTimeline";
 
 export default function CaseStudy({ project }: any) {
   const { scrollY } = useScroll();
 
+  // Detect mobile to disable parallax
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.6]);
-  const heroY = useTransform(scrollY, [0, 400], [0, 80]);
+
+  // FIX: Only apply the Y movement (parallax) on desktop (isMobile false)
+  // If isMobile is true, Y stays at 0.
+  const heroY = useTransform(scrollY, [0, 400], [0, isMobile ? 0 : 80]);
 
   const scrollToNext = () => {
     const el = document.getElementById("next-section");
@@ -64,27 +79,26 @@ export default function CaseStudy({ project }: any) {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative pt-32 pb-32 px-6 lg:px-20 max-w-7xl mx-auto"
+      className="relative pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-32 px-4 md:px-6 lg:px-20 max-w-7xl mx-auto"
     >
       {/* ================= HERO ================= */}
       <motion.section
-        style={{ opacity: heroOpacity, y: heroY }}
-        className="relative grid lg:grid-cols-2 gap-10 items-center mb-10"
-
-
-
+        style={{
+          opacity: heroOpacity,
+          y: heroY // This is now 0 on mobile
+        }}
+        className="relative grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24"
       >
         {/* Glass Background */}
-        {/* <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/5 -z-10" /> */}
         <div className="absolute -inset-10 bg-[#475AD7]/10 blur-3xl -z-20" />
 
         {/* LEFT */}
-        <div className="max-w-xl">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)]">
+        <div className="max-w-xl text-center lg:text-left mx-auto lg:mx-0">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)] leading-tight">
             {project.title}
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed mb-12">
+          <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-8 md:mb-12 max-w-lg mx-auto lg:mx-0">
             {project.shortDescription}
           </p>
 
@@ -95,8 +109,8 @@ export default function CaseStudy({ project }: any) {
             whileTap={{ scale: 0.95 }}
             className="
               group relative inline-flex items-center gap-2
-              px-8 py-3 rounded-xl font-semibold text-white
-              transition-all duration-300
+              px-6 py-3 md:px-8 md:py-3 rounded-xl font-semibold text-white
+              transition-all duration-300 text-sm md:text-base
             "
             style={{
               background:
@@ -112,7 +126,7 @@ export default function CaseStudy({ project }: any) {
                   "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
               }}
             />
-            <Github size={24} className="relative z-10" />
+            <Github size={20} className="relative z-10 md:w-6 md:h-6" />
             <span className="relative z-10">
               View Source Code
             </span>
@@ -121,14 +135,14 @@ export default function CaseStudy({ project }: any) {
 
         {/* RIGHT */}
         {project.heroScreens && (
-          <div className="relative flex justify-center items-center scale-90 lg:scale-90">
+          <div className="relative flex justify-center items-center scale-100 lg:scale-100 w-full mt-8 lg:mt-0">
             <AutoPlayScreens screens={project.heroScreens} />
           </div>
         )}
       </motion.section>
 
       {/* ================= EXPLORE MORE ================= */}
-      <div className="flex flex-col items-center mb-12">
+      <div className="flex flex-col items-center mb-16 md:mb-24">
         <motion.span
           animate={{ y: [0, 8, 0] }}
           transition={{
@@ -137,7 +151,7 @@ export default function CaseStudy({ project }: any) {
             ease: "easeInOut",
           }}
           className="
-      text-white font-semibold tracking-widest text-sm mb-3
+      text-white font-semibold tracking-widest text-xs md:text-sm mb-3
       drop-shadow-[0_0_6px_rgba(71,90,215,0.6)]
     "
         >
@@ -155,7 +169,7 @@ export default function CaseStudy({ project }: any) {
           className="
       w-8 h-14 border border-white/50 rounded-full
       flex justify-center pt-3 backdrop-blur-lg
-      shadow-[0_0_15px_rgba(71,90,215,0.3)]
+      shadow-[0_0_15px_rgba(71,90,215,0.3)] cursor-pointer hover:bg-white/5 transition-colors
     "
         >
           <motion.div
@@ -175,17 +189,17 @@ export default function CaseStudy({ project }: any) {
 
 
       {/* Divider */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-white/30 to-transparent mb-40" />
+      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent mb-16 md:mb-32 lg:mb-40" />
 
       {/* ================= FEATURE STORY ================= */}
       {project.sections && (
         <motion.section
           id="next-section"
-          initial={{ opacity: 0, y: 60 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.4 }}
-          className="mb-24"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-16 md:mb-24"
         >
           <FeatureStorySection sections={project.sections} />
         </motion.section>
@@ -194,15 +208,42 @@ export default function CaseStudy({ project }: any) {
       {/* ================= FEATURES ================= */}
       {project.features && (
         <motion.section
-          initial={{ opacity: 0, y: 60 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.4 }}
-          className="mb-24"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-16 md:mb-24 w-full overflow-hidden"
         >
-          <FeaturesSection features={project.features} />
+          <ArchitectureSection features={project.features} />
         </motion.section>
       )}
+      {/* ================= CHALLENGES & SOLUTIONS ================= */}
+      {project.challenges && (
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-16 md:mb-32"
+        >
+          <ChallengesTimeline items={project.challenges} />
+        </motion.section>
+      )}
+
+      {/* ================= TECH STACK ================= */}
+      {project.techStack && (
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-16 md:mb-24"
+        >
+          <TechStackSection stack={project.techStack} />
+        </motion.section>
+      )}
+
+
     </motion.main>
   );
 }

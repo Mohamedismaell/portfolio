@@ -115,6 +115,34 @@ export const projectsMap: Record<string, any> = {
         },
       ],
     },
+    techStack: [
+      {
+        title: "Architecture",
+        items: ["Clean Architecture", "Layered Separation"],
+      },
+      {
+        title: "State Management",
+        items: ["Bloc", "Cubit"],
+      },
+      {
+        title: "Networking",
+        items: ["REST APIs", "Dio"],
+      }, {
+        title: "Storage",
+        items: ["Hive", "Hive Object Box"],
+      },
+    ],
+
+    challenges: [
+      {
+        challenge: "Handling complex state updates across multiple screens.",
+        solution: "Used Bloc with selective rebuilds and optimized state emission.",
+      },
+      {
+        challenge: "Managing offline caching.",
+        solution: "Implemented Hive-based structured cache with expiration logic.",
+      },
+    ]
 
 
 
