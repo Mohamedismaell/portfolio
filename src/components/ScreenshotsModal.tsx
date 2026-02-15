@@ -28,7 +28,6 @@ export default function ScreenshotsModal({
         setIndex((prev) => (prev - 1 + images.length) % images.length);
     }, [images.length]);
 
-    // ESC + arrows + scroll lock
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (!open) return;
@@ -54,7 +53,6 @@ export default function ScreenshotsModal({
 
     return (
         <>
-            {/* BUTTON */}
             <button
                 onClick={() => hasImages && setOpen(true)}
                 disabled={!hasImages}
@@ -75,7 +73,6 @@ export default function ScreenshotsModal({
             "
                         onClick={() => setOpen(false)}
                     >
-                        {/* CLOSE */}
                         <button
                             onClick={() => setOpen(false)}
                             className="absolute top-8 right-8 text-white/70 hover:text-white transition z-50"
@@ -83,12 +80,10 @@ export default function ScreenshotsModal({
                             <X size={32} />
                         </button>
 
-                        {/* CONTENT */}
                         <div
                             className="relative w-full h-full flex flex-col items-center justify-center px-6"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* MAIN IMAGE (CRISP — NO BLUR BACKGROUND) */}
                             <div className="relative flex items-center justify-center w-full max-h-[80vh]">
                                 <AnimatePresence mode="wait">
                                     <motion.div
@@ -131,7 +126,6 @@ export default function ScreenshotsModal({
                                     </motion.div>
                                 </AnimatePresence>
 
-                                {/* LEFT ARROW */}
                                 <button
                                     onClick={prev}
                                     className="
@@ -145,7 +139,6 @@ export default function ScreenshotsModal({
                                     <ChevronLeft size={28} />
                                 </button>
 
-                                {/* RIGHT ARROW */}
                                 <button
                                     onClick={next}
                                     className="
@@ -160,7 +153,6 @@ export default function ScreenshotsModal({
                                 </button>
                             </div>
 
-                            {/* FLOATING GLASS THUMB SWITCHER (OUTSIDE IMAGE) */}
                             <div className="mt-10 w-full flex justify-center">
                                 <div
                                     className="

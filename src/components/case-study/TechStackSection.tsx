@@ -17,7 +17,6 @@ export default function TechStackSection({ stack }: Props) {
     return (
         <section className="relative py-24">
             <div className="max-w-6xl mx-auto px-6">
-                {/* ===== Title ===== */}
                 <motion.h2
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -31,7 +30,6 @@ export default function TechStackSection({ stack }: Props) {
                     Tech Stack
                 </motion.h2>
 
-                {/* ========== MOBILE: vertical timeline ========== */}
                 <div className="md:hidden space-y-12">
                     {stack.map((category, index) => (
                         <motion.div
@@ -42,12 +40,10 @@ export default function TechStackSection({ stack }: Props) {
                             transition={{ duration: 0.5, delay: index * 0.08 }}
                             className="relative flex flex-col items-center"
                         >
-                            {/* Vertical line above node (except first) */}
                             {index > 0 && (
                                 <div className="absolute -top-8 w-px h-8 bg-white/25" />
                             )}
 
-                            {/* Node circle */}
                             <div
                                 className="
                   z-10 w-10 h-10 rounded-full
@@ -61,12 +57,10 @@ export default function TechStackSection({ stack }: Props) {
                                 </span>
                             </div>
 
-                            {/* Category title */}
                             <h3 className="mt-4 mb-4 text-xs tracking-[0.35em] text-[#8B5CF6] uppercase font-semibold text-center">
                                 {category.title}
                             </h3>
 
-                            {/* Tech items */}
                             <div className="flex flex-wrap justify-center gap-3">
                                 {category.items.map((tech, i) => (
                                     <span
@@ -86,10 +80,8 @@ export default function TechStackSection({ stack }: Props) {
                     ))}
                 </div>
 
-                {/* ========== DESKTOP: horizontal line system ========== */}
                 <div className="hidden md:block">
                     <div className="relative flex justify-between items-start">
-                        {/* Main Horizontal Line */}
                         <div className="absolute top-6 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
                         {stack.map((category, index) => (
@@ -97,7 +89,6 @@ export default function TechStackSection({ stack }: Props) {
                                 key={category.title + index}
                                 className="relative flex flex-col items-center w-full"
                             >
-                                {/* Node Circle */}
                                 <motion.div
                                     initial={{ scale: 0, opacity: 0 }}
                                     whileInView={{ scale: 1, opacity: 1 }}
@@ -121,7 +112,6 @@ export default function TechStackSection({ stack }: Props) {
                                     </span>
                                 </motion.div>
 
-                                {/* Category Title */}
                                 <motion.h3
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
@@ -135,10 +125,8 @@ export default function TechStackSection({ stack }: Props) {
                                     {category.title}
                                 </motion.h3>
 
-                                {/* Vertical Line Down */}
                                 <div className="w-px h-10 bg-white/20 mb-6" />
 
-                                {/* Tech Items */}
                                 <div className="flex flex-col items-center gap-4">
                                     {category.items.map((tech, i) => (
                                         <motion.div

@@ -8,8 +8,8 @@ export default function Hero() {
   const t = useTranslations("hero");
 
   return (
-    <section className="min-h-screen flex items-center justify-between px-6 lg:px-20">
-      {/* Left Content */}
+
+    <section id="home" className="min-h-screen flex items-center justify-between px-6 lg:px-20">
       <div className="max-w-2xl">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
@@ -54,7 +54,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Right Photo Card */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9, x: 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -71,7 +70,6 @@ export default function Hero() {
           />
         </div>
 
-        {/* Glow Effect */}
         <div className="absolute -inset-2 bg-blue-500/20 blur-3xl -z-10 rounded-3xl"></div>
       </motion.div>
     </section>

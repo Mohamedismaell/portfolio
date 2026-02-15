@@ -3,7 +3,6 @@ import ProjectsSection from "@/components/projects/ProjectsSection";
 import SkillsSection from "@/components/skills/SkillsSection";
 import HireSection from "@/components/contact/HireSection";
 import Footer from "@/components/footer/Footer";
-// import ThemeToggle from "@/components/ui/ThemeToggle";
 import GithubStatsSection from "@/components/github/GithubStatsSection";
 
 export default function HomePage() {
@@ -13,10 +12,8 @@ export default function HomePage() {
       <SkillsSection />
       <ProjectsSection />
       <GithubStatsSection />
-      {/* <AboutSection /> */}
       <HireSection />
       <Footer />
-      {/* <ThemeToggle /> */}
     </main>
   );
 }

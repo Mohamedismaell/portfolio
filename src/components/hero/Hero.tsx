@@ -21,7 +21,6 @@ export default function Hero() {
 
   return (
     <section className="min-h-screen flex items-center justify-center pt-24 px-6">
-      {/* OUTER GLOW (MATCHES YOUR PORTFOLIO CARDS) */}
       <div
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{
@@ -32,7 +31,6 @@ export default function Hero() {
         }}
       />
 
-      {/* GLASS CONTAINER (RESTORED DESIGN) */}
       <motion.div
         initial={{ opacity: 0, y: 60, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -52,7 +50,6 @@ export default function Hero() {
           overflow-hidden
         "
       >
-        {/* INNER GRADIENT OVERLAY (LIKE PROJECT CARDS) */}
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"
           style={{
@@ -61,7 +58,6 @@ export default function Hero() {
           }}
         />
 
-        {/* NAME */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +71,6 @@ export default function Hero() {
           Mohamed Ismael
         </motion.h1>
 
-        {/* ROLE (GRADIENT TEXT LIKE YOUR PORTFOLIO) */}
         <motion.h2
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,7 +83,6 @@ export default function Hero() {
           Flutter Developer & Software Engineer
         </motion.h2>
 
-        {/* ABOUT (MERGED HERO + ABOUT — PREMIUM STYLE) */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -109,7 +103,6 @@ export default function Hero() {
           modern UI systems.
         </motion.p>
 
-        {/* STATS (SAME DESIGN LANGUAGE AS YOUR CARDS) */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -121,14 +114,12 @@ export default function Hero() {
           <Stat value="Flutter" label="Core Expertise" />
         </motion.div>
 
-        {/* CTA BUTTONS (FIXED ANIMATION + GLOW + SLIDE SCROLL) */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
           className="mt-14 flex flex-col sm:flex-row gap-4 justify-center"
         >
-          {/* VIEW PROJECTS (SMOOTH SLIDE + GLOW HOVER) */}
           <button
             onClick={scrollToProjects}
             className="
@@ -149,7 +140,6 @@ export default function Hero() {
                 "0 15px 40px rgba(71,90,215,0.45)",
             }}
           >
-            {/* HOVER GLOW LAYER */}
             <span
               className="
                 absolute inset-0 opacity-0
@@ -166,7 +156,6 @@ export default function Hero() {
             </span>
           </button>
 
-          {/* HIRE ME */}
           <button
             className="
               px-8 py-3

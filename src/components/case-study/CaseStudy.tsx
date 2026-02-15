@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react"; // Added useState
+import { useEffect, useState } from "react";
 import ArchitectureSection from "./ArchitectureSection";
 import AutoPlayScreens from "./AutoPlayScreens";
 import FeatureStorySection from "./FeatureStorySection";
@@ -16,7 +16,6 @@ import ChallengesTimeline from "./ChallengesTimeline";
 export default function CaseStudy({ project }: any) {
   const { scrollY } = useScroll();
 
-  // Detect mobile to disable parallax
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -28,8 +27,6 @@ export default function CaseStudy({ project }: any) {
 
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.6]);
 
-  // FIX: Only apply the Y movement (parallax) on desktop (isMobile false)
-  // If isMobile is true, Y stays at 0.
   const heroY = useTransform(scrollY, [0, 400], [0, isMobile ? 0 : 80]);
 
   const scrollToNext = () => {
@@ -81,18 +78,16 @@ export default function CaseStudy({ project }: any) {
       transition={{ duration: 0.8 }}
       className="relative pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-32 px-4 md:px-6 lg:px-20 max-w-7xl mx-auto"
     >
-      {/* ================= HERO ================= */}
+
       <motion.section
         style={{
           opacity: heroOpacity,
-          y: heroY // This is now 0 on mobile
+          y: heroY
         }}
         className="relative grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24"
       >
-        {/* Glass Background */}
         <div className="absolute -inset-10 bg-[#475AD7]/10 blur-3xl -z-20" />
 
-        {/* LEFT */}
         <div className="max-w-xl text-center lg:text-left mx-auto lg:mx-0">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)] leading-tight">
             {project.title}
@@ -133,7 +128,6 @@ export default function CaseStudy({ project }: any) {
           </motion.a>
         </div>
 
-        {/* RIGHT */}
         {project.heroScreens && (
           <div className="relative flex justify-center items-center scale-100 lg:scale-100 w-full mt-8 lg:mt-0">
             <AutoPlayScreens screens={project.heroScreens} />
@@ -141,7 +135,6 @@ export default function CaseStudy({ project }: any) {
         )}
       </motion.section>
 
-      {/* ================= EXPLORE MORE ================= */}
       <div className="flex flex-col items-center mb-16 md:mb-24">
         <motion.span
           animate={{ y: [0, 8, 0] }}
@@ -188,10 +181,8 @@ export default function CaseStudy({ project }: any) {
       </div>
 
 
-      {/* Divider */}
       <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent mb-16 md:mb-32 lg:mb-40" />
 
-      {/* ================= FEATURE STORY ================= */}
       {project.sections && (
         <motion.section
           id="next-section"
@@ -205,7 +196,6 @@ export default function CaseStudy({ project }: any) {
         </motion.section>
       )}
 
-      {/* ================= FEATURES ================= */}
       {project.features && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -217,7 +207,6 @@ export default function CaseStudy({ project }: any) {
           <ArchitectureSection features={project.features} />
         </motion.section>
       )}
-      {/* ================= CHALLENGES & SOLUTIONS ================= */}
       {project.challenges && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -230,7 +219,6 @@ export default function CaseStudy({ project }: any) {
         </motion.section>
       )}
 
-      {/* ================= TECH STACK ================= */}
       {project.techStack && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}

@@ -4,7 +4,6 @@ import { getMessages } from "next-intl/server";
 import ResponsiveNavbar from "@/components/navbar/ResponsiveNavbar";
 import { Cairo, Inter } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
-// LoadingScreen is visually intrusive during dev (keeps showing on hot reload), maybe omit or use conditional
 import CursorGlow from "@/components/animations/CursorGlow";
 import type { Metadata } from "next";
 

@@ -48,8 +48,6 @@ export async function getGithubStats(): Promise<GithubStats> {
             commits,
         }));
 
-        // Ensure months are in chronological order if needed, but simple map usually follows insertion
-        // The previous code used a fixed map which is already in order.
 
         return {
             publicRepos: Array.isArray(repos) ? repos.length : 0,

@@ -35,7 +35,6 @@ export default function ProjectsSection() {
               transition={{ delay: index * 0.1 }}
               className="group relative"
             >
-              {/* OUTER GLOW (ALL DIRECTIONS) */}
               <div
                 className="absolute -inset-1 rounded-[36px] blur-2xl opacity-40 group-hover:opacity-80 transition duration-500"
                 style={{
@@ -43,7 +42,6 @@ export default function ProjectsSection() {
                 }}
               />
 
-              {/* MAIN GLASS CARD */}
               <div
                 className="
                   relative rounded-[32px]
@@ -59,7 +57,6 @@ export default function ProjectsSection() {
                   boxShadow: `0 10px 40px ${color}22`,
                 }}
               >
-                {/* COLOR OVERLAY (ALWAYS COLORED, STRONGER ON HOVER) */}
                 <div
                   className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
                   style={{
@@ -67,7 +64,6 @@ export default function ProjectsSection() {
                   }}
                 />
 
-                {/* HOVER INTENSITY LAYER */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"
                   style={{
@@ -75,7 +71,6 @@ export default function ProjectsSection() {
                   }}
                 />
 
-                {/* IMAGE CONTAINER (GLASS TOP) */}
                 <div className="relative w-full h-56 rounded-2xl overflow-hidden bg-white/90 mb-5 shadow-inner">
                   <Image
                     src={project.image}
@@ -83,21 +78,8 @@ export default function ProjectsSection() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-
-                  {/* Floating Category Badge */}
-                  {/* <div
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md border"
-                    style={{
-                      backgroundColor: `${color}CC`,
-                      borderColor: `${color}`,
-                      color: "#fff",
-                    }}
-                  >
-                    {project.category || "Mobile App"}
-                  </div> */}
                 </div>
 
-                {/* Header */}
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-xl font-bold text-white">
                     {project.title}
@@ -112,12 +94,10 @@ export default function ProjectsSection() {
                   </a>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-300 text-sm mb-5 line-clamp-3">
                   {project.shortDescription}
                 </p>
 
-                {/* TECH PILLS (BIGGER + CLEANER) */}
                 <div className="flex flex-wrap gap-2.5 mb-6">
                   {project.tech?.slice(0, 6).map((tech: string) => (
                     <span
@@ -141,10 +121,6 @@ export default function ProjectsSection() {
                   ))}
                 </div>
 
-
-                {/* ACTIONS (keeps your existing modal + routing working) */}
-                {/* GLASS DIVIDER (BETWEEN TECH & ACTIONS) */}
-                {/* GLASS DIVIDER (THICKER + GLOW) */}
                 <div className="relative w-full h-[2px] my-6">
                   <div
                     className="absolute inset-0 rounded-full opacity-80"
@@ -158,7 +134,6 @@ export default function ProjectsSection() {
       )`,
                     }}
                   />
-                  {/* Soft blur glow */}
                   <div
                     className="absolute inset-0 blur-md opacity-60"
                     style={{
@@ -172,10 +147,7 @@ export default function ProjectsSection() {
                   />
                 </div>
 
-
-                {/* ACTIONS (keeps your existing modal + routing working) */}
-                <div className="mt-2">
-
+                <div className="mt-2 text-center">
                   <ProjectHighlights
                     tech={project.tech}
                     year={project.duration}
@@ -184,7 +156,6 @@ export default function ProjectsSection() {
                     slug={project.slug}
                   />
                 </div>
-
               </div>
             </motion.div>
           );

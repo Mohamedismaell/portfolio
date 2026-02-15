@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
         const ownerResult = await resend.emails.send({
             from: "Portfolio Contact <onboarding@resend.dev>",
-            to: "mohamed.ismael.dev@outlook.com", // CHANGE if needed
+            to: "mohamed.ismael.dev@outlook.com",
             subject: `New Inquiry from ${name}`,
             html: `
         <h2>New Project Inquiry</h2>
@@ -116,14 +116,13 @@ export async function POST(req: Request) {
     }
 }
 
-// DIRECT TEST ENDPOINT
 export async function GET() {
     console.log("GET /api/contact HIT");
 
     try {
         const result = await resend.emails.send({
             from: "Portfolio <onboarding@resend.dev>",
-            to: "mohamed.ismael.dev@outlook.com", // CHANGE if needed
+            to: "mohamed.ismael.dev@outlook.com",
             subject: "Direct Test Email",
             html: "<p>This is a direct Resend test.</p>",
         });

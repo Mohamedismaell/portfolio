@@ -159,29 +159,6 @@ export const projectsMap: Record<string, any> = {
 
     ,
 
-
-    // "book-reading": {
-    //   slug: "book-reading",
-    //   title: "Book Reading App",
-    //   role: "Flutter Developer",
-    //   shortDescription:
-    //     "Reading app with clean UI, smooth navigation, and modular widgets.",
-    //   description:
-    //     "A Flutter reading application focused on UI/UX, navigation flow, and reusable widget architecture.",
-    //   challenge:
-    //     "Creating intuitive reading flow with responsive layouts.",
-    //   solution:
-    //     "Designed modular UI system and optimized navigation experience.",
-    //   tech: ["Flutter", "UI/UX", "Navigation", "Material Design"],
-    //   github: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
-    //   demo: "",
-    //   image: "/projects/book/cover.png",
-    //   gallery: [
-    //     "/projects/book/1.png",
-    //     "/projects/book/2.png",
-    //   ],
-    // },
-
   }
   , tasky: {
     slug: "tasky",
