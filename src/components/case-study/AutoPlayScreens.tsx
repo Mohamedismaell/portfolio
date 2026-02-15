@@ -29,13 +29,13 @@ export default function AutoPlayScreens({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
 
-      className="relative w-full h-[620px] flex flex-col items-center justify-center"
+      className="relative w-full h-[580px] flex flex-col items-center justify-center"
     // onMouseEnter={() => setIsHovered(true)}
     // onMouseLeave={() => setIsHovered(false)}
     >
       {/* Subtle Gradient Glow Background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[70%] h-[70%] bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent blur-3xl rounded-full opacity-60" />
+        <div className="w-[40%] h-[40%] bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent blur-3xl rounded-full opacity-60" />
       </div>
 
       {/* Horizontal Slider Container */}

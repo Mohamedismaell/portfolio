@@ -64,16 +64,19 @@ export default function CaseStudy({ project }: any) {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative pt-32 pb-40 px-6 lg:px-20 max-w-7xl mx-auto"
+      className="relative pt-32 pb-32 px-6 lg:px-20 max-w-7xl mx-auto"
     >
       {/* ================= HERO ================= */}
       <motion.section
         style={{ opacity: heroOpacity, y: heroY }}
-        className="relative grid lg:grid-cols-2 gap-16 items-center mb-56"
+        className="relative grid lg:grid-cols-2 gap-10 items-center mb-10"
+
+
+
       >
         {/* Glass Background */}
         {/* <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/5 -z-10" /> */}
-        <div className="absolute -inset-20 bg-[#475AD7]/10 blur-3xl -z-20" />
+        <div className="absolute -inset-10 bg-[#475AD7]/10 blur-3xl -z-20" />
 
         {/* LEFT */}
         <div className="max-w-xl">
@@ -81,7 +84,7 @@ export default function CaseStudy({ project }: any) {
             {project.title}
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed mb-8">
+          <p className="text-gray-400 text-lg leading-relaxed mb-12">
             {project.shortDescription}
           </p>
 
@@ -109,7 +112,7 @@ export default function CaseStudy({ project }: any) {
                   "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
               }}
             />
-            <Github size={18} className="relative z-10" />
+            <Github size={24} className="relative z-10" />
             <span className="relative z-10">
               View Source Code
             </span>
@@ -118,48 +121,61 @@ export default function CaseStudy({ project }: any) {
 
         {/* RIGHT */}
         {project.heroScreens && (
-          <div className="relative flex justify-center items-center">
+          <div className="relative flex justify-center items-center scale-90 lg:scale-90">
             <AutoPlayScreens screens={project.heroScreens} />
           </div>
         )}
       </motion.section>
 
-      {/* ================= EXPLORE MORE (Moved Up) ================= */}
-      <div className="flex flex-col items-center mb-24">
+      {/* ================= EXPLORE MORE ================= */}
+      <div className="flex flex-col items-center mb-12">
         <motion.span
-          animate={{ y: [0, 12, 0] }}
-          transition={{ repeat: Infinity, duration: 1 }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            repeat: Infinity,
+            duration: 1.2,
+            ease: "easeInOut",
+          }}
           className="
-            text-white font-bold tracking-widest text-lg mb-5
-            drop-shadow-[0_0_8px_rgba(71,90,215,0.8)]
-          "
+      text-white font-semibold tracking-widest text-sm mb-3
+      drop-shadow-[0_0_6px_rgba(71,90,215,0.6)]
+    "
         >
           EXPLORE MORE
         </motion.span>
 
         <motion.button
           onClick={scrollToNext}
-          animate={{ y: [0, 18, 0] }}
-          transition={{ repeat: Infinity, duration: 1 }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            repeat: Infinity,
+            duration: 1.2,
+            ease: "easeInOut",
+          }}
           className="
-            w-12 h-20 border-2 border-white/60 rounded-full
-            flex justify-center pt-4 backdrop-blur-xl
-            shadow-[0_0_25px_rgba(71,90,215,0.4)]
-          "
+      w-8 h-14 border border-white/50 rounded-full
+      flex justify-center pt-3 backdrop-blur-lg
+      shadow-[0_0_15px_rgba(71,90,215,0.3)]
+    "
         >
           <motion.div
-            animate={{ y: [0, 14, 0] }}
-            transition={{ repeat: Infinity, duration: 1 }}
+            animate={{ y: [0, 6, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.2,
+              ease: "easeInOut",
+            }}
             className="
-              w-2 h-5 bg-gradient-to-b from-[#475AD7] to-[#8B5CF6]
-              rounded-full
-            "
+        w-1.5 h-3 bg-gradient-to-b from-[#475AD7] to-[#8B5CF6]
+        rounded-full
+      "
           />
         </motion.button>
       </div>
 
+
       {/* Divider */}
-      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/30 to-transparent mb-40" />
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-white/30 to-transparent mb-40" />
 
       {/* ================= FEATURE STORY ================= */}
       {project.sections && (
@@ -169,7 +185,7 @@ export default function CaseStudy({ project }: any) {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.4 }}
-          className="mb-56"
+          className="mb-24"
         >
           <FeatureStorySection sections={project.sections} />
         </motion.section>
@@ -182,7 +198,7 @@ export default function CaseStudy({ project }: any) {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.4 }}
-          className="mb-56"
+          className="mb-24"
         >
           <FeaturesSection features={project.features} />
         </motion.section>
