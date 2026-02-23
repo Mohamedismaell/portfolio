@@ -10,9 +10,10 @@ const schema = z.object({
     email: z.string().email(),
     phone: z.string().optional(),
     services: z.string().min(1),
-    message: z.string().min(10),
+    message: z.string().min(5),
     website: z.string().optional(),
 });
+
 
 const rateLimitMap = new Map<string, { count: number; lastRequest: number }>();
 
@@ -62,9 +63,15 @@ export async function POST(req: Request) {
         const parsed = schema.safeParse(body);
 
         if (!parsed.success) {
-            console.log("Validation failed:", parsed.error);
+            // ✅ Log exact field errors during development
+            console.error("Zod validation errors:", parsed.error.flatten().fieldErrors);
             return NextResponse.json(
-                { error: "Invalid form data" },
+                {
+                    error: "Invalid form data",
+                    ...(process.env.NODE_ENV === "development" && {
+                        fields: parsed.error.flatten().fieldErrors,
+                    }),
+                },
                 { status: 400 }
             );
         }

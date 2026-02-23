@@ -1,68 +1,73 @@
 import { getGithubStats } from "@/lib/github-stats";
 import { FolderGit2, GitCommit } from "lucide-react";
 import MonthlyCommitsChart from "./MonthlyCommitsChart";
+import SectionWrapper from "@/components/ui/SectionWrapper";
+import SectionBadge from "@/components/ui/SectionBadge";
+import SectionDivider from "@/components/ui/SectionDivider";
+import GradientText from "@/components/ui/GradientText";
+import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
-  console.log("Resend key exists:", !!process.env.RESEND_API_KEY);
 
   return (
-    <section className="py-28 px-6 lg:px-20 max-w-7xl mx-auto">
+    <SectionWrapper id="github">
+      <div className="max-w-6xl mx-auto">
 
+        {/* ── Header ── */}
+        <div className="flex flex-col items-center text-center mb-14 sm:mb-20">
+          <SectionBadge label="Open Source Activity" />
 
-      {/* MAIN GLASS CARD (MATCHES YOUR PORTFOLIO STYLE) */}
-      <div
-        className="
-        relative rounded-[32px]
-        border border-white/10
-        backdrop-blur-2xl
-        bg-white/[0.03]
-        p-8 lg:p-12
-        overflow-hidden
-        "
-      >
-        {/* TITLE */}
-        <h2 className="
-  text-3xl lg:text-5xl font-bold mb-16 text-center
-  text-white
-  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
-">
-          GitHub Activity
-        </h2>
-        {/* PORTFOLIO GLOW */}
-        <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
-          style={{
-            background: `
-              radial-gradient(circle at 20% 30%, #475AD733, transparent 60%),
-              radial-gradient(circle at 80% 70%, #8B5CF622, transparent 60%)
-            `,
-          }}
-        />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-none mb-4">
+            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
+              GitHub Activity
+            </GradientText>
+          </h2>
 
-        {/* TOP STATS */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+          <SectionDivider delay={0.3} className="w-24 mb-5 mx-auto" />
+
+          <p
+            className="text-sm sm:text-base max-w-xl leading-relaxed"
+            style={{ color: TEXT.dim }}
+          >
+            A live snapshot of my open source contributions and
+            commit activity over the last 12 months.
+          </p>
+        </div>
+
+        {/* ── Stat cards ── */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-5 mb-10 sm:mb-14">
           <StatCard
-            title="Active Repositories"
+            title="Repositories"
             value={stats.publicRepos}
-            icon={<FolderGit2 size={24} />}
+            icon={<FolderGit2 size={18} />}
           />
-
           <StatCard
-            title="Total Commits (Last Year)"
+            title="Commits This Year"
             value={stats.totalCommits}
-            icon={<GitCommit size={24} />}
+            icon={<GitCommit size={18} />}
           />
         </div>
 
-        <MonthlyCommitsChart data={stats.monthlyCommits} />
 
+        {/* ── Chart ── */}
+        <div
+          className="rounded-2xl p-5 sm:p-7"
+          style={{
+            background: GRADIENTS.solidCard,
+            border: `1px solid ${BORDERS.subtle}`,
+            boxShadow: SHADOWS.card,
+          }}
+        >
+          <MonthlyCommitsChart data={stats.monthlyCommits} />
+        </div>
 
       </div>
-    </section>
+    </SectionWrapper>
   );
 }
 
+// ── Stat card ────────────────────────────────────────────
 function StatCard({
   title,
   value,
@@ -74,32 +79,55 @@ function StatCard({
 }) {
   return (
     <div
-      className="
-        relative rounded-2xl
-        border border-white/10
-        bg-white/[0.04]
-        backdrop-blur-xl
-        p-6 text-center
-        transition-all duration-300
-        hover:bg-white/[0.08]
-        hover:border-white/20
-        hover:shadow-[0_20px_60px_rgba(71,90,215,0.25)]
-        group
-      "
+      className="group relative flex flex-col items-center justify-center gap-2 sm:gap-3 p-4 sm:p-8 rounded-xl sm:rounded-2xl transition-all duration-300 hover:scale-[1.02]"
+      style={{
+        background: GRADIENTS.solidCard,
+        border: `1px solid ${BORDERS.subtle}`,
+        boxShadow: SHADOWS.card,
+      }}
     >
-      <div className="flex justify-center mb-4 text-[#475AD7] group-hover:scale-110 transition-transform">
+      {/* Hover glow */}
+      <div
+        className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: "rgba(255,255,255,0.02)",
+          boxShadow: `inset 0 0 0 1px ${BORDERS.medium}`,
+        }}
+      />
+
+      {/* Icon */}
+      <div
+        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl transition-transform duration-300 group-hover:scale-110"
+        style={{
+          background: "rgba(255,255,255,0.06)",
+          border: `1px solid ${BORDERS.subtle}`,
+          color: "rgba(255,255,255,0.6)",
+        }}
+      >
         {icon}
       </div>
 
-      <h3 className="text-4xl font-bold text-white mb-2">
+      {/* Value */}
+      <span
+        className="text-2xl sm:text-4xl font-black tracking-tighter"
+        style={{
+          background: GRADIENTS.heading,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+      >
         {value}
-      </h3>
+      </span>
 
-      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">
+      {/* Label */}
+      <p
+        className="text-[9px] sm:text-xs tracking-widest uppercase font-medium text-center leading-tight"
+        style={{ color: TEXT.muted }}
+      >
         {title}
       </p>
     </div>
   );
+
 }
-// Building scalable, production-grade mobile applications with Clean Architecture and modern UI systems.
-//         I focus on performance, maintainable codebases, and solving complex technical challenges to deliver apps that are reliable, scalable, and user-focused.

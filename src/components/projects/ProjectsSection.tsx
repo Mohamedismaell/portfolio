@@ -11,7 +11,6 @@ import GradientText from "@/components/ui/GradientText";
 import ProjectHighlights from "../case-study/ProjectHighlights";
 import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
-//  Animation variants 
 const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -34,7 +33,7 @@ export default function ProjectsSection() {
     <SectionWrapper id="projects">
       <div className="max-w-6xl mx-auto">
 
-        {/*  Header  */}
+        {/* ── Header ── */}
         <div className="flex flex-col items-center text-center mb-14 sm:mb-20">
           <SectionBadge label="What I've Built" />
 
@@ -65,13 +64,13 @@ export default function ProjectsSection() {
           </motion.p>
         </div>
 
-        {/*  Projects grid  */}
+        {/* ── Projects grid ── */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 items-start"
         >
           {projects.map((project: any) => {
             const color = project.color || "#475AD7";
@@ -80,133 +79,137 @@ export default function ProjectsSection() {
               <motion.div
                 key={project.slug}
                 variants={cardVariants}
-                className="group relative flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 hover:scale-[1.02]"
-                style={{
-                  //  Glass morphism base
-                  background: "rgba(255,255,255,0.03)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: `1px solid rgba(255,255,255,0.08)`,
-                  boxShadow: `0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)`,
-                }}
+                className="group/card relative transition-all duration-500 hover:scale-[1.02] h-full"
               >
-                {/*  Per-project ambient glow — outer */}
                 <div
-                  className="absolute -inset-2 rounded-[32px] blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+                  className="absolute -inset-3 rounded-[36px] blur-2xl opacity-25 group-hover/card:opacity-55 transition-opacity duration-500 pointer-events-none"
                   style={{
                     background: `radial-gradient(circle at center, ${color}55, transparent 70%)`,
                   }}
                 />
 
-                {/*  Per-project color tint overlay — resting */}
+                {/*  Actual card — overflow-hidden only here */}
                 <div
-                  className="absolute inset-0 opacity-100 transition-opacity duration-500 pointer-events-none rounded-[28px]"
+                  className="relative flex flex-col rounded-2xl sm:rounded-[28px] overflow-hidden h-full"
                   style={{
-                    background: `linear-gradient(135deg, ${color}18, ${color}06)`,
+                    background: "rgba(255,255,255,0.03)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: `1px solid rgba(255,255,255,0.08)`,
+                    boxShadow: `0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)`,
                   }}
-                />
-
-                {/*  Per-project color tint overlay — hover intensifies */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[28px]"
-                  style={{
-                    background: `linear-gradient(135deg, ${color}35, ${color}12)`,
-                  }}
-                />
-
-                {/*  Image  */}
-                <div className="relative w-full h-48 sm:h-52 overflow-hidden shrink-0">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  {/* Bottom fade into card */}
+                >
+                  {/* Color tint — resting */}
                   <div
-                    className="absolute inset-0"
+                    className="absolute inset-0 opacity-100 pointer-events-none"
                     style={{
-                      background:
-                        "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)",
+                      background: `linear-gradient(135deg, ${color}18, ${color}06)`,
                     }}
                   />
-                </div>
 
-                {/*  Body  */}
-                <div className="relative flex flex-col flex-1 p-5">
+                  {/* Color tint — hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background: `linear-gradient(135deg, ${color}35, ${color}12)`,
+                    }}
+                  />
 
-                  {/* Title + GitHub */}
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <h3
-                      className="text-base sm:text-lg font-bold leading-snug"
-                      style={{ color: "rgba(255,255,255,0.92)" }}
+                  {/* ── Image — fixed height so all cards stay even ── */}
+                  <div className="relative w-full h-48 overflow-hidden shrink-0">
+                    {/*  single h-48, no sm: variant — consistent across all cards */}
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)",
+                      }}
+                    />
+                  </div>
+
+                  {/* ── Body ── */}
+                  <div className="relative flex flex-col flex-1 p-4 sm:p-5">
+
+                    {/* Title + GitHub */}
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <h3
+                        className="text-sm sm:text-base lg:text-lg font-bold leading-snug"
+                        style={{ color: "rgba(255,255,255,0.92)" }}
+                      >
+                        {project.title}
+                      </h3>
+
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 transition-colors duration-200 hover:text-white"
+                          style={{ color: TEXT.muted }}
+                        >
+                          <Github size={17} />
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Description — line-clamp-2 keeps all cards same height */}
+                    <p
+                      className="text-xs sm:text-sm leading-relaxed line-clamp-2 mb-4"
+                      style={{ color: TEXT.dim }}
                     >
-                      {project.title}
-                    </h3>
+                      {project.shortDescription}
+                    </p>
 
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 transition-colors duration-200 hover:text-white"
-                        style={{ color: TEXT.muted }}
-                      >
-                        <Github size={18} />
-                      </a>
-                    )}
-                  </div>
+                    {/* Tech tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tech?.slice(0, 5).map((tech: string) => (
+                        <span
+                          key={tech}
+                          className="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-medium"
+                          style={{
+                            background: `${color}15`,
+                            border: `1px solid ${color}40`,
+                            color: "rgba(255,255,255,0.75)",
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
 
-                  {/* Description */}
-                  <p
-                    className="text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4"
-                    style={{ color: TEXT.dim }}
-                  >
-                    {project.shortDescription}
-                  </p>
-
-                  {/*  colored border using project color */}
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {project.tech?.slice(0, 5).map((tech: string) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-medium backdrop-blur-sm"
+                    {/* Colored divider */}
+                    <div className="relative w-full h-px mb-4">
+                      <div
+                        className="absolute inset-0 rounded-full"
                         style={{
-                          background: `${color}15`,
-                          border: `1px solid ${color}40`,
-                          color: "rgba(255,255,255,0.75)",
+                          background: `linear-gradient(90deg, transparent, ${color}99, ${color}55, transparent)`,
                         }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                      />
+                      <div
+                        className="absolute inset-0 blur-sm"
+                        style={{
+                          background: `linear-gradient(90deg, transparent, ${color}55, transparent)`,
+                        }}
+                      />
+                    </div>
 
-                  {/* divider line per project */}
-                  <div className="relative w-full h-px mb-4">
-                    <div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background: `linear-gradient(90deg, transparent, ${color}99, ${color}55, transparent)`,
-                      }}
-                    />
-                    <div
-                      className="absolute inset-0 blur-sm"
-                      style={{
-                        background: `linear-gradient(90deg, transparent, ${color}55, transparent)`,
-                      }}
-                    />
-                  </div>
-
-                  {/* Highlights / CTA */}
-                  <div className="mt-auto">
-                    <ProjectHighlights
-                      tech={project.tech}
-                      year={project.duration}
-                      platform={project.platform}
-                      gallery={project.gallery}
-                      slug={project.slug}
-                    />
+                    {/* CTA buttons */}
+                    <div className="mt-auto">
+                      <ProjectHighlights
+                        tech={project.tech}
+                        year={project.duration}
+                        platform={project.platform}
+                        gallery={project.gallery}
+                        slug={project.slug}
+                        color={color}
+                      />
+                    </div>
                   </div>
                 </div>
               </motion.div>

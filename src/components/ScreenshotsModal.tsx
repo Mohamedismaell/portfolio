@@ -59,7 +59,7 @@ export default function ScreenshotsModal({
                 style={{ color: hasImages ? TEXT.soft : TEXT.muted }}
             >
                 {icon || <Images size={15} />}
-                <span className="text-xs sm:text-sm font-medium">Screenshots</span>
+                <span className="text-xs sm:text-sm font-medium group-hover/btn:text-white">Screenshots</span>
             </button>
 
             {/* ── Modal portal ── */}
