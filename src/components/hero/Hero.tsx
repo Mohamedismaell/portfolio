@@ -9,7 +9,7 @@ import GradientText from "@/components/ui/GradientText";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import { GRADIENTS, SHADOWS, BORDERS, TEXT } from "@/lib/theme";
 
-/* ── Typewriter hook ───────────────────────── */
+//  Typewriter hook ─
 function useTypewriter(text: string, speed = 45, delay = 400) {
   const [displayed, setDisplayed] = useState("");
   useEffect(() => {
@@ -26,7 +26,7 @@ function useTypewriter(text: string, speed = 45, delay = 400) {
   return displayed;
 }
 
-/* ── Code panel data ───────────────────────── */
+//  Code panel data ─
 const codeLines = [
   { tokens: [{ t: "keyword", v: "class " }, { t: "class", v: "HomeBloc " }, { t: "keyword", v: "extends " }, { t: "class", v: "Bloc" }, { t: "plain", v: "<HomeEvent, HomeState>" }] },
   { tokens: [{ t: "plain", v: "  HomeBloc({" }] },
@@ -54,31 +54,49 @@ const tokenColor: Record<string, string> = {
   plain: "rgba(156,163,175,0.6)",
 };
 
-/* ── Stats data ───────────────────────── */
+//  Stats data 
 const stats = [
   { value: "3+", label: "Projects" },
   { value: "2025", label: "Active Dev" },
   { value: "Flutter", label: "Core Stack" },
 ];
 
-export default function Hero() {
-  const role = useTypewriter("Software Engineer & Mobile Architect", 45, 800);
+// ─
+const animateScrollTo = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-  const scrollToProjects = () => {
-    const el = document.getElementById("projects");
-    if (!el) return;
-    window.scrollTo({
-      top: el.getBoundingClientRect().top + window.pageYOffset - 80,
-      behavior: "smooth",
-    });
+  const targetY = el.getBoundingClientRect().top + window.pageYOffset - 80;
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  const duration = 850;
+  let startTime: number | null = null;
+
+  const ease = (t: number) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  const step = (timestamp: number) => {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    window.scrollTo(0, startY + distance * ease(progress));
+    if (progress < 1) requestAnimationFrame(step);
   };
+
+  requestAnimationFrame(step);
+};
+export default function Hero() {
+  const role = useTypewriter("Software Engineer & Mobile Developer", 45, 800);
+
+  const scrollToProjects = () => animateScrollTo("projects");
+  const scrollToContact = () => animateScrollTo("contact");
 
   return (
     <SectionWrapper id="home" fullHeight>
+
       {/*  CONTENT CONTAINER  */}
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-8 xl:gap-12 pt-16 sm:pt-20">
 
-        {/* LEFT SIDE */}
+        {/*  LEFT SIDE  */}
         <div className="flex-1 min-w-0">
           <SectionBadge label="Flutter Developer" />
 
@@ -93,6 +111,7 @@ export default function Hero() {
             </GradientText>
           </motion.h1>
 
+          {/* Role typewriter */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -100,11 +119,17 @@ export default function Hero() {
             className="text-xs sm:text-sm lg:text-base tracking-[0.2em] sm:tracking-[0.25em] uppercase font-medium mb-5 sm:mb-6 flex items-center"
           >
             <GradientText gradient={GRADIENTS.subtext}>{role}</GradientText>
-            <span className="animate-pulse ml-[1px]" style={{ color: TEXT.cursor }}>|</span>
+            <span
+              className="animate-pulse ml-[1px]"
+              style={{ color: TEXT.cursor }}
+            >
+              |
+            </span>
           </motion.p>
 
           <SectionDivider delay={0.5} />
 
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -117,6 +142,7 @@ export default function Hero() {
             that solve real-world problems.
           </motion.p>
 
+          {/*  CTA Buttons  */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -126,18 +152,20 @@ export default function Hero() {
             <PrimaryButton variant="primary" onClick={scrollToProjects}>
               View Projects →
             </PrimaryButton>
-            <PrimaryButton variant="ghost">
-              Hire Me
+
+            {/* ✅ Renamed + navigates to #contact */}
+            <PrimaryButton variant="ghost" onClick={scrollToContact}>
+              Work With Me
             </PrimaryButton>
           </motion.div>
         </div>
 
-        {/* RIGHT SIDE CODE PANEL */}
+        {/* RIGHT SIDE — code panel */}
         <motion.div
           initial={{ opacity: 0, x: 40, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1.0, delay: 1.2, ease: "easeOut" }}
-          className="hidden lg:block lg:w-[240px] xl:w-[320px] shrink-0 pointer-events-none select-none"
+          className="hidden lg:block lg:w-[300px] xl:w-[400px] shrink-0 pointer-events-none select-none"
         >
           <motion.div
             animate={{ y: [0, -8, 0] }}
@@ -146,21 +174,24 @@ export default function Hero() {
             <div
               className="relative rounded-xl overflow-hidden"
               style={{
-                // background: GRADIENTS.solidCard,
                 border: `1px solid ${BORDERS.subtle}`,
-                boxShadow:
-                  "0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04)",
+                boxShadow: "0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04)",
               }}
             >
-              <div className="px-3 py-2 border-b" style={{ borderColor: BORDERS.subtle }}>
-                <div className="text-[10px] font-mono" style={{ color: TEXT.muted }}>
+              {/* Title bar */}
+              <div
+                className="px-4 py-2.5 border-b"
+                style={{ borderColor: BORDERS.subtle }}
+              >
+                <div className="text-[11px] font-mono" style={{ color: TEXT.muted }}>
                   home_bloc.dart
                 </div>
               </div>
 
-              <div className="px-3 py-3 font-mono text-[9px] leading-[1.6]">
+              {/* Code lines — bigger font + more padding */}
+              <div className="px-4 py-4 font-mono text-[11px] leading-[1.75]">
                 {codeLines.map((line, idx) => (
-                  <div key={idx} className="flex gap-3">
+                  <div key={idx} className="flex gap-4">
                     <span style={{ color: "rgba(255,255,255,0.1)" }}>
                       {idx + 1}
                     </span>
@@ -177,22 +208,20 @@ export default function Hero() {
             </div>
           </motion.div>
         </motion.div>
+
       </div>
 
-      {/*  STATS */}
+      {/*  STATS  */}
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
         className="mt-14"
       >
-        <div
-          className="max-w-6xl mx-auto"
-        >
+        <div className="max-w-6xl mx-auto">
           <div
             className="flex rounded-2xl overflow-hidden"
             style={{
-              // background: GRADIENTS.cardBg,
               border: `1px solid ${BORDERS.subtle}`,
               boxShadow: SHADOWS.card,
             }}
@@ -221,6 +250,7 @@ export default function Hero() {
           </div>
         </div>
       </motion.div>
+
     </SectionWrapper>
   );
 }

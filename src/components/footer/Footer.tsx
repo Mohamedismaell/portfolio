@@ -117,7 +117,7 @@ export default function Footer() {
           className="text-[10px] sm:text-xs"
           style={{ color: TEXT.muted }}
         >
-          © {new Date().getFullYear()} mohamedismael.dev — All rights reserved.
+          © {new Date().getFullYear()} Mohamed Ismael — All rights reserved.
         </p>
 
       </div>

@@ -4,185 +4,193 @@ import { useEffect, useState } from "react";
 import ArchitectureSection from "./ArchitectureSection";
 import AutoPlayScreens from "./AutoPlayScreens";
 import FeatureStorySection from "./FeatureStorySection";
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { Github } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Github, ArrowDown } from "lucide-react";
 import TechStackSection from "./TechStackSection";
 import ChallengesTimeline from "./ChallengesTimeline";
-
+import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
+import GradientText from "@/components/ui/GradientText";
+import { useRouter } from "@/i18n/routing";
 export default function CaseStudy({ project }: any) {
   const { scrollY } = useScroll();
-
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.6]);
-
   const heroY = useTransform(scrollY, [0, 400], [0, isMobile ? 0 : 80]);
 
+  //  Smooth scroll 
   const scrollToNext = () => {
     const el = document.getElementById("next-section");
     if (!el) return;
 
-    const rect = el.getBoundingClientRect();
-    const absoluteY = rect.top + window.pageYOffset;
-
-    const topSpacing = window.innerHeight * 0.18;
-    const targetY = absoluteY - topSpacing;
+    const targetY =
+      el.getBoundingClientRect().top +
+      window.pageYOffset -
+      window.innerHeight * 0.18;
 
     const startY = window.scrollY;
     const distance = targetY - startY;
     const duration = 850;
     let startTime: number | null = null;
 
-    const easeInOutCubic = (t: number) =>
-      t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const ease = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-
-      const progress = timestamp - startTime;
-      const percent = Math.min(progress / duration, 1);
-      const eased = easeInOutCubic(percent);
-
-      window.scrollTo(0, startY + distance * eased);
-
-      if (progress < duration) {
-        requestAnimationFrame(animate);
-      }
+    const step = (ts: number) => {
+      if (!startTime) startTime = ts;
+      const p = Math.min((ts - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * ease(p));
+      if (p < 1) requestAnimationFrame(step);
     };
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(step);
   };
-
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const router = useRouter();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <motion.main
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-32 px-4 md:px-6 lg:px-20 max-w-7xl mx-auto"
+      className="relative pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-32 px-4 sm:px-6 lg:px-20 max-w-7xl mx-auto"
     >
 
+      {/*  Hero  */}
       <motion.section
-        style={{
-          opacity: heroOpacity,
-          y: heroY
-        }}
+        style={{ opacity: heroOpacity, y: heroY }}
         className="relative grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24"
       >
-        <div className="absolute -inset-10 bg-[#475AD7]/10 blur-3xl -z-20" />
+        {/* Ambient glow — uses project color */}
+        <div
+          className="absolute -inset-10 blur-3xl -z-20 opacity-20 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at 30% 50%, ${project.color || "#475AD7"}44, transparent 70%)`,
+          }}
+        />
 
+        {/* Left — text */}
         <div className="max-w-xl text-center lg:text-left mx-auto lg:mx-0">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)] leading-tight">
-            {project.title}
-          </h1>
 
-          <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-8 md:mb-12 max-w-lg mx-auto lg:mx-0">
-            {project.shortDescription}
-          </p>
+          {/* Back link */}
+          <motion.button
+            onClick={() => router.back()}
 
-          <motion.a
-            href={project.github}
-            target="_blank"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="
-              group relative inline-flex items-center gap-2
-              px-6 py-3 md:px-8 md:py-3 rounded-xl font-semibold text-white
-              transition-all duration-300 text-sm md:text-base
-            "
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 text-sm font-semibold mb-8 px-4 py-2 rounded-xl transition-all duration-200 hover:text-white hover:bg-white/[0.06] -ml-2"
             style={{
-              background:
-                "linear-gradient(135deg, #475AD7, #8B5CF6)",
-              boxShadow:
-                "0 15px 40px rgba(71,90,215,0.45)",
+              color: TEXT.soft,
+              border: `1px solid ${BORDERS.subtle}`,
             }}
           >
-            <span
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500"
+            ← All Projects
+          </motion.button>
+
+
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none mb-4 md:mb-6"
+          >
+            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
+              {project.title}
+            </GradientText>
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="text-sm sm:text-base md:text-lg leading-relaxed mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0"
+            style={{ color: TEXT.dim }}
+          >
+            {project.shortDescription}
+          </motion.p>
+
+          {/* GitHub button */}
+          {project.github && (
+            <motion.a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 rounded-xl font-semibold text-sm md:text-base overflow-hidden transition-all duration-300"
               style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
+                background: GRADIENTS.primaryBtn,
+                color: "#000",
+                boxShadow: SHADOWS.primaryBtn,
               }}
-            />
-            <Github size={20} className="relative z-10 md:w-6 md:h-6" />
-            <span className="relative z-10">
-              View Source Code
-            </span>
-          </motion.a>
+            >
+              <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%)",
+                }}
+              />
+              <Github size={18} className="relative z-10" />
+              <span className="relative z-10">View Source Code</span>
+            </motion.a>
+          )}
         </div>
 
+        {/* Right — screens */}
         {project.heroScreens && (
-          <div className="relative flex justify-center items-center scale-100 lg:scale-100 w-full mt-8 lg:mt-0">
+          <div className="relative flex justify-center items-center w-full mt-8 lg:mt-0">
             <AutoPlayScreens screens={project.heroScreens} />
           </div>
         )}
       </motion.section>
 
-      <div className="flex flex-col items-center mb-16 md:mb-24">
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{
-            repeat: Infinity,
-            duration: 1.2,
-            ease: "easeInOut",
-          }}
-          className="
-      text-white font-semibold tracking-widest text-xs md:text-sm mb-3
-      drop-shadow-[0_0_6px_rgba(71,90,215,0.6)]
-    "
+      {/*  Scroll indicator  */}
+      <div className="flex flex-col items-center mb-16 md:mb-24 gap-3">
+        <p
+          className="text-[10px] sm:text-xs tracking-widest uppercase font-medium"
+          style={{ color: TEXT.muted }}
         >
-          EXPLORE MORE
-        </motion.span>
+          Explore More
+        </p>
 
         <motion.button
           onClick={scrollToNext}
-          animate={{ y: [0, 8, 0] }}
-          transition={{
-            repeat: Infinity,
-            duration: 1.2,
-            ease: "easeInOut",
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
+          className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 hover:text-white"
+          style={{
+            border: `1px solid ${BORDERS.medium}`,
+            background: "rgba(255,255,255,0.04)",
+            color: TEXT.dim,
           }}
-          className="
-      w-8 h-14 border border-white/50 rounded-full
-      flex justify-center pt-3 backdrop-blur-lg
-      shadow-[0_0_15px_rgba(71,90,215,0.3)] cursor-pointer hover:bg-white/5 transition-colors
-    "
+          aria-label="Scroll to content"
         >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.2,
-              ease: "easeInOut",
-            }}
-            className="
-        w-1.5 h-3 bg-gradient-to-b from-[#475AD7] to-[#8B5CF6]
-        rounded-full
-      "
-          />
+          <ArrowDown size={14} />
         </motion.button>
       </div>
 
+      {/*  Section divider  */}
+      <div
+        className="w-full h-px mb-16 md:mb-32 lg:mb-40"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${BORDERS.medium}, transparent)`,
+        }}
+      />
 
-      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent mb-16 md:mb-32 lg:mb-40" />
-
+      {/*  Feature story  */}
       {project.sections && (
         <motion.section
           id="next-section"
@@ -196,6 +204,7 @@ export default function CaseStudy({ project }: any) {
         </motion.section>
       )}
 
+      {/*  Architecture  */}
       {project.features && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -207,6 +216,8 @@ export default function CaseStudy({ project }: any) {
           <ArchitectureSection features={project.features} />
         </motion.section>
       )}
+
+      {/*  Challenges  */}
       {project.challenges && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -219,6 +230,7 @@ export default function CaseStudy({ project }: any) {
         </motion.section>
       )}
 
+      {/*  Tech stack  */}
       {project.techStack && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -230,7 +242,6 @@ export default function CaseStudy({ project }: any) {
           <TechStackSection stack={project.techStack} />
         </motion.section>
       )}
-
 
     </motion.main>
   );

@@ -9,6 +9,8 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
+import GradientText from "@/components/ui/GradientText";
 
 type Section = {
   label: string;
@@ -18,41 +20,25 @@ type Section = {
   image: string;
 };
 
-export default function FeatureStorySection({
-  sections,
-}: {
-  sections: Section[];
-}) {
+export default function FeatureStorySection({ sections }: { sections: Section[] }) {
   return (
     <div className="relative">
       {sections.map((section, index) => (
-        <FeatureBlock
-          key={index}
-          section={section}
-          index={index}
-        />
+        <FeatureBlock key={index} section={section} index={index} />
       ))}
     </div>
   );
 }
 
-function FeatureBlock({
-  section,
-  index,
-}: {
-  section: Section;
-  index: number;
-}) {
+function FeatureBlock({ section, index }: { section: Section; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-
-  // State to disable parallax on mobile
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const check = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -60,105 +46,77 @@ function FeatureBlock({
     offset: ["start 85%", "end 15%"],
   });
 
-  // Active state detection
-  const isActive = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [0, 1, 0]
-  );
-
+  const isActive = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   const activeScale = useTransform(isActive, [0, 1], [1, 1.05]);
-  const activeOpacity = useTransform(isActive, [0, 1], [0.6, 1]);
-
-  // Smaller animated progress indicator
-  const progressHeight = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", "110%"]
-  );
-
-  // Parallax movement - DISABLED on mobile by using conditional logic in style below
+  const activeOpacity = useTransform(isActive, [0, 1], [0.5, 1]);
+  const progressHeight = useTransform(scrollYProgress, [0, 1], ["0%", "110%"]);
   const imageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
-  // ================= 3D Tilt =================
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
   const springX = useSpring(rotateX, { stiffness: 120, damping: 15 });
   const springY = useSpring(rotateY, { stiffness: 120, damping: 15 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (window.matchMedia("(hover: hover)").matches) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      rotateY.set((x / rect.width - 0.5) * 12);
-      rotateX.set(-(y / rect.height - 0.5) * 12);
-    }
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    // ✅ Fix 1 — added parentheses around arithmetic expression
+    rotateY.set(((e.clientX - rect.left) / rect.width - 0.5) * 10);
+    rotateX.set(-((e.clientY - rect.top) / rect.height - 0.5) * 10);
   };
 
-  const resetTilt = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-  };
+  const resetTilt = () => { rotateX.set(0); rotateY.set(0); };
 
   return (
     <section
       ref={ref}
-      className="relative grid lg:grid-cols-2 gap-12 lg:gap-24 items-start min-h-[auto] lg:min-h-[750px] py-16 lg:py-32"
+      className="relative grid lg:grid-cols-2 gap-10 lg:gap-24 items-start min-h-[auto] lg:min-h-[750px] py-14 lg:py-32"
     >
-      {/* ================= LEFT (Text) ================= */}
+      {/* ── Left — text ── */}
       <div className="relative max-w-xl order-1 lg:order-none">
         <div className="relative lg:sticky lg:top-32">
 
-          {/* Number + Label */}
-          <div className="flex items-center gap-4 lg:gap-6 mb-6 lg:mb-10">
+          {/* Number + label */}
+          <div className="flex items-center gap-4 mb-6 lg:mb-10">
+            {/* ✅ Fix 2 — removed duplicate style prop, merged into one */}
             <motion.div
               style={{
                 scale: activeScale,
                 opacity: activeOpacity,
+                border: `1px solid ${BORDERS.medium}`,
+                background: "rgba(255,255,255,0.04)",
+                color: "rgba(255,255,255,0.85)",
               }}
-              // UPDATED: Added shrink-0 and aspect-square to guarantee perfect circle
-              className="
-                flex items-center justify-center
-                w-14 h-14 lg:w-16 lg:h-16
-                shrink-0 aspect-square
-                rounded-full
-                border border-white/20
-                text-base lg:text-lg font-semibold
-                bg-white/[0.04]
-                text-white
-              "
+              className="flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 shrink-0 rounded-full text-sm lg:text-base font-bold"
             >
               {String(index + 1).padStart(2, "0")}
             </motion.div>
 
-            <span className="text-xs lg:text-sm tracking-[0.25em] lg:tracking-[0.45em] text-[#475AD7] uppercase font-semibold">
-              {section.label || "Screen"}
+            <span
+              className="text-[10px] lg:text-xs tracking-[0.3em] uppercase font-semibold"
+              style={{ color: TEXT.muted }}
+            >
+              {section.label || "Feature"}
             </span>
           </div>
 
           {/* Title */}
-          <h2
-            className="
-              text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 lg:mb-6
-              bg-clip-text text-transparent
-            "
-            style={{
-              backgroundImage:
-                "linear-gradient(135deg,#ffffff,#cbd5ff)",
-            }}
-          >
-            {section.title}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight mb-4 lg:mb-6">
+            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
+              {section.title}
+            </GradientText>
           </h2>
 
           {/* Description */}
-          <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-8 lg:mb-12">
+          <p
+            className="text-sm sm:text-base lg:text-lg leading-relaxed mb-8 lg:mb-12"
+            style={{ color: TEXT.dim }}
+          >
             {section.description}
           </p>
 
-          {/* Features */}
-          <div className="space-y-4 lg:space-y-6 mb-12 lg:mb-0">
+          {/* Features list */}
+          <div className="space-y-3 lg:space-y-5">
             {section.features.map((feature, i) => (
               <motion.div
                 key={i}
@@ -166,52 +124,64 @@ function FeatureBlock({
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.08 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-3 lg:gap-4"
+                className="flex items-start gap-3"
               >
-                <div className="mt-1.5 lg:mt-2 w-2 lg:w-2.5 h-2 lg:h-2.5 rounded-full bg-[#475AD7] shadow-[0_0_12px_rgba(71,90,215,0.6)] shrink-0" />
-                <p className="text-gray-300 text-sm lg:text-base">{feature}</p>
+                <div
+                  className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{
+                    background: "rgba(255,255,255,0.7)",
+                    boxShadow: "0 0 8px rgba(255,255,255,0.3)",
+                  }}
+                />
+                <p className="text-xs sm:text-sm lg:text-base" style={{ color: TEXT.soft }}>
+                  {feature}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ================= RIGHT (Image) ================= */}
+      {/* ── Right — image ── */}
       <div className="relative flex justify-center items-center order-2 lg:order-none">
-        {/* Vertical indicator (Hidden on mobile) */}
-        <div className="hidden lg:block absolute left-[-30px] top-[20%] h-[60%] w-[2px] bg-white/10 rounded-full overflow-hidden">
+
+        {/* Vertical scroll indicator */}
+        <div
+          className="hidden lg:block absolute left-[-28px] top-[20%] h-[60%] w-px rounded-full overflow-hidden"
+          style={{ background: BORDERS.subtle }}
+        >
+          {/* ✅ Fix 3 — removed duplicate style prop */}
           <motion.div
-            style={{ height: progressHeight }}
-            className="w-full bg-gradient-to-b from-[#475AD7] to-[#8B5CF6]"
+            style={{ height: progressHeight, background: GRADIENTS.statValue }}
+            className="w-full rounded-full"
           />
         </div>
 
-        {/* 3D Parallax Image */}
+        {/* 3D parallax image */}
         <motion.div
           onMouseMove={handleMouseMove}
           onMouseLeave={resetTilt}
           style={{
-            // UPDATED: Disable parallax (y movement) on mobile
             y: isMobile ? 0 : imageY,
             rotateX: springX,
             rotateY: springY,
             transformPerspective: 1200,
           }}
-          className="relative w-full max-w-md h-[400px] md:h-[500px] lg:h-[650px]"
+          className="relative w-full max-w-xs sm:max-w-sm lg:max-w-md h-[340px] sm:h-[440px] lg:h-[620px]"
         >
-          {/* Glow */}
-          <div className="absolute w-[70%] h-[70%] bg-gradient-to-br from-[#475AD7]/20 via-purple-500/10 to-transparent blur-3xl rounded-full pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <div
+            className="absolute w-[65%] h-[65%] rounded-full blur-3xl pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              background: "radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%)",
+            }}
+          />
 
           <Image
             src={section.image}
             alt={section.title}
             fill
-            className="
-              object-contain
-              drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)]
-              lg:drop-shadow-[0_40px_100px_rgba(0,0,0,0.7)]
-            "
-            sizes="(max-width: 768px) 90vw, 420px"
+            className="object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.7)]"
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 420px"
             priority={index === 0}
           />
         </motion.div>

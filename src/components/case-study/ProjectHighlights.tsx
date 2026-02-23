@@ -25,7 +25,7 @@ export default function ProjectHighlights({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* ✅ grid-cols-1 on xs, grid-cols-2 on sm+ */}
+      {/*  grid-cols-1 on xs, grid-cols-2 on sm+ */}
       <div className="grid grid-cols-2 gap-2">
 
         {/* ── Details ── */}
