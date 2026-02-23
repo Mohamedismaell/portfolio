@@ -13,7 +13,6 @@ import SectionDivider from "@/components/ui/SectionDivider";
 import GradientText from "@/components/ui/GradientText";
 import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
-// ── Flutter SVG icon ─────────────────────────────────────
 const FlutterIcon = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <path d="M14 3L4 13L7 16L20 3H14Z" fill="rgba(255,255,255,0.75)" />
@@ -21,11 +20,9 @@ const FlutterIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// ── Types ────────────────────────────────────────────────
 type Skill = { name: string; icon: any };
 type SkillCategory = { title: string; icon: any; skills: Skill[] };
 
-// ── Data ─────────────────────────────────────────────────
 const skillData: SkillCategory[] = [
   {
     title: "Mobile Development",
@@ -98,7 +95,6 @@ const skillData: SkillCategory[] = [
   },
 ];
 
-// ── Animation variants ───────────────────────────────────
 const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
@@ -121,14 +117,13 @@ const skillVariants: Variants = {
     transition: { duration: 0.3, ease: "easeOut" as const },
   },
 };
-// ────────────────────────────────────────────────────────
 
 export default function SkillsSection() {
   return (
     <SectionWrapper id="skills">
       <div className="max-w-6xl mx-auto">
 
-        {/* ── Header ── */}
+        {/*  Header  */}
         <div className="flex flex-col items-center text-center mb-14 sm:mb-20">
           <SectionBadge label="What I Work With" />
 
@@ -162,7 +157,7 @@ export default function SkillsSection() {
           </motion.p>
         </div>
 
-        {/* ── Skills grid ── */}
+        {/*  Skills grid  */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -214,7 +209,10 @@ export default function SkillsSection() {
                 <motion.div
                   variants={containerVariants}
                   className="flex flex-col divide-y px-5 py-2"
-                  style={{ borderColor: BORDERS.subtle }}
+                  style={{
+                    borderColor: BORDERS.subtle,
+                    // ["--tw-divide-opacity" as any]: "1"
+                  }}
                 >
                   {category.skills.map((skill, i) => {
                     const Icon = skill.icon;
@@ -222,7 +220,11 @@ export default function SkillsSection() {
                       <motion.div
                         key={i}
                         variants={skillVariants}
-                        className="flex items-center gap-3 py-3 group transition-all duration-200"
+                        className="flex items-center gap-3 py-4 group transition-all duration-200"
+                        style={{
+                          borderColor: "rgba(255, 255, 255, 0.42)",
+                        }}
+
                       >
                         {/* Icon */}
                         <div
@@ -231,13 +233,13 @@ export default function SkillsSection() {
                         >
                           {typeof Icon === "function" && Icon.length === 0
                             ? <Icon />
-                            : <Icon size={15} />
+                            : <Icon size={20} />
                           }
                         </div>
 
                         {/* Skill name */}
                         <span
-                          className="text-xs sm:text-sm font-medium leading-snug transition-colors duration-200 group-hover:text-white"
+                          className="text-sm sm:text-sm font-medium leading-snug transition-colors duration-200 group-hover:text-white"
                           style={{ color: TEXT.soft }}
                         >
                           {skill.name}

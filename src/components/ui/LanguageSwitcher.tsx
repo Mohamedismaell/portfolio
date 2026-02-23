@@ -21,20 +21,12 @@ export default function LanguageSwitcher() {
     <div className="flex gap-2 text-sm">
       <Link
         href={getNewPath("en")}
-        className={`px-3 py-1 rounded-md border border-white/20 transition ${
-          locale === "en" ? "bg-white/10 text-white border-blue-500" : "text-gray-400 hover:border-blue-500 hover:text-white"
-        }`}
+        className={`px-3 py-1 rounded-md border border-white/20 transition ${locale === "en" ? "bg-white/10 text-white border-blue-500" : "text-gray-400 hover:border-blue-500 hover:text-white"
+          }`}
       >
         EN
       </Link>
-      <Link
-        href={getNewPath("ar")}
-        className={`px-3 py-1 rounded-md border border-white/20 transition ${
-          locale === "ar" ? "bg-white/10 text-white border-blue-500" : "text-gray-400 hover:border-blue-500 hover:text-white"
-        }`}
-      >
-        AR
-      </Link>
+
     </div>
   );
 }

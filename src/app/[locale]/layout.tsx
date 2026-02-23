@@ -57,6 +57,7 @@ export const metadata: Metadata = {
 };
 
 export default async function LocaleLayout({
+
   children,
   params,
 }: {
@@ -67,10 +68,11 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
+
     <html
       lang={locale}
-      dir={locale === "ar" ? "rtl" : "ltr"}
-      className={locale === "ar" ? cairo.className : inter.className}
+      dir={"ltr"}
+      className={inter.className}
     >
       <head>
         <script
@@ -98,21 +100,60 @@ export default async function LocaleLayout({
         />
       </head>
 
-      <body
-        className="text-white overflow-x-hidden"
-      // style={{
-      //   background:
-      //     "linear-gradient(160deg, #0a0a0a 0%, #111111 30%, #0d0d12 60%, #080810 100%)",
-      //   backgroundAttachment: "fixed",
-      //   minHeight: "100vh",
-      // }}
-      >
-        <Toaster position="top-right" richColors />
-        <CursorGlow />
-        <NextIntlClientProvider messages={messages}>
-          <ResponsiveNavbar />
-          <PageTransition>{children}</PageTransition>
-        </NextIntlClientProvider>
+      <body className="text-white overflow-x-hidden relative">
+
+        {/* GLOBAL CINEMATIC BACKGROUND */}
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+
+          {/* Base gradient */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "#0d0d0d"
+            }}
+          />
+
+          {/* Top-left cinematic glow */}
+          <div
+            className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(200,200,220,0.04) 40%, transparent 70%)",
+              filter: "blur(120px)",
+            }}
+          />
+
+          {/* Bottom-right cinematic glow */}
+          <div
+            className="absolute bottom-[-200px] right-[-200px] w-[900px] h-[900px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(180,180,200,0.03) 50%, transparent 70%)",
+              filter: "blur(120px)",
+            }}
+          />
+
+          {/* Diagonal streak */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              background:
+                "linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.02) 55%, transparent 80%)",
+            }}
+          />
+
+          {/* Noise texture */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PC9zdmc+')",
+            }}
+          />
+
+        </div>
+
+        {children}
       </body>
     </html>
   );

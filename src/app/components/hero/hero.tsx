@@ -34,45 +34,9 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex items-center px-6 sm:px-8 lg:px-12 pt-24 sm:pt-28 pb-16 overflow-hidden"
-    // style={{
-    //   background: GRADIENTS.pageBg,
-    //   backgroundAttachment: "fixed",
-    //   backgroundSize: "cover",
-    //   backgroundRepeat: "no-repeat",
-    // }}
+
     >
-      {/* Noise */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{ backgroundRepeat: "repeat", backgroundSize: "128px 128px" }}
-      />
 
-      {/* Top-left glow */}
-      <div
-        className="absolute -top-40 -left-40 w-[700px] h-[700px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(200,200,220,0.04) 40%, transparent 70%)",
-        }}
-      />
-
-      {/* Bottom-right glow */}
-      <div
-        className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(180,180,200,0.03) 50%, transparent 70%)",
-        }}
-      />
-
-      {/* Diagonal streak */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          background:
-            "linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.02) 55%, transparent 80%)",
-        }}
-      />
 
       {/* ═════════ FLOATING CODE PANEL ═════════ */}
       <motion.div
