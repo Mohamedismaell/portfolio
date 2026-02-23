@@ -1,213 +1,226 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import SectionWrapper from "@/components/ui/SectionWrapper";
+import SectionBadge from "@/components/ui/SectionBadge";
+import SectionDivider from "@/components/ui/SectionDivider";
+import GradientText from "@/components/ui/GradientText";
+import PrimaryButton from "@/components/ui/PrimaryButton";
+import { GRADIENTS, SHADOWS, BORDERS, TEXT } from "@/lib/theme";
+
+/* ── Typewriter hook ───────────────────────── */
+function useTypewriter(text: string, speed = 45, delay = 400) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let i = 0;
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setDisplayed(text.slice(0, ++i));
+        if (i === text.length) clearInterval(interval);
+      }, speed);
+      return () => clearInterval(interval);
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [text, speed, delay]);
+  return displayed;
+}
+
+/* ── Code panel data ───────────────────────── */
+const codeLines = [
+  { tokens: [{ t: "keyword", v: "class " }, { t: "class", v: "HomeBloc " }, { t: "keyword", v: "extends " }, { t: "class", v: "Bloc" }, { t: "plain", v: "<HomeEvent, HomeState>" }] },
+  { tokens: [{ t: "plain", v: "  HomeBloc({" }] },
+  { tokens: [{ t: "plain", v: "    " }, { t: "keyword", v: "required this.useCase," }] },
+  { tokens: [{ t: "plain", v: "  }) : " }, { t: "keyword", v: "super" }, { t: "plain", v: "(HomeInitial());" }] },
+  { tokens: [] },
+  { tokens: [{ t: "comment", v: "  // Fetch & emit states" }] },
+  { tokens: [{ t: "keyword", v: "  Future<void> _onFetch(" }] },
+  { tokens: [{ t: "class", v: "    FetchNewsEvent" }, { t: "plain", v: " event," }] },
+  { tokens: [{ t: "class", v: "    Emitter<HomeState>" }, { t: "plain", v: " emit) async {" }] },
+  { tokens: [{ t: "plain", v: "    emit(HomeLoading());" }] },
+  { tokens: [{ t: "keyword", v: "    final " }, { t: "plain", v: "result = " }, { t: "keyword", v: "await " }, { t: "plain", v: "useCase();" }] },
+  { tokens: [{ t: "plain", v: "    result.fold(" }] },
+  { tokens: [{ t: "plain", v: "      (l) => emit(HomeError(l))," }] },
+  { tokens: [{ t: "plain", v: "      (r) => emit(HomeLoaded(r))," }] },
+  { tokens: [{ t: "plain", v: "    );" }] },
+  { tokens: [{ t: "plain", v: "  }" }] },
+  { tokens: [{ t: "plain", v: "}" }] },
+];
+
+const tokenColor: Record<string, string> = {
+  keyword: "rgba(255,255,255,0.85)",
+  class: "rgba(209,213,219,0.75)",
+  comment: "rgba(107,114,128,0.8)",
+  plain: "rgba(156,163,175,0.6)",
+};
+
+/* ── Stats data ───────────────────────── */
+const stats = [
+  { value: "3+", label: "Projects" },
+  { value: "2025", label: "Active Dev" },
+  { value: "Flutter", label: "Core Stack" },
+];
 
 export default function Hero() {
+  const role = useTypewriter("Software Engineer & Mobile Architect", 45, 800);
+
   const scrollToProjects = () => {
-    const section = document.getElementById("projects");
-    if (!section) return;
-
-    // Smooth animated scroll with offset for navbar
-    const y =
-      section.getBoundingClientRect().top +
-      window.pageYOffset -
-      80;
-
+    const el = document.getElementById("projects");
+    if (!el) return;
     window.scrollTo({
-      top: y,
+      top: el.getBoundingClientRect().top + window.pageYOffset - 80,
       behavior: "smooth",
     });
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-24 px-6">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-40"
-        style={{
-          background: `
-            radial-gradient(circle at 20% 30%, #475AD733, transparent 60%),
-            radial-gradient(circle at 80% 70%, #8B5CF622, transparent 60%)
-          `,
-        }}
-      />
+    <SectionWrapper id="home" fullHeight>
+      {/*  CONTENT CONTAINER  */}
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-8 xl:gap-12 pt-16 sm:pt-20">
 
+        {/* LEFT SIDE */}
+        <div className="flex-1 min-w-0">
+          <SectionBadge label="Flutter Developer" />
+
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-none mb-5 sm:mb-6"
+          >
+            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
+              Mohamed<br />Ismael
+            </GradientText>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 }}
+            className="text-xs sm:text-sm lg:text-base tracking-[0.2em] sm:tracking-[0.25em] uppercase font-medium mb-5 sm:mb-6 flex items-center"
+          >
+            <GradientText gradient={GRADIENTS.subtext}>{role}</GradientText>
+            <span className="animate-pulse ml-[1px]" style={{ color: TEXT.cursor }}>|</span>
+          </motion.p>
+
+          <SectionDivider delay={0.5} />
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }}
+            className="text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg mb-8 sm:mb-12"
+            style={{ color: TEXT.dim }}
+          >
+            Building scalable mobile applications with Clean Architecture,
+            complex state management, and production-grade Flutter systems
+            that solve real-world problems.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-16"
+          >
+            <PrimaryButton variant="primary" onClick={scrollToProjects}>
+              View Projects →
+            </PrimaryButton>
+            <PrimaryButton variant="ghost">
+              Hire Me
+            </PrimaryButton>
+          </motion.div>
+        </div>
+
+        {/* RIGHT SIDE CODE PANEL */}
+        <motion.div
+          initial={{ opacity: 0, x: 40, y: -10 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 1.0, delay: 1.2, ease: "easeOut" }}
+          className="hidden lg:block lg:w-[240px] xl:w-[320px] shrink-0 pointer-events-none select-none"
+        >
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div
+              className="relative rounded-xl overflow-hidden"
+              style={{
+                // background: GRADIENTS.solidCard,
+                border: `1px solid ${BORDERS.subtle}`,
+                boxShadow:
+                  "0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04)",
+              }}
+            >
+              <div className="px-3 py-2 border-b" style={{ borderColor: BORDERS.subtle }}>
+                <div className="text-[10px] font-mono" style={{ color: TEXT.muted }}>
+                  home_bloc.dart
+                </div>
+              </div>
+
+              <div className="px-3 py-3 font-mono text-[9px] leading-[1.6]">
+                {codeLines.map((line, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <span style={{ color: "rgba(255,255,255,0.1)" }}>
+                      {idx + 1}
+                    </span>
+                    <span>
+                      {line.tokens.map((token, ti) => (
+                        <span key={ti} style={{ color: tokenColor[token.t] }}>
+                          {token.v}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/*  STATS */}
       <motion.div
-        initial={{ opacity: 0, y: 60, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{
-          duration: 0.9,
-          ease: "easeOut",
-        }}
-        className="
-          relative
-          max-w-4xl w-full
-          text-center
-          rounded-[32px]
-          border border-white/10
-          bg-white/[0.03]
-          backdrop-blur-2xl
-          p-10 sm:p-14
-          overflow-hidden
-        "
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+        className="mt-14"
       >
         <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(71,90,215,0.12), rgba(139,92,246,0.08))",
-          }}
-        />
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="
-  text-3xl lg:text-5xl font-bold mb-8 text-center
-  text-white
-  drop-shadow-[0_0_5px_rgba(255,255,255,0.45)]
-"
+          className="max-w-6xl mx-auto"
         >
-          Mohamed Ismael
-        </motion.h1>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-xl sm:text-2xl lg:text-3xl mt-5 font-semibold bg-clip-text text-transparent"
-          style={{
-            backgroundImage: "linear-gradient(135deg, #475AD7, #8B5CF6)",
-          }}
-        >
-          Flutter Developer & Software Engineer
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="
-            mt-6
-            text-gray-300
-            text-lg sm:text-xl
-            leading-relaxed
-            max-w-3xl
-            mx-auto
-          "
-        >
-          Building scalable structures and architecting robust mobile
-          applications that solve real-world problems and scale with
-          business growth. Specialized in Clean Architecture, complex
-          state management, and production-grade Flutter apps with
-          modern UI systems.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6"
-        >
-          <Stat value="3+" label="Production Projects" />
-          <Stat value="2025+" label="Active Development" />
-          <Stat value="Flutter" label="Core Expertise" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="mt-14 flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          <button
-            onClick={scrollToProjects}
-            className="
-              group relative
-              px-8 py-3
-              rounded-xl
-              font-semibold
-              text-white
-              overflow-hidden
-              transition-all duration-300
-              hover:scale-105
-              active:scale-95
-            "
+          <div
+            className="flex rounded-2xl overflow-hidden"
             style={{
-              background:
-                "linear-gradient(135deg, #475AD7, #8B5CF6)",
-              boxShadow:
-                "0 15px 40px rgba(71,90,215,0.45)",
+              // background: GRADIENTS.cardBg,
+              border: `1px solid ${BORDERS.subtle}`,
+              boxShadow: SHADOWS.card,
             }}
           >
-            <span
-              className="
-                absolute inset-0 opacity-0
-                group-hover:opacity-100
-                transition duration-500
-              "
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)",
-              }}
-            />
-            <span className="relative z-10">
-              View Projects
-            </span>
-          </button>
+            {stats.map((stat, i) => (
+              <div
+                key={i}
+                className="flex-1 px-6 py-6 border-l first:border-l-0 transition-all duration-300 hover:bg-white/[0.04]"
+                style={{ borderColor: BORDERS.subtle }}
+              >
+                <GradientText
+                  gradient={GRADIENTS.statValue}
+                  className="text-2xl font-bold block mb-1"
+                >
+                  {stat.value}
+                </GradientText>
 
-          <button
-            className="
-              px-8 py-3
-              rounded-xl
-              border border-white/20
-              text-white
-              backdrop-blur-xl
-              hover:border-[#475AD7]
-              hover:bg-white/[0.05]
-              hover:scale-105
-              active:scale-95
-              transition-all duration-300
-            "
-          >
-            Hire Me
-          </button>
-        </motion.div>
+                <p
+                  className="text-xs tracking-widest uppercase"
+                  style={{ color: TEXT.muted }}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </motion.div>
-    </section>
-  );
-}
-
-function Stat({
-  value,
-  label,
-}: {
-  value: string;
-  label: string;
-}) {
-  return (
-    <div
-      className="
-        relative rounded-2xl
-        border border-white/10
-        bg-white/[0.04]
-        backdrop-blur-xl
-        py-6 px-4
-        transition-all duration-300
-        hover:bg-white/[0.08]
-        hover:shadow-[0_20px_60px_rgba(71,90,215,0.25)]
-      "
-    >
-      <h3 className="text-2xl lg:text-3xl font-bold mb-1 bg-clip-text text-transparent"
-        style={{
-          backgroundImage: "linear-gradient(135deg, #475AD7, #8B5CF6)",
-        }}
-      >
-        {value}
-      </h3>
-      <p className="text-gray-400 text-sm">
-        {label}
-      </p>
-    </div>
+    </SectionWrapper>
   );
 }

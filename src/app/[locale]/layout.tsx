@@ -1,18 +1,18 @@
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import ResponsiveNavbar from "@/components/navbar/ResponsiveNavbar";
+import ResponsiveNavbar from "@/components/navbar/Navbar";
 import { Cairo, Inter } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
 import CursorGlow from "@/components/animations/CursorGlow";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 
-const cairo = Cairo({ subsets: ["arabic", "latin"], variable: '--font-cairo' });
+const cairo = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo" });
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
-
   title: {
     default: "Mohamed Ismael | Flutter Developer & Software Engineer",
     template: "%s | Mohamed Ismael",
@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     description:
       "Professional Flutter Developer specializing in scalable apps, Clean Architecture, and modern UI systems.",
     url: process.env.NEXT_PUBLIC_SITE_URL,
-
     siteName: "Mohamed Ismael Portfolio",
     images: [
       {
@@ -57,11 +56,9 @@ export const metadata: Metadata = {
   },
 };
 
-import { Toaster } from "sonner";
-
 export default async function LocaleLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -70,7 +67,11 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={locale === "ar" ? cairo.className : inter.className}>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={locale === "ar" ? cairo.className : inter.className}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -83,28 +84,34 @@ export default async function LocaleLayout({
               jobTitle: "Flutter Developer & Software Engineer",
               sameAs: [
                 "https://github.com/Mohamedismaell",
-                "https://www.linkedin.com/in/mohamed-ismail-dev"
+                "https://www.linkedin.com/in/mohamed-ismail-dev",
               ],
               knowsAbout: [
                 "Flutter",
                 "Dart",
                 "Clean Architecture",
                 "REST APIs",
-                "Mobile Development"
+                "Mobile Development",
               ],
             }),
           }}
         />
       </head>
-      <body className="bg-[#0B0F19] text-white overflow-x-hidden">
+
+      <body
+        className="text-white overflow-x-hidden"
+      // style={{
+      //   background:
+      //     "linear-gradient(160deg, #0a0a0a 0%, #111111 30%, #0d0d12 60%, #080810 100%)",
+      //   backgroundAttachment: "fixed",
+      //   minHeight: "100vh",
+      // }}
+      >
         <Toaster position="top-right" richColors />
         <CursorGlow />
         <NextIntlClientProvider messages={messages}>
-
           <ResponsiveNavbar />
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
         </NextIntlClientProvider>
       </body>
     </html>

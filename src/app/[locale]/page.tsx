@@ -7,7 +7,7 @@ import GithubStatsSection from "@/components/github/GithubStatsSection";
 
 export default function HomePage() {
   return (
-    <main className="bg-[#0B0F19] text-white overflow-hidden">
+    <main className="text-white overflow-hidden">
       <Hero />
       <SkillsSection />
       <ProjectsSection />

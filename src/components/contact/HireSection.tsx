@@ -6,9 +6,9 @@ import { ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
 
-import GlassCard from "@/app/components/ui/GlassCard";
-import PrimaryButton from "@/app/components/ui/PrimaryButton";
-import SectionTitle from "@/app/components/ui/SectionTitle";
+import GlassCard from "@/components/ui/GlassCard";
+import PrimaryButton from "@/components/ui/PrimaryButton";
+import SectionTitle from "@/components/ui/SectionTitle";
 
 export default function HireSection() {
   const services = [
