@@ -126,7 +126,7 @@ export default function TechStackSection({ stack }: Props) {
 
                 {/* ── Desktop: horizontal timeline ── */}
                 <div className="hidden md:block">
-                    <div className="relative flex justify-between items-start">
+                    <div className="relative flex justify-between items-start gap-8 lg:gap-12">
 
                         {/* Horizontal spine */}
                         <div
@@ -139,7 +139,7 @@ export default function TechStackSection({ stack }: Props) {
                         {stack.map((category, index) => (
                             <div
                                 key={category.title + index}
-                                className="relative flex flex-col items-center w-full"
+                                className="relative flex flex-col items-center w-full text-center"
                             >
                                 {/* Number badge */}
                                 <motion.div
@@ -191,7 +191,7 @@ export default function TechStackSection({ stack }: Props) {
                                 />
 
                                 {/* Tech tags */}
-                                <div className="flex flex-col items-center gap-3">
+                                <div className="flex flex-col items-center gap-3 w-full">
                                     {category.items.map((tech, i) => (
                                         <motion.div
                                             key={tech + i}

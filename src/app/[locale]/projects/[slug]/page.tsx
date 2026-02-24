@@ -8,7 +8,7 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = projectsMap[slug];
+  const project = Object.values(projectsMap).find((p: any) => p.slug === slug);
 
   if (!project) return notFound();
 

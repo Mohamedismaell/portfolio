@@ -159,18 +159,29 @@ export default function CaseStudy({ project }: any) {
 
       {/*  Scroll indicator  */}
       <div className="flex flex-col items-center mb-16 md:mb-24 gap-3">
-        <p
+        <motion.p
           className="text-[10px] sm:text-xs tracking-widest uppercase font-medium"
           style={{ color: TEXT.muted }}
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
           Explore More
-        </p>
+        </motion.p>
 
         <motion.button
           onClick={scrollToNext}
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-          className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 hover:text-white"
+          animate={{
+            y: [0, 0, 10, -4, 8, 0],       // quick drop, slight bounce back
+            opacity: [1, 1, 1, 1, 1, 1],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 1.8,
+            ease: ["easeIn", "easeIn", "easeOut", "easeOut", "easeOut", "easeOut"],
+            times: [0, 0.25, 0.55, 0.7, 0.85, 1],  // pause → fast drop → bounce
+            repeatDelay: 0.6,                        // pause between each jump
+          }}
+          className="flex items-center justify-center w-8 h-8 rounded-full transition-colors duration-200 hover:text-white"
           style={{
             border: `1px solid ${BORDERS.medium}`,
             background: "rgba(255,255,255,0.04)",
@@ -181,6 +192,7 @@ export default function CaseStudy({ project }: any) {
           <ArrowDown size={14} />
         </motion.button>
       </div>
+
 
       {/*  Section divider  */}
       <div

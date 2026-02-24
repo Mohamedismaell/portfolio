@@ -1,11 +1,301 @@
 export const projectsMap: Record<string, any> = {
-  "news-app": {
+  book_reading_app: {
+    slug: "book-reading-app",
+    title: "TinyShelf",
+    role: "Flutter Developer",
+    color: "#E06C75",
+    duration: "2026",
+    googlePlay: null,
+    appStore: null,
+    comingSoon: false,
+
+    shortDescription:
+      "A cloud-connected book reading application built with Supabase backend services and Feature-First Clean Architecture. Designed to explore scalable authentication, reading progress synchronization, and dynamic theming in a modular Flutter architecture.",
+
+    description:
+      "TinyShelf is a feature-focused Flutter book reading application developed to experiment with scalable architecture patterns and cloud integration using Supabase. The app integrates Supabase Authentication, Postgres database operations, and Storage services to handle user sessions, reading progress tracking, and profile management. The architecture follows a Feature-First Clean Architecture structure with Cubit-based state management to ensure separation of concerns and controlled widget rebuilds. A centralized Material 3 theming system enables smooth light and dark mode switching across all screens.",
+
+    highlights: [
+      "Supabase Authentication & Database integration",
+      "Feature-First Clean Architecture implementation",
+      "Cubit-based state isolation and rebuild control",
+      "Cloud-synced reading progress tracking",
+      "Dynamic Material 3 Light & Dark theme system"
+    ],
+
+    features: [
+      "Email/password authentication with Supabase",
+      "Session persistence using Supabase auth state",
+      "Reading progress synchronization with Supabase Postgres",
+      "User profile image upload via Supabase Storage",
+      "Book discovery and exploration screens",
+      "Search functionality with filtering logic",
+      "Favorites and personal library management",
+      "Responsive UI using Flutter ScreenUtil",
+      "Route protection using GoRouter"
+    ],
+
+    challenge:
+      "Structuring a cloud-integrated reading app while maintaining modular architecture boundaries and preventing unnecessary UI rebuilds across multiple independent feature modules.",
+
+    solution:
+      "Applied Clean Architecture with repository abstraction to decouple Supabase operations from presentation logic. Used Cubit for granular state emission to control rebuild scope and maintain consistent UI performance. Centralized theming configuration to ensure global consistency.",
+
+    tech: [
+      "Supabase (Auth, Postgres, Storage)",
+      "GoRouter",
+      "Bloc / Cubit",
+      "Clean Architecture",
+      "Material 3",
+      "Flutter ScreenUtil"
+    ],
+
+    github: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
+
+    image: "/projects/book_reading/normal/Dark Home.png",
+
+    performanceMetrics: [
+      "Reduced unnecessary widget rebuilds using selective BlocBuilder patterns",
+      "Maintained smooth scrolling performance across list-heavy screens",
+      "Optimized Supabase data access through repository abstraction",
+      "Implemented isolated state emission to control UI rendering scope",
+      "Structured authentication flow with predictable navigation state"
+    ],
+
+    heroScreens: [
+      "/projects/book_reading/normal/dark/Screenshot_1771917082-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920920-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771917100-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920580-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771917108-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920583-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771917119-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920596-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771917127-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920602-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771919718-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920606-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771920693-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920688-portrait.png",
+
+      "/projects/book_reading/normal/dark/Screenshot_1771920853-portrait.png",
+      "/projects/book_reading/normal/light/Screenshot_1771920839-portrait.png"
+    ],
+
+    sections: [
+      {
+        // Login
+        label: "SCREEN 01",
+        title: "Supabase Authentication System",
+        description:
+          "Secure authentication flow powered by Supabase with structured session handling, persistent login state, and protected route navigation.",
+        features: [
+          "Email/password authentication via Supabase",
+          "Session persistence across app restarts",
+          "GoRouter-based route protection",
+          "Auth state isolation using Cubit"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771917082-portrait.png",
+      },
+      {
+        // Home
+        label: "SCREEN 02",
+        title: "Home & Book Discovery",
+        description:
+          "Dynamic home interface displaying structured book listings retrieved from Supabase with optimized rebuild control and responsive layout scaling.",
+        features: [
+          "Supabase Postgres data retrieval",
+          "Repository-based data abstraction",
+          "Selective Cubit rebuild optimization",
+          "Efficient list rendering and scrolling performance"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771917100-portrait.png",
+      },
+      {
+        // Explore + Search
+        label: "SCREEN 03",
+        title: "Explore & Search System",
+        description:
+          "Dedicated exploration screen allowing users to browse books by category and perform structured searches with controlled state emissions.",
+        features: [
+          "Category-based exploration logic",
+          "Search functionality with real-time filtering",
+          "Query-based Supabase data fetching",
+          "Optimized state updates during search interactions"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771917108-portrait.png",
+      },
+      {
+        // Library
+        label: "SCREEN 04",
+        title: "Personal Library Management",
+        description:
+          "User-focused library screen organizing saved and favorite books with synchronized state updates and efficient rendering.",
+        features: [
+          "Favorites management logic",
+          "Bookmark persistence handling",
+          "Cubit-driven UI state updates",
+          "Optimized list rebuild boundaries"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771917127-portrait.png",
+      },
+      {
+        // Book Details
+        label: "SCREEN 05",
+        title: "Book Details & Metadata View",
+        description:
+          "Structured book details interface presenting summaries, metadata, and interaction controls with isolated state handling.",
+        features: [
+          "Entity-driven UI rendering",
+          "Favorite toggle logic",
+          "Reusable presentation components",
+          "Optimized state isolation per book item"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771920693-portrait.png",
+      },
+      {
+        // Reading
+        label: "SCREEN 06",
+        title: "Reading Experience & Progress Tracking",
+        description:
+          "Minimal distraction reading interface with persistent progress tracking stored in Supabase for cross-session continuity.",
+        features: [
+          "Cloud-synced reading progress updates",
+          "Controlled UI rebuild during page updates",
+          "Dynamic Light & Dark theme adaptation",
+          "Focused, reader-centered layout design"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771920853-portrait.png",
+      },
+      {
+        // Profile
+        label: "SCREEN 07",
+        title: "Profile & Account Management",
+        description:
+          "User profile screen connected to Supabase services for account data handling and personalized configuration.",
+        features: [
+          "User metadata retrieval from Supabase",
+          "Session-aware profile state handling",
+          "Cloud-backed user information",
+          "Theme preference management"
+        ],
+        image: "/projects/book_reading/normal/dark/Screenshot_1771919718-portrait.png",
+      },
+    ],
+    gallery: [
+      "/projects/book_reading/2d_preview/login.png",
+      "/projects/book_reading/2d_preview/home.png",
+      "/projects/book_reading/2d_preview/explore.png",
+      "/projects/book_reading/2d_preview/search.jpeg",
+      "/projects/book_reading/2d_preview/bookdetails.png",
+      "/projects/book_reading/2d_preview/reading.png",
+      "/projects/book_reading/2d_preview/library.png",
+      "/projects/book_reading/2d_preview/profile.png"
+    ],
+    // architecture: {
+    //   title: "Feature-First Clean Architecture (SOLID-Oriented)",
+    //   layers: [
+    //     {
+    //       name: "Presentation Layer",
+    //       description:
+    //         "Flutter UI screens and Cubits responsible for rendering and interaction handling. Applies Single Responsibility and Dependency Inversion principles through state isolation and abstraction."
+    //     },
+    //     {
+    //       name: "Domain Layer",
+    //       description:
+    //         "Framework-agnostic entities and use cases encapsulating business rules. Enforces Single Responsibility and Open/Closed principles."
+    //     },
+    //     {
+    //       name: "Data Layer",
+    //       description:
+    //         "Repository implementations coordinating Supabase Authentication, Postgres queries, and Storage operations using abstraction to maintain Dependency Inversion."
+    //     }
+    //   ]
+    // },
+
+    techStack: [
+      {
+        title: "Architecture",
+        items: [
+          "SOLID Principles",
+          "Clean Architecture",
+          "Repository Pattern",
+          "Dependency Inversion",
+          "Feature-First Structure"
+        ]
+      },
+      {
+        title: "State Management",
+        items: [
+          "Bloc / Cubit",
+          "Selective Rebuild Control"
+        ]
+      },
+      {
+        title: "Backend & Cloud",
+        items: [
+          "Supabase Authentication",
+          "Supabase Postgres",
+          "Supabase Storage",
+          "Row-Level Security (RLS)"
+        ]
+      },
+      {
+        title: "Routing",
+        items: [
+          "GoRouter",
+          "Route Guards"
+        ]
+      },
+      {
+        title: "UI & Performance",
+        items: [
+          "Material 3",
+          "Dynamic Light/Dark Theme",
+          "Flutter ScreenUtil",
+          "Responsive Layout Scaling",
+          "Optimized List Rendering"
+        ]
+      }
+    ],
+
+    challenges: [
+      {
+        challenge:
+          "Integrating Supabase authentication, database queries, and storage operations without tightly coupling backend logic to presentation components.",
+        solution:
+          "Applied repository abstraction within the data layer and injected dependencies into the domain layer to preserve Clean Architecture boundaries."
+      },
+      {
+        challenge:
+          "Preventing unnecessary widget rebuilds in list-heavy and state-driven screens such as Home and Library.",
+        solution:
+          "Used granular Cubit state emissions and selective BlocBuilder scopes to isolate rebuild areas and improve rendering performance."
+      },
+      {
+        challenge:
+          "Ensuring consistent authentication state across app restarts and navigation transitions.",
+        solution:
+          "Leveraged Supabase session persistence combined with Cubit-based auth state restoration and GoRouter redirect logic."
+      }
+    ]
+  },
+
+  news_app: {
     slug: "news-app",
     title: "Quick Read",
     color: "#475AD7",
     role: "Flutter Developer",
     duration: "2025",
-
+    googlePlay: null,
+    appStore: null,
+    comingSoon: false,
     shortDescription:
       "A high-performance cross-platform news application engineered with scalable Clean Architecture, optimized state management, and intelligent caching strategies. Built to deliver real-time content updates, seamless offline reading, and a refined, production-ready user experience.",
 
@@ -100,26 +390,26 @@ export const projectsMap: Record<string, any> = {
       },
     ],
 
-    architecture: {
-      title: "Clean Architecture Implementation",
-      layers: [
-        {
-          name: "Presentation Layer (Flutter)",
-          description:
-            "Composed of UI screens, reusable widgets, and Cubit-based state management responsible for rendering, user interaction handling, and optimized widget rebuild control.",
-        },
-        {
-          name: "Domain Layer (Business Logic)",
-          description:
-            "Framework-independent core layer containing entities and use cases that encapsulate business rules and maintain architectural integrity.",
-        },
-        {
-          name: "Data Layer (API & Repositories)",
-          description:
-            "Handles REST API integrations, DTO transformations, repository implementations, and structured local/remote data source coordination.",
-        },
-      ],
-    },
+    // architecture: {
+    //   title: "Clean Architecture Implementation",
+    //   layers: [
+    //     {
+    //       name: "Presentation Layer (Flutter)",
+    //       description:
+    //         "Composed of UI screens, reusable widgets, and Cubit-based state management responsible for rendering, user interaction handling, and optimized widget rebuild control.",
+    //     },
+    //     {
+    //       name: "Domain Layer (Business Logic)",
+    //       description:
+    //         "Framework-independent core layer containing entities and use cases that encapsulate business rules and maintain architectural integrity.",
+    //     },
+    //     {
+    //       name: "Data Layer (API & Repositories)",
+    //       description:
+    //         "Handles REST API integrations, DTO transformations, repository implementations, and structured local/remote data source coordination.",
+    //     },
+    //   ],
+    // },
 
     techStack: [
       {
@@ -166,7 +456,9 @@ export const projectsMap: Record<string, any> = {
     role: "Flutter Developer",
     color: "#15B86C",
     duration: "2025",
-
+    googlePlay: null,
+    appStore: null,
+    comingSoon: false,
     shortDescription:
       "A production-ready task management application engineered with Feature-First Clean Architecture, Hydrated Bloc state persistence, and a highly responsive UI system. Tasky delivers seamless task organization, dynamic filtering, and reliable offline storage with optimized performance across devices.",
 
@@ -273,26 +565,26 @@ export const projectsMap: Record<string, any> = {
       }
     ],
 
-    architecture: {
-      title: "Feature-First Clean Architecture",
-      layers: [
-        {
-          name: "Presentation Layer (Flutter)",
-          description:
-            "UI widgets, Bloc state controllers, and navigation logic responsible for rendering and user interaction."
-        },
-        {
-          name: "Domain Layer (Business Logic)",
-          description:
-            "Core entities, use cases, and repository abstractions defining business rules independent from frameworks."
-        },
-        {
-          name: "Data Layer (Local Persistence)",
-          description:
-            "Hydrated Bloc storage and SharedPreferences implementation structured to support future API integration."
-        }
-      ]
-    },
+    // architecture: {
+    //   title: "Feature-First Clean Architecture",
+    //   layers: [
+    //     {
+    //       name: "Presentation Layer (Flutter)",
+    //       description:
+    //         "UI widgets, Bloc state controllers, and navigation logic responsible for rendering and user interaction."
+    //     },
+    //     {
+    //       name: "Domain Layer (Business Logic)",
+    //       description:
+    //         "Core entities, use cases, and repository abstractions defining business rules independent from frameworks."
+    //     },
+    //     {
+    //       name: "Data Layer (Local Persistence)",
+    //       description:
+    //         "Hydrated Bloc storage and SharedPreferences implementation structured to support future API integration."
+    //     }
+    //   ]
+    // },
 
     techStack: [
       {
@@ -342,6 +634,27 @@ export const projectsMap: Record<string, any> = {
           "Applied selective rebuild logic and granular Bloc listeners to isolate widget updates."
       }
     ]
-  }
+  },
+  mind_trip: {
+    slug: "MindTrip",
+    title: "MindTrip",
+    role: "Flutter Developer",
+    color: "#5596FE",
+    duration: "2026",
+    googlePlay: null,
+    appStore: null,
+    comingSoon: true,
 
+    shortDescription:
+      "MindTrip is an AI-powered travel app that helps users plan, organize, and personalize their trips in one place. It uses conversational AI to suggest destinations, activities, hotels, and restaurants based on your preferences, location, and travel style, while also creating customizable itineraries, maps, and collaborative trip plans you can share with friends.",
+
+    description:
+      "MindTrip is an AI-powered travel app that helps users plan, organize, and personalize their trips in one place. It uses conversational AI to suggest destinations, activities, hotels, and restaurants based on your preferences, location, and travel style, while also creating customizable itineraries, maps, and collaborative trip plans you can share with friends.",
+
+    github: "https://github.com/Mohamedismaell/MindTrip",
+
+    image: "/projects/MindTrip/normal/cover.png",
+
+
+  },
 }

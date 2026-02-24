@@ -11,7 +11,7 @@ import SectionDivider from "@/components/ui/SectionDivider";
 import GradientText from "@/components/ui/GradientText";
 import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
-// ── Animation variants ────────────────────────────────────
+//  Animation variants ────────────────────────────────────
 const fieldVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: (i: number) => ({
@@ -21,7 +21,7 @@ const fieldVariants: Variants = {
   }),
 };
 
-// ── Shared input style ────────────────────────────────────
+//  Shared input style ────────────────────────────────────
 const inputClass =
   "w-full px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base text-white placeholder:text-white/25 outline-none focus:ring-1 transition-all duration-200";
 
@@ -35,7 +35,7 @@ const inputFocusStyle = {
   borderColor: "rgba(255,255,255,0.18)",
 };
 
-// ── Services list ─────────────────────────────────────────
+//  Services list ───────────────────────────────────────
 const SERVICES = [
   "Flutter App Development",
   "Cross-Platform Mobile Apps",
@@ -103,7 +103,7 @@ export default function HireSection() {
   const removeService = (service: string) =>
     setSelected((p) => p.filter((s) => s !== service));
 
-  // ── Submit → /api/contact ─────────────────────────────
+  //  Submit  =>  /api/contact 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -111,7 +111,7 @@ export default function HireSection() {
     const message = String(fd.get("message") ?? "").trim();
     const name = String(fd.get("name") ?? "").trim();
 
-    // ✅ Client-side guards — instant feedback, no API call wasted
+    //  Client-side guards — instant feedback, no API call wasted
     if (name.length < 2) {
       toast.error("Name must be at least 2 characters.");
       return;
@@ -165,7 +165,7 @@ export default function HireSection() {
     <SectionWrapper id="contact">
       <div className="max-w-3xl mx-auto">
 
-        {/* ── Header ── */}
+        {/*  Header  */}
         <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
           <SectionBadge label="Get In Touch" />
 
@@ -196,7 +196,7 @@ export default function HireSection() {
           </motion.p>
         </div>
 
-        {/* ── Form card ── */}
+        {/*  Form card  */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

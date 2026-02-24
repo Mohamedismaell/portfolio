@@ -25,7 +25,6 @@ const cardVariants: Variants = {
   },
 };
 
-
 export default function ProjectsSection() {
   const projects = Object.values(projectsMap);
 
@@ -74,6 +73,7 @@ export default function ProjectsSection() {
         >
           {projects.map((project: any) => {
             const color = project.color || "#475AD7";
+            const comingSoon = project.comingSoon ?? false; // 
 
             return (
               <motion.div
@@ -81,6 +81,7 @@ export default function ProjectsSection() {
                 variants={cardVariants}
                 className="group/card relative transition-all duration-500 hover:scale-[1.02] h-full"
               >
+                {/* Ambient glow */}
                 <div
                   className="absolute -inset-3 rounded-[36px] blur-2xl opacity-25 group-hover/card:opacity-55 transition-opacity duration-500 pointer-events-none"
                   style={{
@@ -88,7 +89,7 @@ export default function ProjectsSection() {
                   }}
                 />
 
-                {/*  Actual card — overflow-hidden only here */}
+                {/* Card */}
                 <div
                   className="relative flex flex-col rounded-2xl sm:rounded-[28px] overflow-hidden h-full"
                   style={{
@@ -102,22 +103,17 @@ export default function ProjectsSection() {
                   {/* Color tint — resting */}
                   <div
                     className="absolute inset-0 opacity-100 pointer-events-none"
-                    style={{
-                      background: `linear-gradient(135deg, ${color}18, ${color}06)`,
-                    }}
+                    style={{ background: `linear-gradient(135deg, ${color}18, ${color}06)` }}
                   />
 
                   {/* Color tint — hover */}
                   <div
                     className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"
-                    style={{
-                      background: `linear-gradient(135deg, ${color}35, ${color}12)`,
-                    }}
+                    style={{ background: `linear-gradient(135deg, ${color}35, ${color}12)` }}
                   />
 
-                  {/* ── Image — fixed height so all cards stay even ── */}
+                  {/* ── Image ── */}
                   <div className="relative w-full h-48 overflow-hidden shrink-0">
-                    {/*  single h-48, no sm: variant — consistent across all cards */}
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -131,9 +127,31 @@ export default function ProjectsSection() {
                           "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)",
                       }}
                     />
+
+                    {/*  Coming Soon badge — top right of image */}
+                    {comingSoon && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
+                        className="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-[0.15em] uppercase backdrop-blur-md select-none"
+                        style={{
+                          background: "rgba(0,0,0,0.55)",
+                          border: `1px solid rgba(255,255,255,0.15)`,
+                          color: "rgba(255,255,255,0.75)",
+                        }}
+                      >
+                        {/* Pulsing dot */}
+                        <span
+                          className="w-1.5 h-1.5 rounded-full animate-pulse"
+                          style={{ background: color }}
+                        />
+                        Coming Soon
+                      </motion.div>
+                    )}
                   </div>
 
-                  {/* ── Body ── */}
+                  {/* Body */}
                   <div className="relative flex flex-col flex-1 p-4 sm:p-5">
 
                     {/* Title + GitHub */}
@@ -158,7 +176,7 @@ export default function ProjectsSection() {
                       )}
                     </div>
 
-                    {/* Description — line-clamp-2 keeps all cards same height */}
+                    {/* Description */}
                     <p
                       className="text-xs sm:text-sm leading-relaxed line-clamp-2 mb-4"
                       style={{ color: TEXT.dim }}
@@ -199,7 +217,7 @@ export default function ProjectsSection() {
                       />
                     </div>
 
-                    {/* CTA buttons */}
+                    {/* ProjectHighlights */}
                     <div className="mt-auto">
                       <ProjectHighlights
                         tech={project.tech}
@@ -208,8 +226,12 @@ export default function ProjectsSection() {
                         gallery={project.gallery}
                         slug={project.slug}
                         color={color}
+                        googlePlay={project.googlePlay ?? null}
+                        appStore={project.appStore ?? null}
+                        comingSoon={comingSoon}
                       />
                     </div>
+
                   </div>
                 </div>
               </motion.div>
