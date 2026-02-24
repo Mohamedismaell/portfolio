@@ -14,6 +14,7 @@ import { useRouter } from "@/i18n/routing";
 export default function CaseStudy({ project }: any) {
   const { scrollY } = useScroll();
   const [isMobile, setIsMobile] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024);
@@ -53,7 +54,20 @@ export default function CaseStudy({ project }: any) {
     requestAnimationFrame(step);
   };
   const router = useRouter();
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  // Scroll to top first, then mark ready so whileInView sections mount
+  // after the scroll position is settled. This prevents the intersection
+  // observer from firing while the page is still mid-transition.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Use rAF to wait for the next paint after scroll-to-top,
+    // ensuring layout is settled before Framer's observers attach.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setReady(true);
+      });
+    });
+  }, []);
 
   return (
     <motion.main
@@ -202,57 +216,62 @@ export default function CaseStudy({ project }: any) {
         }}
       />
 
-      {/*  Feature story  */}
-      {project.sections && (
-        <motion.section
-          id="next-section"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mb-16 md:mb-24"
-        >
-          <FeatureStorySection sections={project.sections} />
-        </motion.section>
-      )}
+      {/* Only mount whileInView sections after scroll-to-top has settled */}
+      {ready && (
+        <>
+          {/*  Feature story  */}
+          {project.sections && (
+            <motion.section
+              id="next-section"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              className="mb-16 md:mb-24"
+            >
+              <FeatureStorySection sections={project.sections} />
+            </motion.section>
+          )}
 
-      {/*  Architecture  */}
-      {project.features && (
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mb-16 md:mb-24 w-full overflow-hidden"
-        >
-          <ArchitectureSection features={project.features} />
-        </motion.section>
-      )}
+          {/*  Architecture  */}
+          {project.features && (
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              className="mb-16 md:mb-24 w-full overflow-hidden"
+            >
+              <ArchitectureSection features={project.features} />
+            </motion.section>
+          )}
 
-      {/*  Challenges  */}
-      {project.challenges && (
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mb-16 md:mb-32"
-        >
-          <ChallengesTimeline items={project.challenges} />
-        </motion.section>
-      )}
+          {/*  Challenges  */}
+          {project.challenges && (
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              className="mb-16 md:mb-32"
+            >
+              <ChallengesTimeline items={project.challenges} />
+            </motion.section>
+          )}
 
-      {/*  Tech stack  */}
-      {project.techStack && (
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mb-16 md:mb-24"
-        >
-          <TechStackSection stack={project.techStack} />
-        </motion.section>
+          {/*  Tech stack  */}
+          {project.techStack && (
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              className="mb-16 md:mb-24"
+            >
+              <TechStackSection stack={project.techStack} />
+            </motion.section>
+          )}
+        </>
       )}
 
     </motion.main>
