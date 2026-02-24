@@ -7,6 +7,7 @@ import PageTransition from "@/components/animations/PageTransition";
 import CursorGlow from "@/components/animations/CursorGlow";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -129,6 +130,7 @@ export default async function LocaleLayout({
         {/* Outside provider — these don't need intl */}
         <CursorGlow />
         <Toaster richColors position="bottom-right" />
+        <SpeedInsights />
 
       </body>
     </html>
