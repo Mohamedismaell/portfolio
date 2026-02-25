@@ -7,7 +7,6 @@ import PageTransition from "@/components/animations/PageTransition";
 import CursorGlow from "@/components/animations/CursorGlow";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,7 +59,12 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir="ltr" className={inter.className}>
+    <html
+      lang={locale}
+      dir="ltr"
+      className={inter.className}
+      suppressHydrationWarning
+    >
       <head>
         <script
           type="application/ld+json"
@@ -81,17 +85,19 @@ export default async function LocaleLayout({
         />
       </head>
 
-      <body className="text-white overflow-x-hidden relative">
-
+      <body
+        className="text-white overflow-x-hidden relative"
+        suppressHydrationWarning
+      >
         {/* ── Global cinematic background ── */}
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-
           <div className="absolute inset-0" style={{ background: "#0d0d0d" }} />
 
           <div
             className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(200,200,220,0.04) 40%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(200,200,220,0.04) 40%, transparent 70%)",
               filter: "blur(120px)",
             }}
           />
@@ -99,7 +105,8 @@ export default async function LocaleLayout({
           <div
             className="absolute bottom-[-200px] right-[-200px] w-[900px] h-[900px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(180,180,200,0.03) 50%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(180,180,200,0.03) 50%, transparent 70%)",
               filter: "blur(120px)",
             }}
           />
@@ -107,31 +114,26 @@ export default async function LocaleLayout({
           <div
             className="absolute inset-0 opacity-20"
             style={{
-              background: "linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.02) 55%, transparent 80%)",
+              background:
+                "linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.02) 55%, transparent 80%)",
             }}
           />
         </div>
 
-        {/*  Provider wraps BOTH navbar and page content */}
+        {/* Provider wraps BOTH navbar and page content */}
         <NextIntlClientProvider messages={messages}>
-
           {/* Navbar inside provider — useRouter() now has intl context */}
           <ResponsiveNavbar />
 
           {/* Page content */}
           <div className="relative z-10">
-            <PageTransition>
-              {children}
-            </PageTransition>
+            <PageTransition>{children}</PageTransition>
           </div>
-
         </NextIntlClientProvider>
 
         {/* Outside provider — these don't need intl */}
         <CursorGlow />
         <Toaster richColors position="bottom-right" />
-        <SpeedInsights />
-
       </body>
     </html>
   );
