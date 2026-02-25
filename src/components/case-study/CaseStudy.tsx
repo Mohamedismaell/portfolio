@@ -55,13 +55,8 @@ export default function CaseStudy({ project }: any) {
   };
   const router = useRouter();
 
-  // Scroll to top first, then mark ready so whileInView sections mount
-  // after the scroll position is settled. This prevents the intersection
-  // observer from firing while the page is still mid-transition.
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Use rAF to wait for the next paint after scroll-to-top,
-    // ensuring layout is settled before Framer's observers attach.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setReady(true);
