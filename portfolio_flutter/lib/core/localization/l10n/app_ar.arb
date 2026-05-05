@@ -1,0 +1,18 @@
+{
+    "@@locale": "ar",
+    "heroTitle": "محمد إسماعيل",
+    "heroSubtitle": "مطور فلاتر ومهندس برمجيات",
+    "heroDescription": "أبني تطبيقات فلاتر قابلة للتوسع بهندسة نظيفة وتجربة مستخدم متميزة تحل مشاكل واقعية.",
+    "ctaProjects": "المشاريع",
+    "ctaHire": "تواصل معي",
+    "navHome": "الرئيسية",
+    "navProjects": "المشاريع",
+    "navContact": "تواصل",
+    "downloadCV": "تحميل السيرة الذاتية",
+    "statsProjects": "3+",
+    "statsProjectsLabel": "مشاريع",
+    "statsActiveDev": "+2024",
+    "statsActiveDevLabel": "تطوير مستمر",
+    "statsTech": "Flutter",
+    "statsTechLabel": "التقنية الأساسية"
+}

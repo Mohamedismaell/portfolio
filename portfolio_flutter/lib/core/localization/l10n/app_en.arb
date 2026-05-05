@@ -1,0 +1,18 @@
+{
+    "@@locale": "en",
+    "heroTitle": "Mohamed Ismael",
+    "heroSubtitle": "Software Engineer & Mobile Developer",
+    "heroDescription": "Building scalable mobile applications with Clean Architecture, complex state management, and production-grade Flutter systems that solve real-world problems.",
+    "ctaProjects": "View Projects",
+    "ctaHire": "Work With Me",
+    "navHome": "Home",
+    "navProjects": "Projects",
+    "navContact": "Contact",
+    "downloadCV": "Download CV",
+    "statsProjects": "3+",
+    "statsProjectsLabel": "Projects",
+    "statsActiveDev": "2024+",
+    "statsActiveDevLabel": "Active Dev",
+    "statsTech": "Flutter",
+    "statsTechLabel": "Core Stack"
+}
