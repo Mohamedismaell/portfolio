@@ -55,6 +55,10 @@ export default function ThemeToggle() {
     const transition = doc.startViewTransition(() => {
       flushSync(() => {
         setTheme(nextTheme);
+        // Update DOM synchronously during view transition
+        // const root = document.documentElement;
+        // root.classList.remove("light", "dark");
+        // root.classList.add(nextTheme);
       });
     });
 

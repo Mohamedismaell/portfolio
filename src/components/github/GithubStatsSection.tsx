@@ -3,6 +3,7 @@ import { FolderGit2, GitCommit, Github } from "lucide-react";
 import type { ReactNode } from "react";
 import MonthlyCommitsChart from "./MonthlyCommitsChart";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
@@ -13,31 +14,30 @@ export default async function GithubStatsSection() {
         <div
           className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(255,248,238,0.96) 0%, rgba(255,252,247,0.90) 100%)",
-            border: "1px solid rgba(234, 216, 194, 0.78)",
-            boxShadow: "0 18px 40px rgba(32,24,14,0.045)",
+            background: GRADIENTS.solidCard,
+            border: `1px solid ${BORDERS.subtle}`,
+            boxShadow: SHADOWS.card,
           }}
         >
-          <div className="mb-5 sm:mb-6 flex items-start justify-between gap-4">
+          <div className="mb-5 flex items-start justify-between gap-4 sm:mb-6">
             <div>
               <p
-                className="text-[10px] sm:text-[11px] font-[800] uppercase tracking-[0.1em]"
-                style={{ color: "#ef9d57" }}
+                className="text-[10px] font-[800] uppercase tracking-[0.1em] sm:text-[11px]"
+                style={{ color: TEXT.badge }}
               >
                 Open Source Activity
               </p>
 
               <h2
-                className="mt-1 text-[1.75rem] sm:text-[2rem] lg:text-[2.35rem] font-[800] leading-[0.98] tracking-[-0.06em]"
-                style={{ color: "var(--text-primary)" }}
+                className="mt-1 text-[1.75rem] font-[800] leading-[0.98] tracking-[-0.06em] sm:text-[2rem] lg:text-[2.35rem]"
+                style={{ color: TEXT.primary }}
               >
                 GitHub Activity
               </h2>
 
               <p
-                className="mt-3 max-w-[54ch] text-[13px] sm:text-[14px] leading-[1.8]"
-                style={{ color: "var(--text-secondary)" }}
+                className="mt-3 max-w-[54ch] text-[13px] leading-[1.8] sm:text-[14px]"
+                style={{ color: TEXT.soft }}
               >
                 A live snapshot of my repositories and commit activity over the
                 last 12 months.
@@ -45,12 +45,11 @@ export default async function GithubStatsSection() {
             </div>
 
             <div
-              className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+              className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-[12px] sm:flex"
               style={{
-                background:
-                  "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
-                color: "#fffaf4",
-                boxShadow: "0 10px 18px rgba(239,157,87,0.16)",
+                background: GRADIENTS.primaryBtn,
+                color: TEXT.inverse,
+                boxShadow: SHADOWS.primaryBtn,
               }}
             >
               <Github size={18} strokeWidth={2.2} />
@@ -75,17 +74,18 @@ export default async function GithubStatsSection() {
             <div
               className="rounded-[22px] p-4 sm:p-5 lg:p-6"
               style={{
-                background: "#fffaf4",
-                border: "1px solid rgba(231, 212, 188, 0.76)",
-                boxShadow: "0 10px 24px rgba(32,24,14,0.03)",
+                background: GRADIENTS.cardBg,
+                border: `1px solid ${BORDERS.subtle}`,
+                boxShadow: SHADOWS.card,
               }}
             >
               <div className="mb-4 flex items-center gap-3">
                 <span
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
                   style={{
-                    background: "rgba(239,157,87,0.10)",
-                    color: "#ef9d57",
+                    background: GRADIENTS.badge,
+                    color: TEXT.badge,
+                    border: `1px solid ${BORDERS.medium}`,
                   }}
                 >
                   <GitCommit size={16} strokeWidth={2.3} />
@@ -93,15 +93,15 @@ export default async function GithubStatsSection() {
 
                 <div className="min-w-0">
                   <h3
-                    className="text-[1rem] sm:text-[1.1rem] font-[800] leading-none tracking-[-0.03em]"
-                    style={{ color: "var(--text-primary)" }}
+                    className="text-[1rem] font-[800] leading-none tracking-[-0.03em] sm:text-[1.1rem]"
+                    style={{ color: TEXT.primary }}
                   >
                     Monthly Commit Activity
                   </h3>
 
                   <p
-                    className="mt-1 text-[12px] sm:text-[13px] font-[600]"
-                    style={{ color: "var(--text-secondary)" }}
+                    className="mt-1 text-[12px] font-[600] sm:text-[13px]"
+                    style={{ color: TEXT.soft }}
                   >
                     Contribution trend across the last 12 months
                   </p>
@@ -111,9 +111,9 @@ export default async function GithubStatsSection() {
               <div
                 className="rounded-[18px] p-3 sm:p-4"
                 style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,250,244,0.96) 100%)",
-                  border: "1px solid rgba(231, 212, 188, 0.72)",
+                  background: GRADIENTS.ghostBtn,
+                  border: `1px solid ${BORDERS.subtle}`,
+                  boxShadow: SHADOWS.ghostBtn,
                 }}
               >
                 <MonthlyCommitsChart data={stats.monthlyCommits} />
@@ -139,17 +139,18 @@ function StatCard({
     <div
       className="rounded-[20px] px-4 py-4 sm:px-5 sm:py-5"
       style={{
-        background: "#fffaf4",
-        border: "1px solid rgba(231, 212, 188, 0.76)",
-        boxShadow: "0 8px 18px rgba(32,24,14,0.028)",
+        background: GRADIENTS.cardBg,
+        border: `1px solid ${BORDERS.subtle}`,
+        boxShadow: SHADOWS.card,
       }}
     >
       <div className="flex items-start gap-3">
         <span
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
           style={{
-            background: "rgba(239,157,87,0.10)",
-            color: "#ef9d57",
+            background: GRADIENTS.badge,
+            color: TEXT.badge,
+            border: `1px solid ${BORDERS.medium}`,
           }}
         >
           {icon}
@@ -157,15 +158,15 @@ function StatCard({
 
         <div className="min-w-0">
           <p
-            className="text-[11px] sm:text-[12px] font-[700] uppercase tracking-[0.08em]"
-            style={{ color: "#a48b73" }}
+            className="text-[11px] font-[700] uppercase tracking-[0.08em] sm:text-[12px]"
+            style={{ color: TEXT.dim }}
           >
             {title}
           </p>
 
           <span
-            className="mt-2 block text-[1.55rem] sm:text-[1.9rem] font-[800] leading-none tracking-[-0.05em]"
-            style={{ color: "var(--text-primary)" }}
+            className="mt-2 block text-[1.55rem] font-[800] leading-none tracking-[-0.05em] sm:text-[1.9rem]"
+            style={{ color: TEXT.primary }}
           >
             {value}
           </span>

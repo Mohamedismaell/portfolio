@@ -11,21 +11,16 @@ import {
   GitBranch,
   Wrench,
   Database,
-  Shield,
   Bell,
   Brain,
   Zap,
-  CreditCard,
   Map,
-  Navigation,
   Cpu,
-  Lock,
   Globe,
   Server,
-  ArrowRight,
 } from "lucide-react";
-import Link from "next/link";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
 
 const FlutterIcon = ({ size = 22 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -35,6 +30,7 @@ const FlutterIcon = ({ size = 22 }: { size?: number }) => (
 );
 
 type Skill = { name: string; icon: any };
+
 type SkillCategory = {
   title: string;
   icon: any;
@@ -136,42 +132,27 @@ export default function SkillsSection() {
         <div
           className="rounded-[28px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(255,248,238,0.92) 0%, rgba(255,252,247,0.84) 100%)",
-            border: "1px solid rgba(234, 216, 194, 0.7)",
-            boxShadow: "0 16px 38px rgba(32,24,14,0.04)",
+            background: GRADIENTS.solidCard,
+            border: `1px solid ${BORDERS.subtle}`,
+            boxShadow: SHADOWS.card,
           }}
         >
           <div className="mb-5 flex items-start justify-between gap-4">
             <div>
               <p
-                className="text-[11px] sm:text-[12px] font-[800] uppercase tracking-[0.08em]"
-                style={{ color: "#ef9d57" }}
+                className="text-[11px] font-[800] uppercase tracking-[0.08em] sm:text-[12px]"
+                style={{ color: TEXT.badge }}
               >
                 Tech Stack
               </p>
 
               <h2
-                className="mt-1 text-[1.95rem] sm:text-[2.2rem] lg:text-[2.55rem] font-[800] leading-[0.96] tracking-[-0.06em]"
-                style={{ color: "var(--text-primary)" }}
+                className="mt-1 text-[1.95rem] font-[800] leading-[0.96] tracking-[-0.06em] sm:text-[2.2rem] lg:text-[2.55rem]"
+                style={{ color: TEXT.primary }}
               >
                 Technologies I Use
               </h2>
             </div>
-
-            {/* <Link
-              href="#"
-              className="inline-flex h-[38px] items-center gap-2 rounded-full px-4 text-[12px] font-[700] transition-transform duration-300 hover:-translate-y-0.5"
-              style={{
-                background: "rgba(255,255,255,0.88)",
-                border: "1px solid rgba(231, 212, 188, 0.72)",
-                color: "var(--text-primary)",
-                boxShadow: "0 8px 18px rgba(32,24,14,0.03)",
-              }}
-            >
-              <span>View all technologies</span>
-              <ArrowRight size={14} style={{ color: "#ef9d57" }} />
-            </Link> */}
           </div>
 
           <motion.div
@@ -190,33 +171,32 @@ export default function SkillsSection() {
                   variants={cardVariants}
                   className="rounded-[20px] px-4 py-4 sm:px-5 sm:py-5"
                   style={{
-                    background: "#fffdf9",
-                    border: "1px solid rgba(231, 212, 188, 0.72)",
-                    boxShadow: "0 10px 24px rgba(32,24,14,0.035)",
+                    background: GRADIENTS.cardBg,
+                    border: `1px solid ${BORDERS.subtle}`,
+                    boxShadow: SHADOWS.card,
                   }}
                 >
                   <div className="flex items-center gap-2.5">
                     <span
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
                       style={{
-                        background:
-                          "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
-                        color: "#fffaf4",
-                        boxShadow: "0 8px 16px rgba(239,157,87,0.18)",
+                        background: GRADIENTS.primaryBtn,
+                        color: TEXT.inverse,
+                        boxShadow: SHADOWS.primaryBtn,
                       }}
                     >
-                      <TitleIcon size={16} strokeWidth={2.2} />
+                      <TitleIcon size={18} strokeWidth={2.2} />
                     </span>
 
                     <h3
-                      className="text-[14px] sm:text-[15px] font-[800] tracking-[-0.03em]"
-                      style={{ color: "var(--text-primary)" }}
+                      className="text-[15px] font-[800] tracking-[-0.03em] sm:text-[16px]"
+                      style={{ color: TEXT.primary }}
                     >
                       {category.title}
                     </h3>
                   </div>
 
-                  <div className="mt-4 space-y-2.5">
+                  <div className="mt-4 space-y-3">
                     {category.skills.map((skill, i) => {
                       const Icon = skill.icon;
 
@@ -230,21 +210,22 @@ export default function SkillsSection() {
                             delay: index * 0.05 + i * 0.04,
                             duration: 0.28,
                           }}
-                          className="flex items-center gap-2.5"
+                          className="flex items-center gap-3"
                         >
                           <span
-                            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
                             style={{
-                              background: "rgba(239,157,87,0.10)",
+                              background: GRADIENTS.badge,
                               color: category.color,
+                              border: `1px solid ${BORDERS.medium}`,
                             }}
                           >
-                            <Icon size={11} />
+                            <Icon size={13} />
                           </span>
 
                           <span
-                            className="text-[13px] sm:text-[13.5px] font-[600] leading-[1.45]"
-                            style={{ color: "var(--text-secondary)" }}
+                            className="text-[14px] font-[600] leading-[1.45] sm:text-[15px]"
+                            style={{ color: TEXT.soft }}
                           >
                             {skill.name}
                           </span>

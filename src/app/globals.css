@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@custom-variant dark (&:where(.dark, .dark *));
 :root {
   color-scheme: light;
 
@@ -374,4 +374,9 @@ html[data-theme-transition] *::after {
   to {
     clip-path: circle(calc(var(--theme-radius) + 80px) at var(--theme-x) var(--theme-y));
   }
+}.gradient-text {
+  background-image: linear-gradient(180deg, var(--accent-strong) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

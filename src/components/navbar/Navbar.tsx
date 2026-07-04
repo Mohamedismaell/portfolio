@@ -2,9 +2,12 @@
 
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Download, Github, Linkedin, Menu, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { SiDiscord, SiWhatsapp } from "react-icons/si";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { usePathname, useRouter } from "@/i18n/routing";
+import Image from "next/image";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
 import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
 
 const NAV_ITEMS = [
@@ -25,62 +28,17 @@ const SOCIAL_LINKS = [
     icon: <Linkedin size={16} />,
     label: "LinkedIn",
   },
+  {
+    href: "https://discord.com/users/406180177261887489",
+    icon: <SiDiscord size={16} />,
+    label: "Discord",
+  },
+  {
+    href: "https://wa.me/201026564376",
+    icon: <SiWhatsapp size={16} />,
+    label: "WhatsApp",
+  },
 ];
-
-function useAnimatedScroll() {
-  const frameRef = useRef<number | null>(null);
-  const isAutoScrollingRef = useRef(false);
-
-  const animateScroll = useCallback((targetY: number) => {
-    if (typeof window === "undefined") return;
-
-    if (frameRef.current) cancelAnimationFrame(frameRef.current);
-
-    const startY = window.scrollY;
-    const distance = targetY - startY;
-    const duration = 700;
-    let startTime: number | null = null;
-
-    isAutoScrollingRef.current = true;
-
-    const ease = (t: number) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const step = (timestamp: number) => {
-      if (startTime === null) startTime = timestamp;
-
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const nextY = startY + distance * ease(progress);
-
-      window.scrollTo(0, nextY);
-
-      if (progress < 1) {
-        frameRef.current = requestAnimationFrame(step);
-      } else {
-        frameRef.current = null;
-        isAutoScrollingRef.current = false;
-      }
-    };
-
-    frameRef.current = requestAnimationFrame(step);
-  }, []);
-
-  const stopAnimation = useCallback(() => {
-    if (frameRef.current) {
-      cancelAnimationFrame(frameRef.current);
-      frameRef.current = null;
-    }
-    isAutoScrollingRef.current = false;
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
-
-  return { animateScroll, isAutoScrollingRef, stopAnimation };
-}
 
 export default function ResponsiveNavbar() {
   const router = useRouter();
@@ -220,6 +178,7 @@ export default function ResponsiveNavbar() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="mx-auto max-w-[1280px]"
         >
+          {/* Desktop Navbar */}
           <div
             className="hidden items-center justify-between rounded-[24px] px-4 py-3 sm:flex lg:px-5"
             style={navShellStyle}
@@ -230,10 +189,16 @@ export default function ResponsiveNavbar() {
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="flex h-10 w-10 items-center justify-center rounded-[14px] text-sm font-extrabold"
+                  className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[14px]"
                   style={brandMarkStyle}
                 >
-                  M
+                  <Image
+                    src="/person_profile.jpg"
+                    alt="Mohamed Ismail"
+                    fill
+                    className="object-cover object-center"
+                    sizes="40px"
+                  />
                 </div>
 
                 <div className="leading-none">
@@ -333,6 +298,7 @@ export default function ResponsiveNavbar() {
             </div>
           </div>
 
+          {/* Mobile Navbar */}
           <div
             className="flex items-center justify-between rounded-[20px] px-4 py-3 sm:hidden"
             style={navShellStyle}
@@ -342,10 +308,16 @@ export default function ResponsiveNavbar() {
               className="flex items-center gap-2.5 text-left"
             >
               <div
-                className="flex h-9 w-9 items-center justify-center rounded-[12px] text-sm font-extrabold"
+                className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-[12px]"
                 style={brandMarkStyle}
               >
-                M
+                <Image
+                  src="/profile.jpg"
+                  alt="Mohamed Ismail"
+                  fill
+                  className="object-cover object-center"
+                  sizes="36px"
+                />
               </div>
 
               <div className="leading-none">

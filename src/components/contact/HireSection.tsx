@@ -3,8 +3,10 @@
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown, X, Send, BriefcaseBusiness } from "lucide-react";
+import Image from "next/image";
 import { toast } from "sonner";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
 
 const fieldVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
@@ -29,6 +31,9 @@ const SERVICES = [
   "Other",
 ];
 
+const inputClass =
+  "w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[var(--text-secondary)]";
+
 export default function HireSection() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [query, setQuery] = useState("");
@@ -40,7 +45,7 @@ export default function HireSection() {
 
   const filteredServices = SERVICES.filter(
     (s) =>
-      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s),
+      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s)
   );
 
   useEffect(() => {
@@ -146,17 +151,21 @@ export default function HireSection() {
   };
 
   const baseInputStyle: React.CSSProperties = {
-    background: "#fffaf4",
-    border: "1px solid rgba(231, 212, 188, 0.76)",
-    color: "#2f271f",
-    boxShadow: "0 6px 16px rgba(32,24,14,0.02)",
+    background: GRADIENTS.ghostBtn,
+    border: `1px solid ${BORDERS.subtle}`,
+    color: TEXT.primary,
+    boxShadow: SHADOWS.ghostBtn,
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
   };
 
   const focusInputStyle: React.CSSProperties = {
-    background: "#ffffff",
-    border: "1px solid rgba(239, 157, 87, 0.65)",
-    color: "#2f271f",
-    boxShadow: "0 0 0 4px rgba(239,157,87,0.10)",
+    background: GRADIENTS.cardBg,
+    border: `1px solid ${BORDERS.strong}`,
+    color: TEXT.primary,
+    boxShadow: SHADOWS.card,
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
   };
 
   return (
@@ -165,52 +174,50 @@ export default function HireSection() {
         <div
           className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(255,248,238,0.96) 0%, rgba(255,252,247,0.90) 100%)",
-            border: "1px solid rgba(234, 216, 194, 0.78)",
-            boxShadow: "0 18px 40px rgba(32,24,14,0.045)",
+            background: GRADIENTS.solidCard,
+            border: `1px solid ${BORDERS.subtle}`,
+            boxShadow: SHADOWS.card,
           }}
         >
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-6">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(380px,1fr)_440px] lg:gap-6">
             <div
               className="rounded-[24px] p-5 sm:p-6"
               style={{
-                background: "#fffaf4",
-                border: "1px solid rgba(231, 212, 188, 0.76)",
-                boxShadow: "0 8px 18px rgba(32,24,14,0.028)",
+                background: GRADIENTS.cardBg,
+                border: `1px solid ${BORDERS.subtle}`,
+                boxShadow: SHADOWS.card,
               }}
             >
               <p
-                className="text-[11px] sm:text-[12px] font-[800] uppercase tracking-[0.1em]"
-                style={{ color: "#ef9d57" }}
+                className="text-[11px] font-[800] uppercase tracking-[0.1em] sm:text-[12px]"
+                style={{ color: TEXT.badge }}
               >
                 Hire Me
               </p>
 
               <h2
-                className="mt-2 text-[2rem] sm:text-[2.3rem] lg:text-[2.5rem] font-[800] leading-[0.98] tracking-[-0.06em]"
-                style={{ color: "var(--text-primary)" }}
+                className="mt-2 text-[2rem] font-[800] leading-[0.98] tracking-[-0.06em] sm:text-[2.3rem] lg:text-[2.5rem]"
+                style={{ color: TEXT.primary }}
               >
-                Let’s build your next product
+                Let's build your next product
               </h2>
 
               <div className="mt-5 flex flex-col items-start gap-4 sm:flex-row">
-                {" "}
                 <span
                   className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px]"
                   style={{
-                    background:
-                      "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
-                    color: "#fffaf4",
-                    boxShadow: "0 10px 18px rgba(239,157,87,0.16)",
+                    background: GRADIENTS.primaryBtn,
+                    color: TEXT.inverse,
+                    boxShadow: SHADOWS.primaryBtn,
                   }}
                 >
                   <BriefcaseBusiness size={22} strokeWidth={2.2} />
                 </span>
+
                 <div className="min-w-0">
                   <p
-                    className="text-[15px] sm:text-[16px] leading-[1.75]"
-                    style={{ color: "var(--text-secondary)" }}
+                    className="text-[15px] leading-[1.75] sm:text-[16px]"
+                    style={{ color: TEXT.soft }}
                   >
                     Share your idea, app goals, or product needs. I can help
                     with Flutter apps, architecture, UI implementation, API
@@ -222,48 +229,51 @@ export default function HireSection() {
               <div
                 className="mt-6 rounded-[20px] p-5"
                 style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,250,244,0.95) 100%)",
-                  border: "1px solid rgba(231, 212, 188, 0.72)",
+                  background: GRADIENTS.ghostBtn,
+                  border: `1px solid ${BORDERS.subtle}`,
+                  boxShadow: SHADOWS.ghostBtn,
                 }}
               >
                 <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
-                  {" "}
                   <div
                     className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full sm:h-20 sm:w-20"
                     style={{
-                      border: "2px solid rgba(239, 157, 87, 0.55)",
-                      background: "#f6ecdf",
-                      boxShadow: "0 10px 22px rgba(239,157,87,0.16)",
+                      border: `2px solid ${BORDERS.medium}`,
+                      background: GRADIENTS.badge,
+                      boxShadow: SHADOWS.ghostBtn,
                     }}
                   >
-                    <img
-                      src="/projects/news/cover.png"
+                    <Image
+                      src="/person_profile.jpg"
                       alt="Mohamed Ismael"
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(max-width: 640px) 96px, 80px"
+                      className="object-cover object-top"
                     />
                   </div>
+
                   <div className="min-w-0">
                     <h3
-                      className="text-[18px] sm:text-[19px] font-[800] leading-tight"
-                      style={{ color: "var(--text-primary)" }}
+                      className="text-[18px] font-[800] leading-tight sm:text-[19px]"
+                      style={{ color: TEXT.primary }}
                     >
                       Mohamed Ismael
                     </h3>
 
                     <p
                       className="mt-1 text-[13px] font-[700]"
-                      style={{ color: "#ef9d57" }}
+                      style={{ color: TEXT.badge }}
                     >
                       Flutter Developer
                     </p>
 
                     <p
                       className="mt-2 text-[13.5px] leading-[1.7]"
-                      style={{ color: "var(--text-secondary)" }}
+                      style={{ color: TEXT.soft }}
                     >
-                      I build polished, scalable apps with smooth UX, clean
-                      architecture, and production-ready code.
+                      Every project is a chance to build something meaningful.
+                      I enjoy creating mobile apps with thoughtful design,
+                      solid architecture, and an experience users can rely on.
                     </p>
                   </div>
                 </div>
@@ -277,9 +287,11 @@ export default function HireSection() {
               transition={{ duration: 0.55, delay: 0.12 }}
               className="rounded-[24px] p-4 sm:p-5 lg:p-5"
               style={{
-                background: "rgba(255,255,255,0.52)",
-                border: "1px solid rgba(231, 212, 188, 0.78)",
-                boxShadow: "0 12px 30px rgba(32,24,14,0.03)",
+                background: GRADIENTS.cardBg,
+                border: `1px solid ${BORDERS.subtle}`,
+                boxShadow: SHADOWS.card,
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
               }}
             >
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
@@ -297,7 +309,7 @@ export default function HireSection() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                  className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                 >
                   <input
                     type="text"
@@ -306,7 +318,7 @@ export default function HireSection() {
                     required
                     onFocus={() => setFocusedField("name")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    className={inputClass}
                     style={
                       focusedField === "name" ? focusInputStyle : baseInputStyle
                     }
@@ -319,7 +331,7 @@ export default function HireSection() {
                     required
                     onFocus={() => setFocusedField("email")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    className={inputClass}
                     style={
                       focusedField === "email"
                         ? focusInputStyle
@@ -341,7 +353,7 @@ export default function HireSection() {
                     placeholder="Phone (Optional)"
                     onFocus={() => setFocusedField("phone")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    className={inputClass}
                     style={
                       focusedField === "phone"
                         ? focusInputStyle
@@ -360,7 +372,7 @@ export default function HireSection() {
                   className="relative"
                 >
                   <div
-                    className="flex flex-wrap items-center gap-2 rounded-[16px] px-4 py-3 cursor-text transition-all"
+                    className="flex cursor-text flex-wrap items-center gap-2 rounded-[16px] px-4 py-3 transition-all"
                     style={open ? focusInputStyle : baseInputStyle}
                     onClick={() => setOpen(true)}
                   >
@@ -369,9 +381,9 @@ export default function HireSection() {
                         key={item}
                         className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-[700]"
                         style={{
-                          background: "rgba(239,157,87,0.10)",
-                          border: "1px solid rgba(239,157,87,0.18)",
-                          color: "#8f5a2a",
+                          background: GRADIENTS.badge,
+                          border: `1px solid ${BORDERS.medium}`,
+                          color: TEXT.badge,
                         }}
                       >
                         {item}
@@ -399,14 +411,15 @@ export default function HireSection() {
                       placeholder={
                         selected.length === 0 ? "Select services..." : ""
                       }
-                      className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-[#9a8c7c]"
+                      className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-[var(--text-secondary)]"
+                      style={{ color: TEXT.primary }}
                     />
 
                     <motion.div
                       animate={{ rotate: open ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown size={16} style={{ color: "#8f7d69" }} />
+                      <ChevronDown size={16} style={{ color: TEXT.muted }} />
                     </motion.div>
                   </div>
 
@@ -419,9 +432,11 @@ export default function HireSection() {
                         transition={{ duration: 0.18 }}
                         className="absolute z-30 mt-2 max-h-52 w-full overflow-y-auto rounded-[18px]"
                         style={{
-                          background: "#fffdf9",
-                          border: "1px solid rgba(231, 212, 188, 0.76)",
-                          boxShadow: "0 20px 50px rgba(32,24,14,0.08)",
+                          background: GRADIENTS.solidCard,
+                          border: `1px solid ${BORDERS.subtle}`,
+                          boxShadow: SHADOWS.card,
+                          backdropFilter: "blur(18px)",
+                          WebkitBackdropFilter: "blur(18px)",
                         }}
                       >
                         {filteredServices.map((item, i) => (
@@ -437,10 +452,12 @@ export default function HireSection() {
                             className="cursor-pointer px-4 py-3 text-sm transition-colors"
                             style={{
                               color:
-                                i === highlightedIndex ? "#2f271f" : "#6e5e4f",
+                                i === highlightedIndex
+                                  ? TEXT.primary
+                                  : TEXT.soft,
                               background:
                                 i === highlightedIndex
-                                  ? "rgba(239,157,87,0.08)"
+                                  ? GRADIENTS.badge
                                   : "transparent",
                             }}
                           >
@@ -466,7 +483,7 @@ export default function HireSection() {
                     required
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full resize-none rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    className={`${inputClass} resize-none`}
                     style={
                       focusedField === "message"
                         ? focusInputStyle
@@ -490,14 +507,12 @@ export default function HireSection() {
                     style={{
                       background:
                         status === "sent"
-                          ? "rgba(239,157,87,0.12)"
-                          : "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
-                      border: "1px solid rgba(231, 212, 188, 0.4)",
-                      color: status === "sent" ? "#8f5a2a" : "#fffaf4",
+                          ? GRADIENTS.badge
+                          : GRADIENTS.primaryBtn,
+                      border: `1px solid ${BORDERS.medium}`,
+                      color: status === "sent" ? TEXT.badge : TEXT.inverse,
                       boxShadow:
-                        status !== "sent"
-                          ? "0 12px 22px rgba(239,157,87,0.18)"
-                          : "none",
+                        status !== "sent" ? SHADOWS.primaryBtn : "none",
                     }}
                   >
                     {status === "sending" ? (
