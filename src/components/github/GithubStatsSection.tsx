@@ -1,73 +1,131 @@
 import { getGithubStats } from "@/lib/github-stats";
-import { FolderGit2, GitCommit } from "lucide-react";
+import { FolderGit2, GitCommit, Github } from "lucide-react";
+import type { ReactNode } from "react";
 import MonthlyCommitsChart from "./MonthlyCommitsChart";
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import SectionBadge from "@/components/ui/SectionBadge";
-import SectionDivider from "@/components/ui/SectionDivider";
-import GradientText from "@/components/ui/GradientText";
-import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
 export default async function GithubStatsSection() {
   const stats = await getGithubStats();
 
   return (
-    <SectionWrapper id="github">
-      <div className="max-w-6xl mx-auto">
-
-        {/* ── Header ── */}
-        <div className="flex flex-col items-center text-center mb-14 sm:mb-20">
-          <SectionBadge label="Open Source Activity" />
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-none mb-4">
-            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
-              GitHub Activity
-            </GradientText>
-          </h2>
-
-          <SectionDivider delay={0.3} className="w-24 mb-5 mx-auto" />
-
-          <p
-            className="text-sm sm:text-base max-w-xl leading-relaxed"
-            style={{ color: TEXT.dim }}
-          >
-            A live snapshot of my open source contributions and
-            commit activity over the last 12 months.
-          </p>
-        </div>
-
-        {/* ── Stat cards ── */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 mb-10 sm:mb-14">
-          <StatCard
-            title="Repositories"
-            value={stats.publicRepos}
-            icon={<FolderGit2 size={18} />}
-          />
-          <StatCard
-            title="Commits This Year"
-            value={stats.totalCommits}
-            icon={<GitCommit size={18} />}
-          />
-        </div>
-
-
-        {/* ── Chart ── */}
+    <SectionWrapper id="github" className="pb-12 sm:pb-16 lg:pb-20">
+      <div className="mx-auto max-w-[1240px]">
         <div
-          className="rounded-2xl p-5 sm:p-7"
+          className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
           style={{
-            background: GRADIENTS.solidCard,
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
+            background:
+              "linear-gradient(180deg, rgba(255,248,238,0.96) 0%, rgba(255,252,247,0.90) 100%)",
+            border: "1px solid rgba(234, 216, 194, 0.78)",
+            boxShadow: "0 18px 40px rgba(32,24,14,0.045)",
           }}
         >
-          <MonthlyCommitsChart data={stats.monthlyCommits} />
-        </div>
+          <div className="mb-5 sm:mb-6 flex items-start justify-between gap-4">
+            <div>
+              <p
+                className="text-[10px] sm:text-[11px] font-[800] uppercase tracking-[0.1em]"
+                style={{ color: "#ef9d57" }}
+              >
+                Open Source Activity
+              </p>
 
+              <h2
+                className="mt-1 text-[1.75rem] sm:text-[2rem] lg:text-[2.35rem] font-[800] leading-[0.98] tracking-[-0.06em]"
+                style={{ color: "var(--text-primary)" }}
+              >
+                GitHub Activity
+              </h2>
+
+              <p
+                className="mt-3 max-w-[54ch] text-[13px] sm:text-[14px] leading-[1.8]"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                A live snapshot of my repositories and commit activity over the
+                last 12 months.
+              </p>
+            </div>
+
+            <div
+              className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
+                color: "#fffaf4",
+                boxShadow: "0 10px 18px rgba(239,157,87,0.16)",
+              }}
+            >
+              <Github size={18} strokeWidth={2.2} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-5">
+            <div className="flex flex-col gap-3">
+              <StatCard
+                title="Repositories"
+                value={stats.publicRepos}
+                icon={<FolderGit2 size={17} />}
+              />
+
+              <StatCard
+                title="Commits This Year"
+                value={stats.totalCommits}
+                icon={<GitCommit size={17} />}
+              />
+            </div>
+
+            <div
+              className="rounded-[22px] p-4 sm:p-5 lg:p-6"
+              style={{
+                background: "#fffaf4",
+                border: "1px solid rgba(231, 212, 188, 0.76)",
+                boxShadow: "0 10px 24px rgba(32,24,14,0.03)",
+              }}
+            >
+              <div className="mb-4 flex items-center gap-3">
+                <span
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
+                  style={{
+                    background: "rgba(239,157,87,0.10)",
+                    color: "#ef9d57",
+                  }}
+                >
+                  <GitCommit size={16} strokeWidth={2.3} />
+                </span>
+
+                <div className="min-w-0">
+                  <h3
+                    className="text-[1rem] sm:text-[1.1rem] font-[800] leading-none tracking-[-0.03em]"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    Monthly Commit Activity
+                  </h3>
+
+                  <p
+                    className="mt-1 text-[12px] sm:text-[13px] font-[600]"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    Contribution trend across the last 12 months
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className="rounded-[18px] p-3 sm:p-4"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,250,244,0.96) 100%)",
+                  border: "1px solid rgba(231, 212, 188, 0.72)",
+                }}
+              >
+                <MonthlyCommitsChart data={stats.monthlyCommits} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </SectionWrapper>
   );
 }
 
-// ── Stat card ────────────────────────────────────────────
 function StatCard({
   title,
   value,
@@ -75,59 +133,44 @@ function StatCard({
 }: {
   title: string;
   value: number;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }) {
   return (
     <div
-      className="group relative flex flex-col items-center justify-center gap-2 sm:gap-3 p-4 sm:p-8 rounded-xl sm:rounded-2xl transition-all duration-300 hover:scale-[1.02]"
+      className="rounded-[20px] px-4 py-4 sm:px-5 sm:py-5"
       style={{
-        background: GRADIENTS.solidCard,
-        border: `1px solid ${BORDERS.subtle}`,
-        boxShadow: SHADOWS.card,
+        background: "#fffaf4",
+        border: "1px solid rgba(231, 212, 188, 0.76)",
+        boxShadow: "0 8px 18px rgba(32,24,14,0.028)",
       }}
     >
-      {/* Hover glow */}
-      <div
-        className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: "rgba(255,255,255,0.02)",
-          boxShadow: `inset 0 0 0 1px ${BORDERS.medium}`,
-        }}
-      />
+      <div className="flex items-start gap-3">
+        <span
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
+          style={{
+            background: "rgba(239,157,87,0.10)",
+            color: "#ef9d57",
+          }}
+        >
+          {icon}
+        </span>
 
-      {/* Icon */}
-      <div
-        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl transition-transform duration-300 group-hover:scale-110"
-        style={{
-          background: "rgba(255,255,255,0.06)",
-          border: `1px solid ${BORDERS.subtle}`,
-          color: "rgba(255,255,255,0.6)",
-        }}
-      >
-        {icon}
+        <div className="min-w-0">
+          <p
+            className="text-[11px] sm:text-[12px] font-[700] uppercase tracking-[0.08em]"
+            style={{ color: "#a48b73" }}
+          >
+            {title}
+          </p>
+
+          <span
+            className="mt-2 block text-[1.55rem] sm:text-[1.9rem] font-[800] leading-none tracking-[-0.05em]"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {value}
+          </span>
+        </div>
       </div>
-
-      {/* Value */}
-      <span
-        className="text-2xl sm:text-4xl font-black tracking-tighter"
-        style={{
-          background: GRADIENTS.heading,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        {value}
-      </span>
-
-      {/* Label */}
-      <p
-        className="text-[9px] sm:text-xs tracking-widest uppercase font-medium text-center leading-tight"
-        style={{ color: TEXT.muted }}
-      >
-        {title}
-      </p>
     </div>
   );
-
 }

@@ -1,434 +1,502 @@
 "use client";
 
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useScroll,
-  AnimatePresence,
-} from "framer-motion";
-import {
-  Home,
-  Folder,
-  Mail,
-  Github,
-  Linkedin,
-  MessageCircle,
-  Download,
-  Menu,
-  X,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "@/i18n/routing";
-import { SiDiscord } from "react-icons/si";
-import { GRADIENTS, SHADOWS, BORDERS, TEXT } from "@/lib/theme";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { Download, Github, Linkedin, Menu, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { usePathname, useRouter } from "@/i18n/routing";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
 
-// ── Nav items ─────────────────────────────────────────────
 const NAV_ITEMS = [
-  { id: "home", label: "Home", icon: <Home size={15} /> },
-  { id: "projects", label: "Projects", icon: <Folder size={15} /> },
-  { id: "contact", label: "Contact", icon: <Mail size={15} /> },
+  { id: "home", label: "Home" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
 ];
 
-// ── Social links ──────────────────────────────────────────
 const SOCIAL_LINKS = [
-  { href: "https://github.com/Mohamedismaell", icon: <Github size={17} /> },
-  { href: "https://www.linkedin.com/in/mohamed-ismail-dev", icon: <Linkedin size={17} /> },
-  { href: "https://discord.com/users/406180177261887489", icon: <SiDiscord size={17} /> },
-  { href: "https://wa.me/201068645641?text=Hello%20Mohamed,%20I%20would%20like%20to%20discuss%20a%20project.", icon: <MessageCircle size={17} /> },
+  {
+    href: "https://github.com/Mohamedismaell",
+    icon: <Github size={16} />,
+    label: "GitHub",
+  },
+  {
+    href: "https://www.linkedin.com/in/mohamed-ismail-dev",
+    icon: <Linkedin size={16} />,
+    label: "LinkedIn",
+  },
 ];
 
-// ── Smooth scroll ─────────────────────────────────────────
 function useAnimatedScroll() {
-  return (targetY: number) => {
+  const frameRef = useRef<number | null>(null);
+  const isAutoScrollingRef = useRef(false);
+
+  const animateScroll = useCallback((targetY: number) => {
+    if (typeof window === "undefined") return;
+
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+
     const startY = window.scrollY;
     const distance = targetY - startY;
-    const duration = 850;
+    const duration = 700;
     let startTime: number | null = null;
+
+    isAutoScrollingRef.current = true;
 
     const ease = (t: number) =>
       t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
     const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
+      if (startTime === null) startTime = timestamp;
+
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      window.scrollTo(0, startY + distance * ease(progress));
-      if (progress < 1) requestAnimationFrame(step);
+      const nextY = startY + distance * ease(progress);
+
+      window.scrollTo(0, nextY);
+
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(step);
+      } else {
+        frameRef.current = null;
+        isAutoScrollingRef.current = false;
+      }
     };
 
-    requestAnimationFrame(step);
-  };
-}
+    frameRef.current = requestAnimationFrame(step);
+  }, []);
 
-// ─────────────────────────────────────────────────────────
+  const stopAnimation = useCallback(() => {
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+    isAutoScrollingRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
+
+  return { animateScroll, isAutoScrollingRef, stopAnimation };
+}
 
 export default function ResponsiveNavbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { scrollY, scrollYProgress } = useScroll();
-  const animateScroll = useAnimatedScroll();
+  const { scrollYProgress } = useScroll();
 
-  const [hidden, setHidden] = useState(false);
+  const { animateScroll, isAutoScrollingRef, stopAnimation } = useAnimatedScroll();
+
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Hide on scroll down
-  useEffect(() => {
-    let last = 0;
-    const unsub = scrollY.on("change", (latest) => {
-      setHidden(latest > last && latest > 120);
-      last = latest;
-    });
-    return () => unsub();
-  }, [scrollY]);
+  const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
 
-  // Show when mouse near top
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (e.clientY < 80) setHidden(false);
-    };
-    window.addEventListener("mousemove", handler);
-    return () => window.removeEventListener("mousemove", handler);
-  }, []);
-
-  // Active section tracking
-  useEffect(() => {
-    const sections = ["home", "projects", "contact"];
     const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+
+      if (isAutoScrollingRef.current) return;
+
       let current = "home";
-      sections.forEach((id) => {
+
+      sectionIds.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 200) current = id;
+        if (el && window.scrollY >= el.offsetTop - 140) {
+          current = id;
+        }
       });
+
       setActive(current);
     };
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
-  // Lock body scroll when mobile menu open
+    const cancelAutoScrollOnTouch = () => stopAnimation();
+    const cancelAutoScrollOnWheel = () => stopAnimation();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchstart", cancelAutoScrollOnTouch, { passive: true });
+    window.addEventListener("wheel", cancelAutoScrollOnWheel, { passive: true });
+
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchstart", cancelAutoScrollOnTouch);
+      window.removeEventListener("wheel", cancelAutoScrollOnWheel);
+    };
+  }, [sectionIds, isAutoScrollingRef, stopAnimation]);
+
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+
+    const timer = setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) {
+        animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
+        setActive(hash);
+      }
+    }, 120);
+
+    return () => clearTimeout(timer);
+  }, [pathname, animateScroll]);
 
   const scrollToSection = (id: string) => {
     setMobileOpen(false);
+
     if (id === "home") {
-      pathname === "/" ? animateScroll(0) : router.push("/");
+      if (pathname === "/") {
+        stopAnimation();
+        animateScroll(0);
+        setActive("home");
+      } else {
+        router.push("/");
+      }
       return;
     }
+
     const el = document.getElementById(id);
+
     if (el) {
-      animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 120);
+      stopAnimation();
+      animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
+      setActive(id);
     } else {
       router.push(`/#${id}`);
     }
   };
 
+  const navShellStyle: CSSProperties = {
+    background: GRADIENTS.navBg,
+    border: `1px solid ${BORDERS.subtle}`,
+    boxShadow: scrolled ? SHADOWS.card : "0 10px 28px rgba(39, 30, 20, 0.06)",
+    backdropFilter: "blur(22px) saturate(180%)",
+    WebkitBackdropFilter: "blur(22px) saturate(180%)",
+  };
+
+  const brandMarkStyle: CSSProperties = {
+    background: GRADIENTS.cvBtn,
+    color: TEXT.inverse,
+    boxShadow: SHADOWS.cvBtn,
+  };
+
+  const socialBtnStyle: CSSProperties = {
+    background: GRADIENTS.ghostBtn,
+    border: `1px solid ${BORDERS.subtle}`,
+    color: TEXT.soft,
+    boxShadow: SHADOWS.ghostBtn,
+  };
+
+  const primaryBtnStyle: CSSProperties = {
+    background: GRADIENTS.primaryBtn,
+    color: TEXT.inverse,
+    boxShadow: SHADOWS.primaryBtn,
+  };
+
   return (
     <>
-      {/* Scroll progress bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
-        style={{ scaleX: scrollYProgress, background: GRADIENTS.progressBar }}
+        className="pointer-events-none fixed left-0 right-0 top-0 z-[120] h-[2px] origin-left"
+        style={{
+          scaleX: scrollYProgress,
+          background: GRADIENTS.progressBar,
+        }}
       />
 
-      {/* ── Desktop navbar ── */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: hidden ? -120 : 0 }}
-        transition={{ duration: 0.35, ease: "easeInOut" }}
-        className="fixed top-0 w-full z-50 backdrop-blur-xl hidden sm:block"
-        style={{
-          background: GRADIENTS.navBg,
-          borderBottom: `1px solid ${BORDERS.subtle}`,
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+      <header className="fixed inset-x-0 top-0 z-[110] px-4 pt-4 sm:px-6 lg:px-8">
+        <motion.nav
+          initial={{ opacity: 0, y: -18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="mx-auto max-w-[1280px]"
+        >
+          <div
+            className="hidden items-center justify-between rounded-[24px] px-4 py-3 sm:flex lg:px-5"
+            style={navShellStyle}
+          >
+            <button
+              onClick={() => scrollToSection("home")}
+              className="shrink-0 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-[14px] text-sm font-extrabold"
+                  style={brandMarkStyle}
+                >
+                  M
+                </div>
 
-          {/* Nav links */}
-          <div className="flex items-center gap-2">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200"
-                style={{
-                  color: active === item.id
-                    ? "rgba(255,255,255,0.95)"
-                    : "rgba(255,255,255,0.45)",
-                  background: "transparent",
-                }}
-                onMouseEnter={(e) => {
-                  if (active !== item.id)
-                    e.currentTarget.style.color = "rgba(255,255,255,0.92)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                }}
-                onMouseLeave={(e) => {
-                  if (active !== item.id)
-                    e.currentTarget.style.color = "rgba(255,255,255,0.45)";
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                {item.icon}
-                <span>{item.label}</span>
+                <div className="leading-none">
+                  <div
+                    className="text-[15px] font-bold tracking-tight"
+                    style={{ color: TEXT.primary }}
+                  >
+                    Mohamed Ismail
+                  </div>
+                  <div
+                    className="mt-1 text-[11px] font-medium"
+                    style={{ color: TEXT.dim }}
+                  >
+                    Flutter Developer
+                  </div>
+                </div>
+              </div>
+            </button>
 
-                {/* Hover underline */}
-                <span
-                  className="absolute inset-x-3 -bottom-px h-px rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"
-                  style={{
-                    background: "linear-gradient(90deg, rgba(255,255,255,0.5), transparent)",
-                    opacity: active === item.id ? 0 : 1,
-                  }}
-                />
+            <div className="flex items-center gap-1 rounded-full px-2 py-1">
+              {NAV_ITEMS.map((item) => {
+                const isActive = active === item.id;
 
-                {/* Active underline */}
-                {active === item.id && (
-                  <motion.div
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded-full"
-                    style={{ background: GRADIENTS.progressBar }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Socials + CV */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              {SOCIAL_LINKS.map((link, i) => (
-                <SocialIcon key={i} href={link.href}>
-                  {link.icon}
-                </SocialIcon>
-              ))}
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="relative rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
+                    style={{
+                      color: isActive ? TEXT.badge : TEXT.soft,
+                    }}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="desktop-nav-pill"
+                        className="absolute inset-0 rounded-full"
+                        style={{
+                          background: GRADIENTS.badge,
+                          border: `1px solid ${BORDERS.medium}`,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10">{item.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            <motion.a
-              href="/Mohamed_Ismael_CV.pdf"
-              target="_blank"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.96 }}
-              className="group relative ml-2 px-5 py-2 rounded-xl text-sm font-semibold text-black overflow-hidden flex items-center gap-2 transition-all duration-300"
-              style={{
-                background: GRADIENTS.primaryBtn,
-                boxShadow: SHADOWS.primaryBtn,
-              }}
-            >
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500"
-                style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%)" }}
-              />
-              <Download size={14} className="relative z-10" />
-              <span className="relative z-10">Download CV</span>
-            </motion.a>
+            <div className="flex shrink-0 items-center gap-2">
+              <div className="mr-1 hidden items-center gap-2 lg:flex">
+                {SOCIAL_LINKS.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
+                    style={socialBtnStyle}
+                  >
+                    <span
+                      className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{
+                        background: GRADIENTS.socialHover,
+                      }}
+                    />
+                    <span
+                      className="relative z-10 transition-all duration-300 group-hover:scale-110"
+                      style={{ color: "inherit" }}
+                    >
+                      {item.icon}
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              <a
+                href="/Mohamed_Ismael_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex h-10 items-center gap-2 rounded-[14px] px-4 text-[13px] font-bold transition-all duration-300 hover:-translate-y-0.5 lg:px-5"
+                style={primaryBtnStyle}
+              >
+                <span>Download CV</span>
+                <Download
+                  size={14}
+                  className="transition-transform duration-300 group-hover:translate-y-0.5"
+                />
+              </a>
+
+              <ThemeToggle />
+            </div>
           </div>
-        </div>
-      </motion.nav>
 
-      {/* ── Mobile top bar ── */}
-      <motion.div
-        initial={{ y: -100 }}
-        animate={{ y: hidden ? -120 : 0 }}
-        transition={{ duration: 0.35, ease: "easeInOut" }}
-        className="fixed top-0 w-full z-50 backdrop-blur-xl sm:hidden flex items-center justify-between px-4 py-3"
-        style={{
-          background: GRADIENTS.navBg,
-          borderBottom: `1px solid ${BORDERS.subtle}`,
-        }}
-      >
-        {/* Logo */}
-        <span
-          className="text-sm font-black tracking-tighter"
-          style={{
-            background: GRADIENTS.heading,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          Mohamed Ismael
-        </span>
+          <div
+            className="flex items-center justify-between rounded-[20px] px-4 py-3 sm:hidden"
+            style={navShellStyle}
+          >
+            <button
+              onClick={() => scrollToSection("home")}
+              className="flex items-center gap-2.5 text-left"
+            >
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded-[12px] text-sm font-extrabold"
+                style={brandMarkStyle}
+              >
+                M
+              </div>
 
-        {/* Burger */}
-        <button
-          onClick={() => setMobileOpen((p) => !p)}
-          className="flex items-center justify-center w-8 h-8 rounded-xl transition-all duration-200"
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            border: `1px solid ${BORDERS.subtle}`,
-            color: TEXT.dim,
-          }}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={15} /> : <Menu size={15} />}
-        </button>
-      </motion.div>
+              <div className="leading-none">
+                <div
+                  className="text-[14px] font-bold tracking-tight"
+                  style={{ color: TEXT.primary }}
+                >
+                  Mohamed Ismail
+                </div>
+                <div
+                  className="mt-1 text-[10px] font-medium"
+                  style={{ color: TEXT.dim }}
+                >
+                  Flutter Developer
+                </div>
+              </div>
+            </button>
 
-      {/* ── Mobile drawer ── */}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                onClick={() => setMobileOpen((prev) => !prev)}
+                aria-label="Toggle menu"
+                className="flex h-10 w-10 items-center justify-center rounded-[14px] transition-all duration-300"
+                style={socialBtnStyle}
+              >
+                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
+            </div>
+          </div>
+        </motion.nav>
+      </header>
+
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
-              key="backdrop"
+              key="mobile-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 sm:hidden"
-              style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+              transition={{ duration: 0.18 }}
+              className="fixed inset-0 z-[100] sm:hidden"
+              style={{
+                background: "rgba(10, 8, 7, 0.28)",
+                backdropFilter: "blur(6px)",
+              }}
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Drawer */}
             <motion.div
-              key="drawer"
+              key="mobile-drawer"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="fixed top-16 inset-x-4 z-50 sm:hidden rounded-2xl overflow-hidden"
+              transition={{ duration: 0.24, ease: "easeOut" }}
+              className="fixed inset-x-4 top-[84px] z-[115] overflow-hidden rounded-[24px] sm:hidden"
               style={{
-                background: "rgba(10,10,10,0.97)",
-                backdropFilter: "blur(24px)",
+                background: GRADIENTS.cardBg,
                 border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: "0 20px 60px rgba(0,0,0,0.7)",
+                boxShadow: SHADOWS.card,
+                backdropFilter: "blur(22px) saturate(180%)",
+                WebkitBackdropFilter: "blur(22px) saturate(180%)",
               }}
             >
-              <div className="flex flex-col p-4 gap-1">
+              <div className="p-4">
+                <div className="flex flex-col gap-1">
+                  {NAV_ITEMS.map((item, index) => {
+                    const isActive = active === item.id;
 
-                {/* Nav links */}
-                {NAV_ITEMS.map((item, i) => (
-                  <motion.button
-                    key={item.id}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05, duration: 0.25 }}
-                    onClick={() => scrollToSection(item.id)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-left"
-                    style={{
-                      color: active === item.id
-                        ? "rgba(255,255,255,0.95)"
-                        : TEXT.dim,
-                      background: active === item.id
-                        ? "rgba(255,255,255,0.06)"
-                        : "transparent",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = active === item.id
-                        ? "rgba(255,255,255,0.06)"
-                        : "transparent";
-                    }}
-                  >
-                    {item.icon}
-                    {item.label}
+                    return (
+                      <motion.button
+                        key={item.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.04, duration: 0.22 }}
+                        onClick={() => scrollToSection(item.id)}
+                        className="flex items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
+                        style={{
+                          color: isActive ? TEXT.badge : TEXT.soft,
+                          background: isActive ? GRADIENTS.badge : "transparent",
+                          border: isActive
+                            ? `1px solid ${BORDERS.medium}`
+                            : "1px solid transparent",
+                        }}
+                      >
+                        <span>{item.label}</span>
+                        {isActive && (
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ background: "var(--accent)" }}
+                          />
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </div>
 
-                    {/* Active dot */}
-                    {active === item.id && (
-                      <span
-                        className="ml-auto w-1.5 h-1.5 rounded-full"
-                        style={{ background: "rgba(255,255,255,0.6)" }}
-                      />
-                    )}
-                  </motion.button>
-                ))}
-
-                {/* Divider */}
                 <div
-                  className="my-2 h-px rounded-full"
+                  className="my-4 h-px"
                   style={{
-                    background: `linear-gradient(90deg, transparent, ${BORDERS.medium}, transparent)`,
+                    background: GRADIENTS.divider,
                   }}
                 />
 
-                {/* Social icons */}
-                <div className="flex items-center justify-center gap-3 py-1">
-                  {SOCIAL_LINKS.map((link, i) => (
-                    <SocialIcon key={i} href={link.href}>
-                      {link.icon}
-                    </SocialIcon>
+                <div className="mb-4 flex items-center justify-center gap-2">
+                  {SOCIAL_LINKS.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.label}
+                      className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
+                      style={socialBtnStyle}
+                    >
+                      <span
+                        className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        style={{
+                          background: GRADIENTS.socialHover,
+                        }}
+                      />
+                      <span
+                        className="relative z-10 transition-all duration-300 group-hover:scale-110"
+                        style={{ color: "inherit" }}
+                      >
+                        {item.icon}
+                      </span>
+                    </a>
                   ))}
                 </div>
 
-                {/* Divider */}
-                <div
-                  className="my-2 h-px rounded-full"
-                  style={{
-                    background: `linear-gradient(90deg, transparent, ${BORDERS.medium}, transparent)`,
-                  }}
-                />
-
-                {/* CV button */}
-                <motion.a
+                <a
                   href="/Mohamed_Ismael_CV.pdf"
                   target="_blank"
-                  whileTap={{ scale: 0.97 }}
+                  rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="group relative flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-black overflow-hidden transition-all duration-200"
-                  style={{
-                    background: GRADIENTS.primaryBtn,
-                    boxShadow: SHADOWS.primaryBtn,
-                  }}
+                  className="group inline-flex h-11 w-full items-center justify-center gap-2 rounded-[16px] text-sm font-bold transition-all duration-300"
+                  style={primaryBtnStyle}
                 >
-                  <span
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500"
-                    style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%)" }}
+                  <span>Download CV</span>
+                  <Download
+                    size={15}
+                    className="transition-transform duration-300 group-hover:translate-y-0.5"
                   />
-                  <Download size={14} className="relative z-10" />
-                  <span className="relative z-10">Download CV</span>
-                </motion.a>
-
+                </a>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
     </>
-  );
-}
-
-// ── SocialIcon ────────────────────────────────────────────
-function SocialIcon({ href, children }: { href: string; children: React.ReactNode }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 150, damping: 12 });
-  const springY = useSpring(y, { stiffness: 150, damping: 12 });
-
-  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
-  };
-
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onMouseMove={handleMove}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-      className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg sm:rounded-xl border transition-all duration-300"
-      style={{
-        x: springX,
-        y: springY,
-        background: "rgba(255,255,255,0.04)",
-        borderColor: BORDERS.subtle,
-        color: TEXT.soft,
-      }}
-      whileHover={{
-        background: GRADIENTS.socialHover,
-        borderColor: BORDERS.medium,
-        boxShadow: SHADOWS.socialHover,
-        color: "#ffffff",
-      }}
-    >
-      {children}
-    </motion.a>
   );
 }

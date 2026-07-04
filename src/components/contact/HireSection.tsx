@@ -2,16 +2,10 @@
 
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, X, Send } from "lucide-react";
+import { ChevronDown, X, Send, BriefcaseBusiness } from "lucide-react";
 import { toast } from "sonner";
-
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import SectionBadge from "@/components/ui/SectionBadge";
-import SectionDivider from "@/components/ui/SectionDivider";
-import GradientText from "@/components/ui/GradientText";
-import { GRADIENTS, BORDERS, TEXT, SHADOWS } from "@/lib/theme";
 
-//  Animation variants ────────────────────────────────────
 const fieldVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: (i: number) => ({
@@ -21,21 +15,6 @@ const fieldVariants: Variants = {
   }),
 };
 
-//  Shared input style ────────────────────────────────────
-const inputClass =
-  "w-full px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base text-white placeholder:text-white/25 outline-none focus:ring-1 transition-all duration-200";
-
-const inputStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: `1px solid ${BORDERS.subtle}`,
-};
-
-const inputFocusStyle = {
-  background: "rgba(255,255,255,0.06)",
-  borderColor: "rgba(255,255,255,0.18)",
-};
-
-//  Services list ───────────────────────────────────────
 const SERVICES = [
   "Flutter App Development",
   "Cross-Platform Mobile Apps",
@@ -44,13 +23,11 @@ const SERVICES = [
   "State Management (Bloc / Cubit)",
   "API Integration",
   "Performance Optimization",
-  "Bug Fixing & Refactoring",
+  "Bug Fixing / Refactoring",
   "App Deployment (Play Store / App Store)",
   "Technical Consultation",
   "Other",
 ];
-
-// ─────────────────────────────────────────────────────────
 
 export default function HireSection() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -59,21 +36,23 @@ export default function HireSection() {
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const filteredServices = SERVICES.filter(
     (s) =>
-      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s)
+      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s),
   );
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
@@ -84,10 +63,12 @@ export default function HireSection() {
       setOpen(true);
       setHighlightedIndex((p) => Math.min(p + 1, filteredServices.length - 1));
     }
+
     if (e.key === "ArrowUp") {
       e.preventDefault();
       setHighlightedIndex((p) => Math.max(p - 1, 0));
     }
+
     if (e.key === "Enter") {
       e.preventDefault();
       if (filteredServices[highlightedIndex]) {
@@ -97,29 +78,33 @@ export default function HireSection() {
         setHighlightedIndex(0);
       }
     }
-    if (e.key === "Escape") setOpen(false);
+
+    if (e.key === "Escape") {
+      setOpen(false);
+    }
   };
 
-  const removeService = (service: string) =>
+  const removeService = (service: string) => {
     setSelected((p) => p.filter((s) => s !== service));
+  };
 
-  //  Submit  =>  /api/contact 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const fd = new FormData(e.currentTarget);
-    const message = String(fd.get("message") ?? "").trim();
     const name = String(fd.get("name") ?? "").trim();
+    const message = String(fd.get("message") ?? "").trim();
 
-    //  Client-side guards — instant feedback, no API call wasted
     if (name.length < 2) {
       toast.error("Name must be at least 2 characters.");
       return;
     }
+
     if (message.length < 5) {
       toast.error("Message is too short. Please describe your project.");
       return;
     }
+
     if (selected.length === 0) {
       toast.error("Please select at least one service.");
       return;
@@ -160,307 +145,401 @@ export default function HireSection() {
     }
   };
 
+  const baseInputStyle: React.CSSProperties = {
+    background: "#fffaf4",
+    border: "1px solid rgba(231, 212, 188, 0.76)",
+    color: "#2f271f",
+    boxShadow: "0 6px 16px rgba(32,24,14,0.02)",
+  };
+
+  const focusInputStyle: React.CSSProperties = {
+    background: "#ffffff",
+    border: "1px solid rgba(239, 157, 87, 0.65)",
+    color: "#2f271f",
+    boxShadow: "0 0 0 4px rgba(239,157,87,0.10)",
+  };
 
   return (
-    <SectionWrapper id="contact">
-      <div className="max-w-3xl mx-auto">
-
-        {/*  Header  */}
-        <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
-          <SectionBadge label="Get In Touch" />
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-none mb-4"
-          >
-            <GradientText gradient={GRADIENTS.heading} filter={SHADOWS.heading}>
-              Let's Work Together
-            </GradientText>
-          </motion.h2>
-
-          <SectionDivider delay={0.3} className="w-24 mb-5 mx-auto" />
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35 }}
-            className="text-sm sm:text-base max-w-xl leading-relaxed"
-            style={{ color: TEXT.dim }}
-          >
-            Select your required services and describe your project. I'll
-            respond within 24 hours.
-          </motion.p>
-        </div>
-
-        {/*  Form card  */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.2 }}
-          className="relative rounded-2xl sm:rounded-[28px] p-6 sm:p-10"
+    <SectionWrapper id="contact" className="pb-12 sm:pb-16 lg:pb-20">
+      <div className="mx-auto max-w-[1240px]">
+        <div
+          className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
           style={{
-            background: "rgba(255,255,255,0.03)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
+            background:
+              "linear-gradient(180deg, rgba(255,248,238,0.96) 0%, rgba(255,252,247,0.90) 100%)",
+            border: "1px solid rgba(234, 216, 194, 0.78)",
+            boxShadow: "0 18px 40px rgba(32,24,14,0.045)",
           }}
         >
-          {/* Ambient glow */}
-          <div
-            className="absolute inset-0 rounded-2xl sm:rounded-[28px] opacity-20 pointer-events-none"
-            style={{
-              background: `radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), transparent 60%)`,
-            }}
-          />
-
-          <form onSubmit={handleSubmit} className="relative space-y-4 sm:space-y-5">
-
-            {/* Honeypot — hidden from real users */}
-            <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
-
-            {/* Name + Email */}
-            <motion.div
-              custom={0}
-              variants={fieldVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5"
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-6">
+            <div
+              className="rounded-[24px] p-5 sm:p-6"
+              style={{
+                background: "#fffaf4",
+                border: "1px solid rgba(231, 212, 188, 0.76)",
+                boxShadow: "0 8px 18px rgba(32,24,14,0.028)",
+              }}
             >
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                required
-                onFocus={() => setFocusedField("name")}
-                onBlur={() => setFocusedField(null)}
-                className={inputClass}
-                style={focusedField === "name" ? inputFocusStyle : inputStyle}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                required
-                onFocus={() => setFocusedField("email")}
-                onBlur={() => setFocusedField(null)}
-                className={inputClass}
-                style={focusedField === "email" ? inputFocusStyle : inputStyle}
-              />
-            </motion.div>
-
-            {/* Phone */}
-            <motion.div
-              custom={1}
-              variants={fieldVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone (Optional)"
-                onFocus={() => setFocusedField("phone")}
-                onBlur={() => setFocusedField(null)}
-                className={inputClass}
-                style={focusedField === "phone" ? inputFocusStyle : inputStyle}
-              />
-            </motion.div>
-
-            {/* Multi-select services */}
-            <motion.div
-              custom={2}
-              variants={fieldVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              ref={wrapperRef}
-              className="relative"
-            >
-              <div
-                className="flex flex-wrap items-center gap-2 px-4 py-3 rounded-xl sm:rounded-2xl cursor-text transition-all duration-200"
-                style={open ? inputFocusStyle : inputStyle}
-                onClick={() => setOpen(true)}
+              <p
+                className="text-[11px] sm:text-[12px] font-[800] uppercase tracking-[0.1em]"
+                style={{ color: "#ef9d57" }}
               >
-                {/* Selected tags */}
-                {selected.map((item) => (
-                  <span
-                    key={item}
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-medium"
-                    style={{
-                      background: "rgba(255,255,255,0.1)",
-                      border: `1px solid ${BORDERS.medium}`,
-                      color: "rgba(255,255,255,0.85)",
-                    }}
-                  >
-                    {item}
-                    <X
-                      size={12}
-                      className="cursor-pointer hover:text-white transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeService(item);
-                      }}
-                    />
-                  </span>
-                ))}
+                Hire Me
+              </p>
 
-                {/* Search input */}
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setOpen(true);
-                    setHighlightedIndex(0);
+              <h2
+                className="mt-2 text-[2rem] sm:text-[2.3rem] lg:text-[2.5rem] font-[800] leading-[0.98] tracking-[-0.06em]"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Let’s build your next product
+              </h2>
+
+              <div className="mt-5 flex flex-col items-start gap-4 sm:flex-row">
+                {" "}
+                <span
+                  className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px]"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
+                    color: "#fffaf4",
+                    boxShadow: "0 10px 18px rgba(239,157,87,0.16)",
                   }}
-                  onKeyDown={handleKeyDown}
-                  onFocus={() => setOpen(true)}
-                  placeholder={selected.length === 0 ? "Select services..." : ""}
-                  className="flex-1 bg-transparent outline-none text-sm text-white placeholder:text-white/25 min-w-[100px]"
-                />
-
-                <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <ChevronDown size={16} style={{ color: TEXT.muted }} />
-                </motion.div>
+                >
+                  <BriefcaseBusiness size={22} strokeWidth={2.2} />
+                </span>
+                <div className="min-w-0">
+                  <p
+                    className="text-[15px] sm:text-[16px] leading-[1.75]"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    Share your idea, app goals, or product needs. I can help
+                    with Flutter apps, architecture, UI implementation, API
+                    integration, optimization, and deployment.
+                  </p>
+                </div>
               </div>
 
-              {/* Dropdown */}
-              <AnimatePresence>
-                {open && filteredServices.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute mt-2 w-full rounded-xl sm:rounded-2xl overflow-hidden z-30 max-h-52 overflow-y-auto"
-                    style={{
-                      background: "rgba(15,15,20,0.95)",
-                      backdropFilter: "blur(20px)",
-                      border: `1px solid ${BORDERS.subtle}`,
-                      boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
-                    }}
-                  >
-                    {filteredServices.map((item, i) => (
-                      <div
-                        key={item}
-                        onClick={() => {
-                          setSelected((p) => [...p, item]);
-                          setQuery("");
-                          setOpen(false);
-                          setHighlightedIndex(0);
-                        }}
-                        className="px-4 sm:px-5 py-2.5 sm:py-3 cursor-pointer text-sm transition-colors duration-150"
-                        style={{
-                          color: i === highlightedIndex
-                            ? "rgba(255,255,255,0.95)"
-                            : "rgba(255,255,255,0.6)",
-                          background: i === highlightedIndex
-                            ? "rgba(255,255,255,0.07)"
-                            : "transparent",
-                        }}
-                        onMouseEnter={() => setHighlightedIndex(i)}
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Message */}
-            <motion.div
-              custom={3}
-              variants={fieldVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <textarea
-                name="message"
-                rows={5}
-                placeholder="Tell me about your project..."
-                required
-                onFocus={() => setFocusedField("message")}
-                onBlur={() => setFocusedField(null)}
-                className={`${inputClass} resize-none`}
-                style={focusedField === "message" ? inputFocusStyle : inputStyle}
-              />
-            </motion.div>
-
-            {/* Submit */}
-            <motion.div
-              custom={4}
-              variants={fieldVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="pt-1"
-            >
-              <button
-                type="submit"
-                disabled={status === "sending" || status === "sent"}
-                className="group relative w-full flex items-center justify-center gap-2.5 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
+              <div
+                className="mt-6 rounded-[20px] p-5"
                 style={{
                   background:
-                    status === "sent"
-                      ? "rgba(255,255,255,0.08)"
-                      : "rgba(255,255,255,0.09)",
-                  border: `1px solid ${BORDERS.medium}`,
-                  color:
-                    status === "sent"
-                      ? "rgba(255,255,255,0.5)"
-                      : "rgba(255,255,255,0.85)",
-                  boxShadow:
-                    status !== "sent"
-                      ? "0 8px 30px rgba(255,255,255,0.05)"
-                      : "none",
+                    "linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,250,244,0.95) 100%)",
+                  border: "1px solid rgba(231, 212, 188, 0.72)",
                 }}
               >
-                {/* Hover overlay */}
-                <span
-                  className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{ background: "rgba(255,255,255,0.04)" }}
+                <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
+                  {" "}
+                  <div
+                    className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full sm:h-20 sm:w-20"
+                    style={{
+                      border: "2px solid rgba(239, 157, 87, 0.55)",
+                      background: "#f6ecdf",
+                      boxShadow: "0 10px 22px rgba(239,157,87,0.16)",
+                    }}
+                  >
+                    <img
+                      src="/projects/news/cover.png"
+                      alt="Mohamed Ismael"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <h3
+                      className="text-[18px] sm:text-[19px] font-[800] leading-tight"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      Mohamed Ismael
+                    </h3>
+
+                    <p
+                      className="mt-1 text-[13px] font-[700]"
+                      style={{ color: "#ef9d57" }}
+                    >
+                      Flutter Developer
+                    </p>
+
+                    <p
+                      className="mt-2 text-[13.5px] leading-[1.7]"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      I build polished, scalable apps with smooth UX, clean
+                      architecture, and production-ready code.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.12 }}
+              className="rounded-[24px] p-4 sm:p-5 lg:p-5"
+              style={{
+                background: "rgba(255,255,255,0.52)",
+                border: "1px solid rgba(231, 212, 188, 0.78)",
+                boxShadow: "0 12px 30px rgba(32,24,14,0.03)",
+              }}
+            >
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                <input
+                  type="text"
+                  name="website"
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
 
-                {status === "sending" && (
-                  <svg
-                    className="animate-spin h-4 w-4 relative z-10"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                )}
-
-                {status !== "sending" && (
-                  <Send
-                    size={15}
-                    className={`relative z-10 transition-transform duration-300 ${status === "idle" ? "group-hover:translate-x-0.5 group-hover:-translate-y-0.5" : ""}`}
+                <motion.div
+                  custom={0}
+                  variants={fieldVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                >
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                    onFocus={() => setFocusedField("name")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    style={
+                      focusedField === "name" ? focusInputStyle : baseInputStyle
+                    }
                   />
-                )}
 
-                <span className="relative z-10">
-                  {status === "sending"
-                    ? "Sending..."
-                    : status === "sent"
-                      ? "Message Sent ✓"
-                      : "Send Message"}
-                </span>
-              </button>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                    onFocus={() => setFocusedField("email")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    style={
+                      focusedField === "email"
+                        ? focusInputStyle
+                        : baseInputStyle
+                    }
+                  />
+                </motion.div>
+
+                <motion.div
+                  custom={1}
+                  variants={fieldVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone (Optional)"
+                    onFocus={() => setFocusedField("phone")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    style={
+                      focusedField === "phone"
+                        ? focusInputStyle
+                        : baseInputStyle
+                    }
+                  />
+                </motion.div>
+
+                <motion.div
+                  custom={2}
+                  variants={fieldVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  ref={wrapperRef}
+                  className="relative"
+                >
+                  <div
+                    className="flex flex-wrap items-center gap-2 rounded-[16px] px-4 py-3 cursor-text transition-all"
+                    style={open ? focusInputStyle : baseInputStyle}
+                    onClick={() => setOpen(true)}
+                  >
+                    {selected.map((item) => (
+                      <span
+                        key={item}
+                        className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-[700]"
+                        style={{
+                          background: "rgba(239,157,87,0.10)",
+                          border: "1px solid rgba(239,157,87,0.18)",
+                          color: "#8f5a2a",
+                        }}
+                      >
+                        {item}
+                        <X
+                          size={12}
+                          className="cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeService(item);
+                          }}
+                        />
+                      </span>
+                    ))}
+
+                    <input
+                      type="text"
+                      value={query}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        setOpen(true);
+                        setHighlightedIndex(0);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      onFocus={() => setOpen(true)}
+                      placeholder={
+                        selected.length === 0 ? "Select services..." : ""
+                      }
+                      className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-[#9a8c7c]"
+                    />
+
+                    <motion.div
+                      animate={{ rotate: open ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown size={16} style={{ color: "#8f7d69" }} />
+                    </motion.div>
+                  </div>
+
+                  <AnimatePresence>
+                    {open && filteredServices.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute z-30 mt-2 max-h-52 w-full overflow-y-auto rounded-[18px]"
+                        style={{
+                          background: "#fffdf9",
+                          border: "1px solid rgba(231, 212, 188, 0.76)",
+                          boxShadow: "0 20px 50px rgba(32,24,14,0.08)",
+                        }}
+                      >
+                        {filteredServices.map((item, i) => (
+                          <div
+                            key={item}
+                            onClick={() => {
+                              setSelected((p) => [...p, item]);
+                              setQuery("");
+                              setOpen(false);
+                              setHighlightedIndex(0);
+                            }}
+                            onMouseEnter={() => setHighlightedIndex(i)}
+                            className="cursor-pointer px-4 py-3 text-sm transition-colors"
+                            style={{
+                              color:
+                                i === highlightedIndex ? "#2f271f" : "#6e5e4f",
+                              background:
+                                i === highlightedIndex
+                                  ? "rgba(239,157,87,0.08)"
+                                  : "transparent",
+                            }}
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                <motion.div
+                  custom={3}
+                  variants={fieldVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  <textarea
+                    name="message"
+                    rows={5}
+                    placeholder="Tell me about your project..."
+                    required
+                    onFocus={() => setFocusedField("message")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full resize-none rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[#9a8c7c]"
+                    style={
+                      focusedField === "message"
+                        ? focusInputStyle
+                        : baseInputStyle
+                    }
+                  />
+                </motion.div>
+
+                <motion.div
+                  custom={4}
+                  variants={fieldVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="pt-1"
+                >
+                  <button
+                    type="submit"
+                    disabled={status === "sending" || status === "sent"}
+                    className="group relative flex w-full items-center justify-center gap-2.5 rounded-[16px] py-3.5 text-sm font-[700] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60"
+                    style={{
+                      background:
+                        status === "sent"
+                          ? "rgba(239,157,87,0.12)"
+                          : "linear-gradient(180deg, #f7be84 0%, #ef9d57 100%)",
+                      border: "1px solid rgba(231, 212, 188, 0.4)",
+                      color: status === "sent" ? "#8f5a2a" : "#fffaf4",
+                      boxShadow:
+                        status !== "sent"
+                          ? "0 12px 22px rgba(239,157,87,0.18)"
+                          : "none",
+                    }}
+                  >
+                    {status === "sending" ? (
+                      <svg
+                        className="h-4 w-4 animate-spin"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8H4z"
+                        />
+                      </svg>
+                    ) : (
+                      <Send
+                        size={15}
+                        className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    )}
+
+                    <span>
+                      {status === "sending"
+                        ? "Sending..."
+                        : status === "sent"
+                          ? "Message Sent"
+                          : "Send Message"}
+                    </span>
+                  </button>
+                </motion.div>
+              </form>
             </motion.div>
-
-          </form>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </SectionWrapper>
   );

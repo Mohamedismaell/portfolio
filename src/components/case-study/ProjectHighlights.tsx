@@ -17,16 +17,16 @@ export default function ProjectHighlights({
 }: any) {
 
   const sharedStyle = {
-    background: "rgba(255,255,255,0.07)",
-    border: `1px solid ${BORDERS.medium}`,
-    color: "rgba(255,255,255,0.70)",
-    boxShadow: `0 4px 20px ${color}20`,
+    background: "var(--border-subtle)",
+    border: `1px solid var(--border-medium)`,
+    color: "var(--text-soft)",
+    boxShadow: `0 4px 20px ${color}15`,
   };
 
   const disabledStyle = {
-    background: "rgba(255,255,255,0.02)",
-    border: `1px solid rgba(255,255,255,0.06)`,
-    color: "rgba(255,255,255,0.2)",
+    background: "var(--border-subtle)",
+    border: `1px solid var(--border-subtle)`,
+    color: "var(--text-muted)",
   };
 
   return (
@@ -45,17 +45,17 @@ export default function ProjectHighlights({
         ) : (
           <Link
             href={`/en/projects/${slug}`}
-            className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 active:scale-95 overflow-hidden"
+            className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 active:scale-95 overflow-hidden border theme-transition"
             style={sharedStyle}
           >
             <span
               className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
               style={{
-                background: `linear-gradient(135deg, ${color}35, rgba(255,255,255,0.05))`,
+                background: `linear-gradient(135deg, ${color}20, rgba(237,207,170,0.05))`,
               }}
             />
-            <Eye size={13} className="relative z-10 shrink-0" />
-            <span className="relative z-10 group-hover/btn:text-white transition-colors duration-300">
+            <Eye size={13} className="relative z-10 shrink-0" style={{ color: color }} />
+            <span className="relative z-10 group-hover/btn:text-[var(--text-cursor)] transition-colors duration-300">
               Details
             </span>
           </Link>
@@ -66,19 +66,19 @@ export default function ProjectHighlights({
           <DisabledButton color={color} icon={<Images size={13} />} label="Screenshots" />
         ) : (
           <div
-            className="group/btn relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-300 active:scale-95"
+            className="group/btn relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-300 active:scale-95 border theme-transition"
             style={sharedStyle}
           >
             <span
               className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
               style={{
-                background: `linear-gradient(135deg, ${color}35, rgba(255,255,255,0.05))`,
+                background: `linear-gradient(135deg, ${color}20, rgba(237,207,170,0.05))`,
               }}
             />
             <ScreenshotsModal
               images={gallery}
-              icon={<Images size={13} />}
-              className="relative z-10 w-full flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-white/70 group-hover/btn:text-white transition-colors duration-300"
+              icon={<Images size={13} className="relative z-10 shrink-0" style={{ color: color }} />}
+              className="relative z-10 w-full flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[var(--text-soft)] group-hover/btn:text-[var(--text-cursor)] transition-colors duration-300"
             />
           </div>
         )}
@@ -104,11 +104,11 @@ function DisabledButton({
 }) {
   return (
     <div
-      className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium cursor-not-allowed select-none overflow-hidden"
+      className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold cursor-not-allowed select-none overflow-hidden border theme-transition"
       style={{
-        background: "rgba(255,255,255,0.02)",
-        border: `1px solid rgba(255,255,255,0.06)`,
-        color: "rgba(255,255,255,0.2)",
+        background: "var(--border-subtle)",
+        borderColor: "var(--border-subtle)",
+        color: "var(--text-muted)",
       }}
     >
       <Lock size={13} className="shrink-0" />
@@ -116,11 +116,11 @@ function DisabledButton({
 
       {/* Tooltip */}
       <span
-        className="absolute -top-9 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-20"
+        className="absolute -top-9 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-20 shadow-md border"
         style={{
-          background: "rgba(12,12,12,0.95)",
-          border: `1px solid rgba(255,255,255,0.08)`,
-          color: "rgba(255,255,255,0.5)",
+          background: "var(--gradient-solid-card)",
+          borderColor: "var(--border-subtle)",
+          color: "var(--text-dim)",
         }}
       >
         <Lock size={8} />
@@ -143,10 +143,10 @@ function StoreButton({
   const tooltipText = forceDisabled ? "Coming soon" : "Not available yet";
 
   const sharedStyle = {
-    background: "rgba(255,255,255,0.07)",
-    border: `1px solid ${BORDERS.medium}`,
-    color: "rgba(255,255,255,0.70)",
-    boxShadow: `0 4px 20px ${color}20`,
+    background: "var(--border-subtle)",
+    border: `1px solid var(--border-medium)`,
+    color: "var(--text-soft)",
+    boxShadow: `0 4px 20px ${color}15`,
   };
 
   if (href && !forceDisabled) {
@@ -155,17 +155,17 @@ function StoreButton({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 active:scale-95 overflow-hidden"
+        className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 active:scale-95 overflow-hidden border theme-transition"
         style={sharedStyle}
       >
         <span
           className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
           style={{
-            background: `linear-gradient(135deg, ${color}35, rgba(255,255,255,0.05))`,
+            background: `linear-gradient(135deg, ${color}20, rgba(237,207,170,0.05))`,
           }}
         />
-        <Icon size={13} className="relative z-10 shrink-0" />
-        <span className="relative z-10 group-hover/btn:text-white transition-colors duration-300">
+        <Icon size={13} className="relative z-10 shrink-0" style={{ color: color }} />
+        <span className="relative z-10 group-hover/btn:text-[var(--text-cursor)] transition-colors duration-300">
           {label}
         </span>
       </a>
@@ -174,11 +174,11 @@ function StoreButton({
 
   return (
     <div
-      className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium cursor-not-allowed select-none overflow-hidden"
+      className="group/btn relative flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold cursor-not-allowed select-none overflow-hidden border theme-transition"
       style={{
-        background: "rgba(255,255,255,0.02)",
-        border: `1px solid rgba(255,255,255,0.06)`,
-        color: "rgba(255,255,255,0.2)",
+        background: "var(--border-subtle)",
+        borderColor: "var(--border-subtle)",
+        color: "var(--text-muted)",
       }}
     >
       <Lock size={13} className="shrink-0" />
@@ -186,11 +186,11 @@ function StoreButton({
 
       {/* Tooltip */}
       <span
-        className="absolute -top-9 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-20"
+        className="absolute -top-9 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-20 shadow-md border"
         style={{
-          background: "rgba(12,12,12,0.95)",
-          border: `1px solid rgba(255,255,255,0.08)`,
-          color: "rgba(255,255,255,0.5)",
+          background: "var(--gradient-solid-card)",
+          borderColor: "var(--border-subtle)",
+          color: "var(--text-dim)",
         }}
       >
         <Lock size={8} />
@@ -199,3 +199,4 @@ function StoreButton({
     </div>
   );
 }
+
