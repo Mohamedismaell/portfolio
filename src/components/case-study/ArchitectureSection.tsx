@@ -1,212 +1,243 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  Layers3,
+  LayoutPanelTop,
+  BriefcaseBusiness,
+  Database,
+  PlugZap,
+  CheckCircle2,
+} from "lucide-react";
 import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
-import GradientText from "@/components/ui/GradientText";
 
 interface Props {
   features: string[];
 }
 
+const LAYERS = [
+  {
+    title: "Presentation Layer",
+    subtitle: "UI, screens, widgets, and interaction flows.",
+    icon: LayoutPanelTop,
+  },
+  {
+    title: "Domain Layer",
+    subtitle: "Use cases, business rules, and app behavior.",
+    icon: BriefcaseBusiness,
+  },
+  {
+    title: "Data Layer",
+    subtitle: "Repositories, caching, APIs, and persistence.",
+    icon: Database,
+  },
+  {
+    title: "External Services",
+    subtitle: "Integrations, analytics, maps, auth, and third-party tools.",
+    icon: PlugZap,
+  },
+];
+
 export default function ArchitectureSection({ features }: Props) {
-  if (!features) return null;
+  if (!features?.length) return null;
 
   return (
-    <section className="py-16 relative flex flex-col items-center justify-center w-full">
-      <div className="block md:hidden w-full">
-        <MobileTimeline features={features} />
-      </div>
-      <div className="hidden md:block w-full">
-        <DesktopFan features={features} />
-      </div>
-    </section>
-  );
-}
-
-// ── Mobile ────────────────────────────────────────────────
-function MobileTimeline({ features }: { features: string[] }) {
-  return (
-    <div className="relative w-full max-w-md mx-auto pt-4 pb-12 px-4">
-
-      {/* Vertical line */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-        style={{
-          background: `linear-gradient(to bottom, ${BORDERS.strong}, ${BORDERS.medium}, transparent)`,
-        }}
-      />
-
-      {/* Core badge */}
-      <motion.div
-        initial={{ scale: 0, opacity: 0, y: -20 }}
-        whileInView={{ scale: 1, opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        className="relative z-10 mx-auto mb-10 -mt-5 w-20 h-20 rounded-full flex items-center justify-center font-bold text-base"
-        style={{
-          background: GRADIENTS.solidCard,
-          //  White border matching design system
-          border: `1.5px solid ${BORDERS.strong}`,
-          color: "rgba(255,255,255,0.92)",
-          boxShadow: `0 0 30px rgba(255,255,255,0.08), 0 0 0 4px rgba(255,255,255,0.04)`,
-        }}
-      >
-        Core
-      </motion.div>
-
-      {/* Feature cards */}
-      <div className="relative flex flex-col gap-8">
-        {features.map((feature, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 + i * 0.08, type: "spring", stiffness: 180, damping: 16 }}
-            className="relative flex justify-center"
+    <section
+      className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
+      style={{
+        background: GRADIENTS.solidCard,
+        border: `1px solid ${BORDERS.subtle}`,
+        boxShadow: SHADOWS.card,
+      }}
+    >
+      <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <p
+            className="text-[11px] font-[800] uppercase tracking-[0.08em] sm:text-[12px]"
+            style={{ color: TEXT.badge }}
           >
-            {/* Connector dot */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 -top-3.5 w-2 h-2 rounded-full"
-              style={{
-                background: "rgba(255,255,255,0.5)",
-                boxShadow: "0 0 8px rgba(255,255,255,0.25)",
-              }}
-            />
+            Architecture
+          </p>
 
-            {/* Card */}
-            <div
-              className="w-full rounded-2xl px-5 py-4 text-center"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
-              }}
-            >
-              {/*  Number with lighter white color */}
-              <div
-                className="text-[11px] font-black tracking-[0.25em] mb-2 uppercase"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-              >
-                Feature {(i + 1).toString().padStart(2, "0")}
-              </div>
-              <p className="text-xs sm:text-sm leading-relaxed" style={{ color: TEXT.soft }}>
-                {feature}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
+          <h2
+            className="mt-1 text-[1.8rem] font-[800] leading-[0.96] tracking-[-0.06em] sm:text-[2rem] lg:text-[2.25rem]"
+            style={{ color: TEXT.primary }}
+          >
+            Built on a scalable structure
+          </h2>
 
-// ── Desktop ───────────────────────────────────────────────
-function DesktopFan({ features }: { features: string[] }) {
-  return (
-    <div className="relative w-full max-w-6xl mx-auto px-6 lg:px-0" style={{ minHeight: 560 }}>
+          <p
+            className="mt-3 max-w-[58ch] text-[13px] font-[500] leading-[1.78] sm:text-[14px]"
+            style={{ color: TEXT.soft }}
+          >
+            The project is organized with a clear separation between interface,
+            logic, data, and services so the app stays maintainable, testable,
+            and easier to scale over time.
+          </p>
 
-      {/* Ambient glow */}
-      <div
-        className="absolute top-16 left-1/2 -translate-x-1/2 w-[500px] h-[400px] blur-[120px] pointer-events-none opacity-20"
-        style={{
-          background: "radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%)",
-        }}
-      />
+          <div className="mt-5 grid gap-3">
+            {LAYERS.map((layer, index) => {
+              const Icon = layer.icon;
 
-      {/* Core circle */}
-      <div className="relative flex flex-col items-center z-20 mt-10">
-        <motion.div
-          initial={{ scale: 0.85, opacity: 0, y: -10 }}
-          whileInView={{ scale: 1, opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 240, damping: 18 }}
-          className="relative w-36 h-36 rounded-full flex items-center justify-center font-semibold text-lg tracking-wide"
+              return (
+                <motion.div
+                  key={layer.title}
+                  initial={{ opacity: 0, x: -14 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.36, delay: index * 0.06, ease: "easeOut" }}
+                  className="rounded-[22px] px-4 py-4 sm:px-5"
+                  style={{
+                    background: GRADIENTS.cardBg,
+                    border: `1px solid ${BORDERS.subtle}`,
+                    boxShadow: SHADOWS.card,
+                  }}
+                >
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+                      style={{
+                        background: GRADIENTS.badge,
+                        border: `1px solid ${BORDERS.medium}`,
+                        color: "var(--accent)",
+                      }}
+                    >
+                      <Icon size={17} />
+                    </span>
+
+                    <div className="min-w-0">
+                      <h3
+                        className="text-[14px] font-[800] tracking-[-0.03em] sm:text-[15px]"
+                        style={{ color: TEXT.primary }}
+                      >
+                        {layer.title}
+                      </h3>
+
+                      <p
+                        className="mt-1 text-[12px] font-[500] leading-[1.65] sm:text-[13px]"
+                        style={{ color: TEXT.soft }}
+                      >
+                        {layer.subtitle}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div
+          className="rounded-[24px] p-4 sm:p-5"
           style={{
-            background: GRADIENTS.solidCard,
-            //  Brighter white border
-            border: `1.5px solid ${BORDERS.strong}`,
-            color: "rgba(255,255,255,0.92)",
-            boxShadow: `0 0 0 6px rgba(255,255,255,0.04), 0 0 60px rgba(255,255,255,0.08), 0 20px 60px rgba(0,0,0,0.5)`,
+            background: GRADIENTS.cardBg,
+            border: `1px solid ${BORDERS.subtle}`,
+            boxShadow: SHADOWS.card,
           }}
         >
-          {/* Inner glass */}
+          <div className="flex items-center gap-3">
+            <span
+              className="flex h-11 w-11 items-center justify-center rounded-[14px]"
+              style={{
+                background: GRADIENTS.primaryBtn,
+                border: `1px solid ${BORDERS.medium}`,
+                color: TEXT.inverse,
+                boxShadow: SHADOWS.primaryBtn,
+              }}
+            >
+              <Layers3 size={18} />
+            </span>
+
+            <div>
+              <h3
+                className="text-[1.05rem] font-[800] tracking-[-0.04em]"
+                style={{ color: TEXT.primary }}
+              >
+                Core implementation pillars
+              </h3>
+
+              <p
+                className="mt-1 text-[12px] font-[500] leading-[1.65] sm:text-[13px]"
+                style={{ color: TEXT.soft }}
+              >
+                The architectural choices that shaped the product and kept the
+                codebase consistent.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.34, delay: index * 0.05, ease: "easeOut" }}
+                className="rounded-[18px] px-4 py-4"
+                style={{
+                  background: GRADIENTS.ghostBtn,
+                  border: `1px solid ${BORDERS.subtle}`,
+                  boxShadow: SHADOWS.ghostBtn,
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: GRADIENTS.badge,
+                      border: `1px solid ${BORDERS.medium}`,
+                      color: TEXT.badge,
+                    }}
+                  >
+                    <CheckCircle2 size={14} />
+                  </span>
+
+                  <div>
+                    <p
+                      className="text-[10px] font-[800] uppercase tracking-[0.08em]"
+                      style={{ color: TEXT.badge }}
+                    >
+                      {(index + 1).toString().padStart(2, "0")}
+                    </p>
+
+                    <p
+                      className="mt-1 text-[12.5px] font-[700] leading-[1.55] sm:text-[13.5px]"
+                      style={{ color: TEXT.primary }}
+                    >
+                      {feature}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
           <div
-            className="absolute inset-3 rounded-full"
+            className="mt-5 rounded-[20px] px-4 py-4"
             style={{
-              background: "rgba(255,255,255,0.03)",
+              background: GRADIENTS.solidCard,
               border: `1px solid ${BORDERS.subtle}`,
-            }}
-          />
-
-          {/*  Pulse ring — uses BORDERS.strong for visibility */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{ border: `1px solid ${BORDERS.strong}` }}
-            animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.05, 0.5] }}
-            transition={{ duration: 3.5, repeat: Infinity }}
-          />
-
-          <span className="relative z-10">Core</span>
-        </motion.div>
-
-        {/* Connector line */}
-        <div
-          className="w-px h-24 mt-5 mb-10"
-          style={{
-            background: `linear-gradient(to bottom, ${BORDERS.strong}, transparent)`,
-          }}
-        />
-      </div>
-
-      {/*  Feature cards — staggered entrance animation */}
-      <div className="relative z-10 flex flex-wrap justify-center gap-6">
-        {features.map((feature, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              delay: 0.15 + i * 0.08,
-              duration: 0.5,
-              ease: "easeOut",
-            }}
-            whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            className="w-60 lg:w-72 rounded-2xl px-6 py-5 text-center transition-colors duration-300"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: `1px solid ${BORDERS.subtle}`,
-              boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.border = `1px solid ${BORDERS.strong}`;
-              e.currentTarget.style.boxShadow =
-                "0 0 30px rgba(255,255,255,0.07), 0 20px 50px rgba(0,0,0,0.5)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.border = `1px solid ${BORDERS.subtle}`;
-              e.currentTarget.style.boxShadow = "0 20px 50px rgba(0,0,0,0.5)";
             }}
           >
-            {/*  Feature number — lighter, distinct color */}
-            <div
-              className="text-xs font-black tracking-[0.25em] mb-3 uppercase"
-              style={{ color: "rgba(255,255,255,0.25)" }}
-            >
-              Feature {(i + 1).toString().padStart(2, "0")}
-            </div>
-
-            {/*  Feature text — gradient matching design system */}
             <p
-              className="text-sm leading-relaxed font-medium"
-              style={{ color: "rgba(255,255,255,0.7)" }}
+              className="text-[11px] font-[800] uppercase tracking-[0.08em]"
+              style={{ color: TEXT.badge }}
             >
-              {feature}
+              Outcome
             </p>
-          </motion.div>
-        ))}
+
+            <p
+              className="mt-2 text-[13px] font-[500] leading-[1.75] sm:text-[14px]"
+              style={{ color: TEXT.soft }}
+            >
+              This structure supports faster iteration, cleaner feature growth,
+              and easier maintenance as the app expands with new flows,
+              integrations, and user-facing capabilities.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -4,10 +4,40 @@ export const projectsMap: Record<string, any> = {
     title: "TinyShelf",
     role: "Flutter Developer",
     color: "#E06C75",
+    year: "2026",
     duration: "2026",
     googlePlay: null,
     appStore: null,
+    liveDemo: null,
     comingSoon: false,
+
+    eyebrow: "Reading Product",
+    subtitle: "Flutter Developer · Mobile Case Study",
+    overview:
+      "TinyShelf is a cloud-connected reading app built to explore scalable Flutter architecture, synced reading progress, and a polished light/dark reading experience using Supabase and Cubit-based state isolation.",
+
+    quickFacts: [
+      { label: "Platform", value: "iOS + Android" },
+      { label: "Backend", value: "Supabase" },
+      { label: "Architecture", value: "Feature-First Clean Architecture" },
+      { label: "Focus", value: "Reading sync & modular state" },
+    ],
+
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
+        variant: "primary",
+        icon: "github",
+      },
+    ],
+
+    stats: [
+      { label: "Screens", value: "8" },
+      { label: "Flows", value: "7" },
+      { label: "Tech", value: "15+" },
+      { label: "Challenges", value: "3" },
+    ],
 
     shortDescription:
       "A cloud-connected book reading application built with Supabase backend services and Feature-First Clean Architecture. Designed to explore scalable authentication, reading progress synchronization, and dynamic theming in a modular Flutter architecture.",
@@ -20,7 +50,7 @@ export const projectsMap: Record<string, any> = {
       "Feature-First Clean Architecture implementation",
       "Cubit-based state isolation and rebuild control",
       "Cloud-synced reading progress tracking",
-      "Dynamic Material 3 Light & Dark theme system"
+      "Dynamic Material 3 Light & Dark theme system",
     ],
 
     features: [
@@ -32,7 +62,7 @@ export const projectsMap: Record<string, any> = {
       "Search functionality with filtering logic",
       "Favorites and personal library management",
       "Responsive UI using Flutter ScreenUtil",
-      "Route protection using GoRouter"
+      "Route protection using GoRouter",
     ],
 
     challenge:
@@ -47,7 +77,7 @@ export const projectsMap: Record<string, any> = {
       "Bloc / Cubit",
       "Clean Architecture",
       "Material 3",
-      "Flutter ScreenUtil"
+      "Flutter ScreenUtil",
     ],
 
     github: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
@@ -59,38 +89,30 @@ export const projectsMap: Record<string, any> = {
       "Maintained smooth scrolling performance across list-heavy screens",
       "Optimized Supabase data access through repository abstraction",
       "Implemented isolated state emission to control UI rendering scope",
-      "Structured authentication flow with predictable navigation state"
+      "Structured authentication flow with predictable navigation state",
     ],
 
     heroScreens: [
       "/projects/book_reading/normal/dark/Screenshot_1771917082-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920920-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771917100-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920580-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771917108-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920583-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771917119-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920596-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771917127-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920602-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771919718-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920606-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771920693-portrait.png",
       "/projects/book_reading/normal/light/Screenshot_1771920688-portrait.png",
-
       "/projects/book_reading/normal/dark/Screenshot_1771920853-portrait.png",
-      "/projects/book_reading/normal/light/Screenshot_1771920839-portrait.png"
+      "/projects/book_reading/normal/light/Screenshot_1771920839-portrait.png",
     ],
 
     sections: [
       {
-        // Login
         label: "SCREEN 01",
         title: "Supabase Authentication System",
         description:
@@ -99,12 +121,11 @@ export const projectsMap: Record<string, any> = {
           "Email/password authentication via Supabase",
           "Session persistence across app restarts",
           "GoRouter-based route protection",
-          "Auth state isolation using Cubit"
+          "Auth state isolation using Cubit",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771917082-portrait.png",
       },
       {
-        // Home
         label: "SCREEN 02",
         title: "Home & Book Discovery",
         description:
@@ -113,12 +134,11 @@ export const projectsMap: Record<string, any> = {
           "Supabase Postgres data retrieval",
           "Repository-based data abstraction",
           "Selective Cubit rebuild optimization",
-          "Efficient list rendering and scrolling performance"
+          "Efficient list rendering and scrolling performance",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771917100-portrait.png",
       },
       {
-        // Explore + Search
         label: "SCREEN 03",
         title: "Explore & Search System",
         description:
@@ -127,12 +147,11 @@ export const projectsMap: Record<string, any> = {
           "Category-based exploration logic",
           "Search functionality with real-time filtering",
           "Query-based Supabase data fetching",
-          "Optimized state updates during search interactions"
+          "Optimized state updates during search interactions",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771917108-portrait.png",
       },
       {
-        // Library
         label: "SCREEN 04",
         title: "Personal Library Management",
         description:
@@ -141,12 +160,11 @@ export const projectsMap: Record<string, any> = {
           "Favorites management logic",
           "Bookmark persistence handling",
           "Cubit-driven UI state updates",
-          "Optimized list rebuild boundaries"
+          "Optimized list rebuild boundaries",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771917127-portrait.png",
       },
       {
-        // Book Details
         label: "SCREEN 05",
         title: "Book Details & Metadata View",
         description:
@@ -155,12 +173,11 @@ export const projectsMap: Record<string, any> = {
           "Entity-driven UI rendering",
           "Favorite toggle logic",
           "Reusable presentation components",
-          "Optimized state isolation per book item"
+          "Optimized state isolation per book item",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771920693-portrait.png",
       },
       {
-        // Reading
         label: "SCREEN 06",
         title: "Reading Experience & Progress Tracking",
         description:
@@ -169,12 +186,11 @@ export const projectsMap: Record<string, any> = {
           "Cloud-synced reading progress updates",
           "Controlled UI rebuild during page updates",
           "Dynamic Light & Dark theme adaptation",
-          "Focused, reader-centered layout design"
+          "Focused, reader-centered layout design",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771920853-portrait.png",
       },
       {
-        // Profile
         label: "SCREEN 07",
         title: "Profile & Account Management",
         description:
@@ -183,11 +199,12 @@ export const projectsMap: Record<string, any> = {
           "User metadata retrieval from Supabase",
           "Session-aware profile state handling",
           "Cloud-backed user information",
-          "Theme preference management"
+          "Theme preference management",
         ],
         image: "/projects/book_reading/normal/dark/Screenshot_1771919718-portrait.png",
       },
     ],
+
     gallery: [
       "/projects/book_reading/2d_preview/login.png",
       "/projects/book_reading/2d_preview/home.png",
@@ -196,28 +213,8 @@ export const projectsMap: Record<string, any> = {
       "/projects/book_reading/2d_preview/bookdetails.png",
       "/projects/book_reading/2d_preview/reading.png",
       "/projects/book_reading/2d_preview/library.png",
-      "/projects/book_reading/2d_preview/profile.png"
+      "/projects/book_reading/2d_preview/profile.png",
     ],
-    // architecture: {
-    //   title: "Feature-First Clean Architecture (SOLID-Oriented)",
-    //   layers: [
-    //     {
-    //       name: "Presentation Layer",
-    //       description:
-    //         "Flutter UI screens and Cubits responsible for rendering and interaction handling. Applies Single Responsibility and Dependency Inversion principles through state isolation and abstraction."
-    //     },
-    //     {
-    //       name: "Domain Layer",
-    //       description:
-    //         "Framework-agnostic entities and use cases encapsulating business rules. Enforces Single Responsibility and Open/Closed principles."
-    //     },
-    //     {
-    //       name: "Data Layer",
-    //       description:
-    //         "Repository implementations coordinating Supabase Authentication, Postgres queries, and Storage operations using abstraction to maintain Dependency Inversion."
-    //     }
-    //   ]
-    // },
 
     techStack: [
       {
@@ -227,15 +224,12 @@ export const projectsMap: Record<string, any> = {
           "Clean Architecture",
           "Repository Pattern",
           "Dependency Inversion",
-          "Feature-First Structure"
-        ]
+          "Feature-First Structure",
+        ],
       },
       {
         title: "State Management",
-        items: [
-          "Bloc / Cubit",
-          "Selective Rebuild Control"
-        ]
+        items: ["Bloc / Cubit", "Selective Rebuild Control"],
       },
       {
         title: "Backend & Cloud",
@@ -243,15 +237,12 @@ export const projectsMap: Record<string, any> = {
           "Supabase Authentication",
           "Supabase Postgres",
           "Supabase Storage",
-          "Row-Level Security (RLS)"
-        ]
+          "Row-Level Security (RLS)",
+        ],
       },
       {
         title: "Routing",
-        items: [
-          "GoRouter",
-          "Route Guards"
-        ]
+        items: ["GoRouter", "Route Guards"],
       },
       {
         title: "UI & Performance",
@@ -260,31 +251,37 @@ export const projectsMap: Record<string, any> = {
           "Dynamic Light/Dark Theme",
           "Flutter ScreenUtil",
           "Responsive Layout Scaling",
-          "Optimized List Rendering"
-        ]
-      }
+          "Optimized List Rendering",
+        ],
+      },
     ],
-
+developmentProcess: [
+  "Research and competitor review",
+  "Wireframing and flow mapping",
+  "UI design system setup",
+  "Frontend implementation",
+  "Testing and refinement",
+],
     challenges: [
       {
         challenge:
           "Integrating Supabase authentication, database queries, and storage operations without tightly coupling backend logic to presentation components.",
         solution:
-          "Applied repository abstraction within the data layer and injected dependencies into the domain layer to preserve Clean Architecture boundaries."
+          "Applied repository abstraction within the data layer and injected dependencies into the domain layer to preserve Clean Architecture boundaries.",
       },
       {
         challenge:
           "Preventing unnecessary widget rebuilds in list-heavy and state-driven screens such as Home and Library.",
         solution:
-          "Used granular Cubit state emissions and selective BlocBuilder scopes to isolate rebuild areas and improve rendering performance."
+          "Used granular Cubit state emissions and selective BlocBuilder scopes to isolate rebuild areas and improve rendering performance.",
       },
       {
         challenge:
           "Ensuring consistent authentication state across app restarts and navigation transitions.",
         solution:
-          "Leveraged Supabase session persistence combined with Cubit-based auth state restoration and GoRouter redirect logic."
-      }
-    ]
+          "Leveraged Supabase session persistence combined with Cubit-based auth state restoration and GoRouter redirect logic.",
+      },
+    ],
   },
 
   news_app: {
@@ -292,10 +289,47 @@ export const projectsMap: Record<string, any> = {
     title: "Quick Read",
     color: "#475AD7",
     role: "Flutter Developer",
+    year: "2025",
     duration: "2025",
     googlePlay: null,
     appStore: null,
+    liveDemo: null,
     comingSoon: false,
+
+    eyebrow: "News Product",
+    subtitle: "Flutter Developer · Content Experience",
+    overview:
+      "Quick Read is a modular news app focused on fast content delivery, offline-friendly reading, and clean multi-screen state handling across feed, categories, bookmarks, and detail views.",
+
+    quickFacts: [
+      { label: "Platform", value: "iOS + Android" },
+      { label: "Content", value: "REST API news feeds" },
+      { label: "Storage", value: "Hive offline caching" },
+      { label: "Focus", value: "Fast feed rendering" },
+    ],
+
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Mohamedismaell/News",
+        variant: "primary",
+        icon: "github",
+      },
+    ],
+
+    stats: [
+      { label: "Screens", value: "9" },
+      { label: "Flows", value: "3" },
+      { label: "Tech", value: "10+" },
+      { label: "Challenges", value: "2" },
+    ],
+developmentProcess: [
+  "Research and competitor review",
+  "Wireframing and flow mapping",
+  "UI design system setup",
+  "Frontend implementation",
+  "Testing and refinement",
+],
     shortDescription:
       "A high-performance cross-platform news application engineered with scalable Clean Architecture, optimized state management, and intelligent caching strategies. Built to deliver real-time content updates, seamless offline reading, and a refined, production-ready user experience.",
 
@@ -390,27 +424,6 @@ export const projectsMap: Record<string, any> = {
       },
     ],
 
-    // architecture: {
-    //   title: "Clean Architecture Implementation",
-    //   layers: [
-    //     {
-    //       name: "Presentation Layer (Flutter)",
-    //       description:
-    //         "Composed of UI screens, reusable widgets, and Cubit-based state management responsible for rendering, user interaction handling, and optimized widget rebuild control.",
-    //     },
-    //     {
-    //       name: "Domain Layer (Business Logic)",
-    //       description:
-    //         "Framework-independent core layer containing entities and use cases that encapsulate business rules and maintain architectural integrity.",
-    //     },
-    //     {
-    //       name: "Data Layer (API & Repositories)",
-    //       description:
-    //         "Handles REST API integrations, DTO transformations, repository implementations, and structured local/remote data source coordination.",
-    //     },
-    //   ],
-    // },
-
     techStack: [
       {
         title: "Architecture",
@@ -443,22 +456,49 @@ export const projectsMap: Record<string, any> = {
         solution:
           "Integrated Hive-based structured caching with controlled expiration logic to balance performance and content accuracy.",
       },
-    ]
+    ],
+  },
 
-
-
-    ,
-
-  }
-  , tasky: {
+  tasky: {
     slug: "tasky",
     title: "Tasky",
     role: "Flutter Developer",
     color: "#15B86C",
+    year: "2025",
     duration: "2025",
     googlePlay: null,
     appStore: null,
+    liveDemo: null,
     comingSoon: false,
+
+    eyebrow: "Productivity App",
+    subtitle: "Flutter Developer · Task Management",
+    overview:
+      "Tasky is a structured task management app built around persistent local state, responsive filtering flows, and scalable architecture for future feature growth.",
+
+    quickFacts: [
+      { label: "Platform", value: "iOS + Android" },
+      { label: "State", value: "Hydrated Bloc" },
+      { label: "Routing", value: "GoRouter + GetIt" },
+      { label: "Focus", value: "Offline task persistence" },
+    ],
+
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Mohamedismaell/tasky",
+        variant: "primary",
+        icon: "github",
+      },
+    ],
+
+    stats: [
+      { label: "Screens", value: "7" },
+      { label: "Flows", value: "4" },
+      { label: "Tech", value: "10+" },
+      { label: "Challenges", value: "3" },
+    ],
+
     shortDescription:
       "A production-ready task management application engineered with Feature-First Clean Architecture, Hydrated Bloc state persistence, and a highly responsive UI system. Tasky delivers seamless task organization, dynamic filtering, and reliable offline storage with optimized performance across devices.",
 
@@ -470,7 +510,7 @@ export const projectsMap: Record<string, any> = {
       "Hydrated Bloc persistent state management",
       "Dynamic Light & Dark theme switching",
       "Selective widget rebuild optimization",
-      "Scalable dependency injection setup"
+      "Scalable dependency injection setup",
     ],
 
     features: [
@@ -480,7 +520,7 @@ export const projectsMap: Record<string, any> = {
       "User profile customization",
       "Theme switching with global state control",
       "Structured routing using GoRouter",
-      "Responsive UI with Flutter ScreenUtil"
+      "Responsive UI with Flutter ScreenUtil",
     ],
 
     challenge:
@@ -502,7 +542,7 @@ export const projectsMap: Record<string, any> = {
       "/projects/tasky/normal/Screenshot_1771159689-portrait.png",
       "/projects/tasky/normal/Screenshot_1771159908-portrait.png",
       "/projects/tasky/normal/Screenshot_1771159921-portrait.png",
-      "/projects/tasky/normal/Screenshot_1771161022-portrait.png"
+      "/projects/tasky/normal/Screenshot_1771161022-portrait.png",
     ],
 
     gallery: [
@@ -511,7 +551,7 @@ export const projectsMap: Record<string, any> = {
       "/projects/tasky/2D_preview/add_task.png",
       "/projects/tasky/2D_preview/todo.png",
       "/projects/tasky/2D_preview/completed.png",
-      "/projects/tasky/2D_preview/profile.png"
+      "/projects/tasky/2D_preview/profile.png",
     ],
 
     sections: [
@@ -523,9 +563,9 @@ export const projectsMap: Record<string, any> = {
         features: [
           "Selective Bloc rebuild strategy",
           "Status-based task segmentation",
-          "Smooth animated list transitions"
+          "Smooth animated list transitions",
         ],
-        image: "/projects/tasky/normal/Screenshot_1771159896-portrait.png"
+        image: "/projects/tasky/normal/Screenshot_1771159896-portrait.png",
       },
       {
         label: "SCREEN 02",
@@ -535,9 +575,9 @@ export const projectsMap: Record<string, any> = {
         features: [
           "Instant task state updates",
           "Optimized event handling with Bloc",
-          "Structured feature-based architecture"
+          "Structured feature-based architecture",
         ],
-        image: "/projects/tasky/normal/Screenshot_1771159908-portrait.png"
+        image: "/projects/tasky/normal/Screenshot_1771159908-portrait.png",
       },
       {
         label: "SCREEN 03",
@@ -547,9 +587,9 @@ export const projectsMap: Record<string, any> = {
         features: [
           "Hydrated persistent storage",
           "Efficient filtering logic",
-          "Consistent UI rebuild boundaries"
+          "Consistent UI rebuild boundaries",
         ],
-        image: "/projects/tasky/normal/Screenshot_1771159921-portrait.png"
+        image: "/projects/tasky/normal/Screenshot_1771159921-portrait.png",
       },
       {
         label: "SCREEN 04",
@@ -559,49 +599,28 @@ export const projectsMap: Record<string, any> = {
         features: [
           "Light & Dark mode toggle",
           "SharedPreferences integration",
-          "Global theme state management"
+          "Global theme state management",
         ],
-        image: "/projects/tasky/normal/Screenshot_1771161022-portrait.png"
-      }
+        image: "/projects/tasky/normal/Screenshot_1771161022-portrait.png",
+      },
     ],
-
-    // architecture: {
-    //   title: "Feature-First Clean Architecture",
-    //   layers: [
-    //     {
-    //       name: "Presentation Layer (Flutter)",
-    //       description:
-    //         "UI widgets, Bloc state controllers, and navigation logic responsible for rendering and user interaction."
-    //     },
-    //     {
-    //       name: "Domain Layer (Business Logic)",
-    //       description:
-    //         "Core entities, use cases, and repository abstractions defining business rules independent from frameworks."
-    //     },
-    //     {
-    //       name: "Data Layer (Local Persistence)",
-    //       description:
-    //         "Hydrated Bloc storage and SharedPreferences implementation structured to support future API integration."
-    //     }
-    //   ]
-    // },
 
     techStack: [
       {
         title: "Architecture",
-        items: ["Feature-First Structure", "Clean Architecture"]
+        items: ["Feature-First Structure", "Clean Architecture"],
       },
       {
         title: "State Management",
-        items: ["Flutter Bloc", "Hydrated Bloc"]
+        items: ["Flutter Bloc", "Hydrated Bloc"],
       },
       {
         title: "Routing & DI",
-        items: ["GoRouter", "GetIt"]
+        items: ["GoRouter", "GetIt"],
       },
       {
         title: "Storage",
-        items: ["Hydrated Storage", "Shared Preferences"]
+        items: ["Hydrated Storage", "Shared Preferences"],
       },
       {
         title: "UI & Performance",
@@ -609,9 +628,9 @@ export const projectsMap: Record<string, any> = {
           "Flutter ScreenUtil",
           "Flutter SVG",
           "Cached Network Image",
-          "Animations Package"
-        ]
-      }
+          "Animations Package",
+        ],
+      },
     ],
 
     challenges: [
@@ -619,31 +638,61 @@ export const projectsMap: Record<string, any> = {
         challenge:
           "Maintaining consistent state persistence across application restarts without degrading performance.",
         solution:
-          "Integrated Hydrated Bloc with optimized state emission patterns to ensure efficient serialization and restoration."
+          "Integrated Hydrated Bloc with optimized state emission patterns to ensure efficient serialization and restoration.",
       },
       {
-        challenge:
-          "Ensuring modular scalability for future feature expansion.",
+        challenge: "Ensuring modular scalability for future feature expansion.",
         solution:
-          "Adopted Feature-First Clean Architecture with strict separation of concerns and dependency injection."
+          "Adopted Feature-First Clean Architecture with strict separation of concerns and dependency injection.",
       },
       {
         challenge:
           "Preventing unnecessary UI rebuilds in complex state scenarios.",
         solution:
-          "Applied selective rebuild logic and granular Bloc listeners to isolate widget updates."
-      }
-    ]
+          "Applied selective rebuild logic and granular Bloc listeners to isolate widget updates.",
+      },
+    ],
   },
+
   mind_trip: {
     slug: "MindTrip",
     title: "MindTrip",
     role: "Flutter Developer",
     color: "#5596FE",
+    year: "2026",
     duration: "2026",
     googlePlay: null,
     appStore: null,
+    liveDemo: null,
     comingSoon: true,
+
+    eyebrow: "AI Travel Product",
+    subtitle: "Flutter Developer · Coming Soon Case Study",
+    overview:
+      "MindTrip is an AI-powered travel planning experience designed around conversational trip discovery, itinerary building, and collaborative planning for modern travelers.",
+
+    quickFacts: [
+      { label: "Status", value: "Coming Soon" },
+      { label: "Platform", value: "Mobile App" },
+      { label: "Category", value: "AI Travel Planning" },
+      { label: "Focus", value: "Itineraries & collaboration" },
+    ],
+
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/Mohamedismaell/MindTrip",
+        variant: "primary",
+        icon: "github",
+      },
+    ],
+
+    stats: [
+      { label: "Status", value: "WIP" },
+      { label: "AI", value: "Trip Assistant" },
+      { label: "Focus", value: "Planning" },
+      { label: "Mode", value: "Collaborative" },
+    ],
 
     shortDescription:
       "MindTrip is an AI-powered travel app that helps users plan, organize, and personalize their trips in one place. It uses conversational AI to suggest destinations, activities, hotels, and restaurants based on your preferences, location, and travel style, while also creating customizable itineraries, maps, and collaborative trip plans you can share with friends.",
@@ -654,7 +703,12 @@ export const projectsMap: Record<string, any> = {
     github: "https://github.com/Mohamedismaell/MindTrip",
 
     image: "/projects/MindTrip/normal/cover.png",
-
-
+    developmentProcess: [
+  "Research and competitor review",
+  "Wireframing and flow mapping",
+  "UI design system setup",
+  "Frontend implementation",
+  "Testing and refinement",
+]
   },
-}
+};

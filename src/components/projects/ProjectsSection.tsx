@@ -26,7 +26,7 @@ const containerVariants: Variants = {
 };
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 34 },
   visible: {
     opacity: 1,
     y: 0,
@@ -157,236 +157,220 @@ export default function ProjectsSection() {
 
   return (
     <SectionWrapper id="projects" className="pb-12 sm:pb-16 lg:pb-20">
-      <div className="mx-auto max-w-[1240px]">
-        <div
-          className="rounded-[30px] px-3 py-3 sm:px-4 sm:py-4 lg:px-5 lg:py-5"
-          style={{
-            background: GRADIENTS.solidCard,
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
-          }}
-        >
-          <div className="mb-4 flex items-start justify-between gap-4 px-1 sm:px-2">
-            <div>
-              <p
-                className="text-[10px] font-[800] uppercase tracking-[0.1em] sm:text-[11px]"
-                style={{ color: TEXT.badge }}
-              >
-                Featured Projects
-              </p>
-
-              <h2
-                className="mt-1 text-[1.75rem] font-[800] leading-[0.98] tracking-[-0.06em] sm:text-[2rem] lg:text-[2.35rem]"
-                style={{ color: TEXT.primary }}
-              >
-                My Recent Work
-              </h2>
-            </div>
-          </div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            className="flex flex-col"
+      <div className="mx-auto max-w-[1260px]">
+        <div className="mb-6 px-1 sm:mb-8 sm:px-2">
+          <p
+            className="text-[10px] font-[800] uppercase tracking-[0.12em] sm:text-[11px]"
+            style={{ color: TEXT.badge }}
           >
-            {projects.map((project: any, index: number) => {
-              const highlights = (project.highlights || []).slice(0, 4);
-              const tech = (project.tech || []).slice(0, 5);
-              const caseStudyHref = getCaseStudyHref(project.slug);
-              const githubHref = project.github || null;
-              const hasGallery =
-                Array.isArray(project.gallery) && project.gallery.length > 0;
-              const Icon = getProjectIcon(project.slug);
+            Featured Projects
+          </p>
 
-              return (
-                <motion.article
-                  key={project.slug}
-                  variants={cardVariants}
-                  className={[
-                    "relative px-2 py-4 sm:px-3 sm:py-5",
-                    index !== projects.length - 1 ? "border-b" : "",
-                  ].join(" ")}
-                  style={{
-                    borderColor:
-                      index !== projects.length - 1
-                        ? BORDERS.subtle
-                        : "transparent",
-                  }}
-                >
-                  <div className="grid grid-cols-1 gap-4 lg:grid-cols-[240px_minmax(0,1fr)_320px] lg:gap-5">
-                    <div className="overflow-hidden rounded-[18px]">
-                      <div
-                        className="relative aspect-[1.18/1] overflow-hidden rounded-[18px]"
-                        style={{
-                          background: GRADIENTS.cardBg,
-                          boxShadow: SHADOWS.card,
-                          border: `1px solid ${BORDERS.subtle}`,
-                        }}
-                      >
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          priority={false}
-                          className="object-cover object-center"
-                          sizes="(max-width: 1024px) 100vw, 240px"
-                        />
+          <h2
+            className="mt-2 max-w-[11ch] text-[1.95rem] font-[900] leading-[0.96] tracking-[-0.065em] sm:text-[2.35rem] lg:text-[3rem]"
+            style={{ color: TEXT.primary }}
+          >
+            Selected work that blends product thinking and engineering.
+          </h2>
+        </div>
 
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            background:
-                              "linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(15,10,6,0.08) 100%)",
-                          }}
-                        />
-                      </div>
-                    </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          className="flex flex-col gap-4 sm:gap-5"
+        >
+          {projects.map((project: any) => {
+            const highlights = (project.highlights || []).slice(0, 4);
+            const tech = (project.tech || []).slice(0, 5);
+            const caseStudyHref = getCaseStudyHref(project.slug);
+            const githubHref = project.github || null;
+            const hasGallery =
+              Array.isArray(project.gallery) && project.gallery.length > 0;
+            const Icon = getProjectIcon(project.slug);
 
+            return (
+              <motion.article
+                key={project.slug}
+                variants={cardVariants}
+                className="rounded-[26px] p-3 sm:rounded-[30px] sm:p-4 lg:p-5"
+                style={{
+                  background: GRADIENTS.solidCard,
+                  border: `1px solid ${BORDERS.subtle}`,
+                  boxShadow: SHADOWS.card,
+                }}
+              >
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[250px_minmax(0,1fr)_300px] lg:gap-5 xl:grid-cols-[268px_minmax(0,1fr)_320px]">
+                  <div className="overflow-hidden rounded-[20px]">
                     <div
-                      className="flex min-w-0 flex-col justify-between py-1 lg:border-r lg:pr-5"
-                      style={{ borderColor: BORDERS.subtle }}
+                      className="relative aspect-[1.06/1] overflow-hidden rounded-[20px]"
+                      style={{
+                        background: GRADIENTS.cardBg,
+                        boxShadow: SHADOWS.ghostBtn,
+                        border: `1px solid ${BORDERS.subtle}`,
+                      }}
                     >
-                      <div>
-                        <div className="flex items-start gap-3">
-                          <span
-                            className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
-                            style={{
-                              background: GRADIENTS.primaryBtn,
-                              color: TEXT.inverse,
-                              boxShadow: SHADOWS.primaryBtn,
-                            }}
-                          >
-                            <Icon size={16} strokeWidth={2.3} />
-                          </span>
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        priority={false}
+                        className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+                        sizes="(max-width: 1024px) 100vw, 268px"
+                      />
 
-                          <div className="min-w-0">
-                            <h3
-                              className="text-[1.15rem] font-[800] leading-[1.02] tracking-[-0.05em] sm:text-[1.35rem]"
-                              style={{ color: TEXT.primary }}
-                            >
-                              {project.title}
-                            </h3>
-
-                            <p
-                              className="mt-1 text-[11px] font-[600] sm:text-[12px]"
-                              style={{ color: TEXT.soft }}
-                            >
-                              {project.role}
-                            </p>
-                          </div>
-                        </div>
-
-                        <p
-                          className="mt-3 text-[12px] font-[500] leading-[1.78] sm:text-[13px]"
-                          style={{ color: TEXT.soft }}
-                        >
-                          {project.shortDescription}
-                        </p>
-
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {tech.map((item: string) => (
-                            <span
-                              key={item}
-                              className="rounded-full px-3 py-1.5 text-[10px] font-[700] sm:text-[10.5px]"
-                              style={{
-                                background: GRADIENTS.ghostBtn,
-                                border: `1px solid ${BORDERS.subtle}`,
-                                color: TEXT.primary,
-                                boxShadow: SHADOWS.ghostBtn,
-                              }}
-                            >
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(20,14,9,0.08) 100%)",
+                        }}
+                      />
                     </div>
+                  </div>
 
-                    <div className="flex h-full flex-col justify-between py-1 lg:pl-1">
-                      <ul className="flex flex-col gap-2.5">
-                        {highlights.map((item: string, idx: number) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2.5 text-[11.5px] font-[600] leading-[1.55] sm:text-[12.5px]"
+                  <div
+                    className="flex min-w-0 flex-col justify-between py-1 lg:border-r lg:pr-5"
+                    style={{ borderColor: BORDERS.subtle }}
+                  >
+                    <div>
+                      <div className="flex items-start gap-3">
+                        <span
+                          className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+                          style={{
+                            background: GRADIENTS.badge,
+                            border: `1px solid ${BORDERS.medium}`,
+                            color: "var(--accent)",
+                          }}
+                        >
+                          <Icon size={17} strokeWidth={2.2} />
+                        </span>
+
+                        <div className="min-w-0">
+                          <h3
+                            className="text-[1.22rem] font-[850] leading-[1.02] tracking-[-0.05em] sm:text-[1.45rem]"
                             style={{ color: TEXT.primary }}
                           >
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{
-                                background: GRADIENTS.badge,
-                                color: TEXT.badge,
-                                border: `1px solid ${BORDERS.medium}`,
-                              }}
-                            >
-                              <Check size={11} strokeWidth={3} />
-                            </span>
-                            <span>{item}</span>
-                          </li>
+                            {project.title}
+                          </h3>
+
+                          <p
+                            className="mt-1 text-[11px] font-[700] sm:text-[12px]"
+                            style={{ color: TEXT.soft }}
+                          >
+                            {project.role}
+                          </p>
+                        </div>
+                      </div>
+
+                      <p
+                        className="mt-3.5 max-w-[64ch] text-[12.5px] font-[500] leading-[1.78] sm:text-[13.5px] lg:text-[14px]"
+                        style={{ color: TEXT.soft }}
+                      >
+                        {project.shortDescription}
+                      </p>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {tech.map((item: string) => (
+                          <span
+                            key={item}
+                            className="rounded-full px-3 py-1.5 text-[10px] font-[700] sm:text-[10.5px]"
+                            style={{
+                              background: GRADIENTS.ghostBtn,
+                              border: `1px solid ${BORDERS.subtle}`,
+                              color: TEXT.primary,
+                            }}
+                          >
+                            {item}
+                          </span>
                         ))}
-                      </ul>
-
-                      <div className="mt-5 flex flex-wrap items-center justify-start gap-2">
-                        <Link
-                          href={caseStudyHref}
-                          className="inline-flex h-[34px] items-center gap-1.5 rounded-[11px] px-3.5 text-[11px] font-[700] transition-transform duration-300 hover:-translate-y-0.5"
-                          style={{
-                            background: GRADIENTS.primaryBtn,
-                            border: `1px solid ${BORDERS.medium}`,
-                            color: TEXT.inverse,
-                            boxShadow: SHADOWS.primaryBtn,
-                          }}
-                        >
-                          <span>Full Project</span>
-                          <ArrowRight size={13} />
-                        </Link>
-
-                        {hasGallery && (
-                          <button
-                            onClick={() => {
-                              setGalleryImages(project.gallery);
-                              setGalleryTitle(project.title);
-                              setCurrentGalleryIndex(0);
-                            }}
-                            className="inline-flex h-[34px] items-center gap-1.5 rounded-[11px] px-3.5 text-[11px] font-[700] transition-transform duration-300 hover:-translate-y-0.5"
-                            style={{
-                              background: GRADIENTS.ghostBtn,
-                              border: `1px solid ${BORDERS.subtle}`,
-                              color: TEXT.primary,
-                              boxShadow: SHADOWS.ghostBtn,
-                            }}
-                          >
-                            <Images size={13} style={{ color: TEXT.badge }} />
-                            <span>Preview</span>
-                          </button>
-                        )}
-
-                        {githubHref ? (
-                          <a
-                            href={githubHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`${project.title} GitHub`}
-                            className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[11px] transition-transform duration-300 hover:-translate-y-0.5"
-                            style={{
-                              background: GRADIENTS.ghostBtn,
-                              border: `1px solid ${BORDERS.subtle}`,
-                              color: TEXT.primary,
-                              boxShadow: SHADOWS.ghostBtn,
-                            }}
-                          >
-                            <Github size={14} />
-                          </a>
-                        ) : null}
                       </div>
                     </div>
                   </div>
-                </motion.article>
-              );
-            })}
-          </motion.div>
-        </div>
+
+                  <div className="flex h-full flex-col justify-between py-1 lg:pl-1">
+                    <ul className="flex flex-col gap-2.5">
+                      {highlights.map((item: string, idx: number) => (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2.5 text-[11.5px] font-[600] leading-[1.58] sm:text-[12.5px]"
+                          style={{ color: TEXT.primary }}
+                        >
+                          <span
+                            className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                            style={{
+                              background: GRADIENTS.badge,
+                              color: TEXT.badge,
+                              border: `1px solid ${BORDERS.medium}`,
+                            }}
+                          >
+                            <Check size={11} strokeWidth={3} />
+                          </span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-5 flex flex-wrap items-center gap-2">
+                      <Link
+                        href={caseStudyHref}
+                        className="inline-flex h-[36px] items-center gap-1.5 rounded-[12px] px-3.5 text-[11px] font-[800] transition-transform duration-300 hover:-translate-y-0.5"
+                        style={{
+                          background: GRADIENTS.primaryBtn,
+                          border: `1px solid ${BORDERS.medium}`,
+                          color: TEXT.inverse,
+                          boxShadow: SHADOWS.primaryBtn,
+                        }}
+                      >
+                        <span>Full Project</span>
+                        <ArrowRight size={13} />
+                      </Link>
+
+                      {hasGallery && (
+                        <button
+                          onClick={() => {
+                            setGalleryImages(project.gallery);
+                            setGalleryTitle(project.title);
+                            setCurrentGalleryIndex(0);
+                          }}
+                          className="inline-flex h-[36px] items-center gap-1.5 rounded-[12px] px-3.5 text-[11px] font-[700] transition-transform duration-300 hover:-translate-y-0.5"
+                          style={{
+                            background: GRADIENTS.ghostBtn,
+                            border: `1px solid ${BORDERS.subtle}`,
+                            color: TEXT.primary,
+                            boxShadow: SHADOWS.ghostBtn,
+                          }}
+                        >
+                          <Images size={13} style={{ color: TEXT.badge }} />
+                          <span>Preview</span>
+                        </button>
+                      )}
+
+                      {githubHref ? (
+                        <a
+                          href={githubHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} GitHub`}
+                          className="inline-flex h-[36px] w-[36px] items-center justify-center rounded-[12px] transition-transform duration-300 hover:-translate-y-0.5"
+                          style={{
+                            background: GRADIENTS.ghostBtn,
+                            border: `1px solid ${BORDERS.subtle}`,
+                            color: TEXT.primary,
+                            boxShadow: SHADOWS.ghostBtn,
+                          }}
+                        >
+                          <Github size={14} />
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </motion.div>
       </div>
 
       <AnimatePresence mode="wait">
