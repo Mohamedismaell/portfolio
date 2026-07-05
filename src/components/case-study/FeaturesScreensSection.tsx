@@ -18,13 +18,10 @@ export default function FeaturesScreensSection({
   projectName,
   sections,
 }: {
-  projectName: String;
+  projectName: string;
   sections: SectionItem[];
 }) {
-  const safeSections = useMemo(
-    () => sections?.filter(Boolean) ?? [],
-    [sections],
-  );
+  const safeSections = useMemo(() => sections?.filter(Boolean) ?? [], [sections]);
   const [page, setPage] = useState(0);
 
   if (!safeSections.length) return null;
@@ -39,22 +36,17 @@ export default function FeaturesScreensSection({
       setPage(totalPages - 1);
       return;
     }
+
     if (nextPage >= totalPages) {
       setPage(0);
       return;
     }
+
     setPage(nextPage);
   };
 
   return (
-    <section
-      className="rounded-[30px] px-4 py-5 sm:px-5 sm:py-6 lg:px-6 lg:py-7"
-      style={{
-        background: GRADIENTS.solidCard,
-        border: `1px solid ${BORDERS.subtle}`,
-        boxShadow: SHADOWS.card,
-      }}
-    >
+    <div className="w-full">
       <div className="flex flex-col gap-6">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -108,8 +100,8 @@ export default function FeaturesScreensSection({
           </div>
         </div>
 
-        <div className="relative">
-          <div className="grid gap-4 xl:grid-cols-2 xl:gap-8">
+        <div className="relative w-full">
+          <div className="grid w-full gap-4 xl:grid-cols-2 xl:gap-8">
             {visibleSections.map((section, localIndex) => {
               const absoluteIndex = start + localIndex;
 
@@ -123,7 +115,7 @@ export default function FeaturesScreensSection({
                     delay: localIndex * 0.06,
                     ease: "easeOut",
                   }}
-                  className="flex h-full flex-col rounded-[24px] px-4 py-4 sm:px-5 sm:py-5"
+                  className="flex h-full min-w-0 flex-col rounded-[24px] px-4 py-4 sm:px-5 sm:py-5"
                   style={{
                     background: GRADIENTS.cardBg,
                     border: `1px solid ${BORDERS.subtle}`,
@@ -270,6 +262,6 @@ export default function FeaturesScreensSection({
           </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

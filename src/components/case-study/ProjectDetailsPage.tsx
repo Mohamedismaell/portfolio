@@ -4,21 +4,19 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
-  Cpu,
   Github,
-  Layers3,
-  MapPin,
+  Lock,
   Sparkles,
-  WifiOff,
 } from "lucide-react";
+import { FaAppStoreIos } from "react-icons/fa";
 import { useRouter } from "@/i18n/routing";
 import AutoPlayScreens from "./AutoPlayScreens";
 import FeaturesScreensSection from "./FeaturesScreensSection";
-import ArchitectureSection from "./ArchitectureSection";
-import TechStackSection from "./TechStackSection";
-import ChallengesTimeline from "./ChallengesTimeline";
-import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
+import ChallengesGrid from "./ChallengesGrid";
+import ProjectResultsPanel from "./high_lights_result";
+import Footer from "../footer/Footer";
 import ProjectOverviewRow from "./ProjectOverviewRow";
+import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
 
 type ProjectStat = {
   label: string;
@@ -39,15 +37,18 @@ type ProjectLink = {
 };
 
 type ProjectChallenge = {
+  icon?: string;
   title?: string;
   challenge: string;
   solution: string;
 };
 
-type TimelineChallengeItem = {
-  title: string;
-  challenge: string;
-  solution: string;
+type ProjectResults = {
+  screens?: string;
+  features?: string;
+  linesOfCode?: string;
+  rating?: string;
+  githubUrl?: string;
 };
 
 type ProjectType = {
@@ -72,6 +73,7 @@ type ProjectType = {
   stats?: ProjectStat[];
   highlights?: string[];
   features?: string[];
+  tech?: string[];
   sections?: {
     label?: string;
     title: string;
@@ -80,34 +82,27 @@ type ProjectType = {
     image: string;
   }[];
   challenges?: ProjectChallenge[];
+  results?: ProjectResults;
   techStack?: {
     title: string;
     items: string[];
   }[];
   developmentProcess?: string[];
 };
-function getHighlightIcon(index: number) {
-  const icons = [Sparkles, MapPin, WifiOff, Layers3, Cpu];
-  return icons[index % icons.length];
-}
+
+const SECTION_CLASS =
+  "mt-6 w-full overflow-hidden rounded-[30px] p-3 sm:rounded-[34px] sm:p-4 lg:p-5";
+
+const SECTION_STYLE = {
+  background: GRADIENTS.solidCard,
+  border: `1px solid ${BORDERS.subtle}`,
+  boxShadow: SHADOWS.card,
+} as const;
 
 function AppStoreIcon() {
   return (
-    <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-[6px]">
-      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-        <rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#0A84FF" />
-        <path
-          d="M8.4 7.4h2.2l5.4 9.2h-2.2L8.4 7.4Z"
-          fill="#FFFFFF"
-          opacity="0.98"
-        />
-        <path
-          d="M15.6 7.4h-2.2l-5.4 9.2h2.2l5.4-9.2Z"
-          fill="#FFFFFF"
-          opacity="0.98"
-        />
-        <rect x="6.8" y="14.9" width="10.4" height="1.8" rx="0.9" fill="#FFFFFF" />
-      </svg>
+    <span className="flex h-5 w-5 items-center justify-center">
+      <FaAppStoreIos size={18} />
     </span>
   );
 }
@@ -116,10 +111,16 @@ function GooglePlayIcon() {
   return (
     <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-[6px] bg-white">
       <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-        <path d="M4.8 3.8 13.9 12 4.8 20.2c-.4-.3-.7-.8-.7-1.5V5.3c0-.7.3-1.2.7-1.5Z" fill="#00C2FF" />
-        <path d="M13.9 12 17.6 8.7c1.1.6 2.1 1.2 2.1 2.3s-1 1.7-2.1 2.3L13.9 12Z" fill="#FFB300" />
-        <path d="M4.8 3.8 17.6 8.7 13.9 12 4.8 3.8Z" fill="#34A853" />
-        <path d="M4.8 20.2 13.9 12 17.6 15.3 4.8 20.2Z" fill="#EA4335" />
+        <path
+          d="M4.3 3.4 13.9 12 4.3 20.6c-.4-.3-.7-.8-.7-1.5V4.9c0-.7.3-1.2.7-1.5Z"
+          fill="#00C2FF"
+        />
+        <path
+          d="M13.9 12 17.4 8.8c1.3.7 2.8 1.5 2.8 3.2s-1.5 2.5-2.8 3.2L13.9 12Z"
+          fill="#FFB300"
+        />
+        <path d="M4.3 3.4 17.4 8.8 13.9 12 4.3 3.4Z" fill="#34A853" />
+        <path d="M4.3 20.6 13.9 12 17.4 15.2 4.3 20.6Z" fill="#EA4335" />
       </svg>
     </span>
   );
@@ -130,6 +131,25 @@ function renderLinkIcon(icon?: ProjectLink["icon"]) {
   if (icon === "app-store") return <AppStoreIcon />;
   if (icon === "google-play") return <GooglePlayIcon />;
   return <ArrowUpRight size={15} />;
+}
+
+function LockedIconBadge({ icon }: { icon?: ProjectLink["icon"] }) {
+  return (
+    <span className="relative inline-flex h-5 w-5 items-center justify-center">
+      {renderLinkIcon(icon)}
+      <span
+        className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full"
+        style={{
+          background: GRADIENTS.solidCard,
+          border: `1px solid ${BORDERS.medium}`,
+          color: TEXT.primary,
+          boxShadow: SHADOWS.ghostBtn,
+        }}
+      >
+        <Lock size={8} />
+      </span>
+    </span>
+  );
 }
 
 export default function ProjectDetailsPage({
@@ -178,28 +198,21 @@ export default function ProjectDetailsPage({
     ];
   }, [project]);
 
-  const stackPreview = useMemo(() => {
-    return project.techStack?.flatMap((group) => group.items).slice(0, 10) || [];
-  }, [project.techStack]);
-
   const topPills = useMemo(() => {
-    const pills: string[] = [];
-    if (project.year) pills.push(project.year);
-    if (project.badges?.length) pills.push(...project.badges);
-    return pills;
-  }, [project.year, project.badges]);
+    return project.badges?.length ? [...project.badges] : [];
+  }, [project.badges]);
 
   const quickFacts = useMemo(() => {
-    if (project.quickFacts?.length) return project.quickFacts.slice(0, 4);
+    if (project.quickFacts?.length) {
+      return project.quickFacts
+        .filter((fact) => fact.label.trim().toLowerCase() !== "year")
+        .slice(0, 4);
+    }
 
     const fallbackFacts: ProjectFact[] = [];
 
     if (project.role) {
       fallbackFacts.push({ label: "Role", value: project.role });
-    }
-
-    if (project.year) {
-      fallbackFacts.push({ label: "Year", value: project.year });
     }
 
     if (project.gallery?.length || project.heroScreens?.length) {
@@ -220,7 +233,6 @@ export default function ProjectDetailsPage({
   }, [
     project.quickFacts,
     project.role,
-    project.year,
     project.gallery,
     project.heroScreens,
     project.techStack,
@@ -274,10 +286,10 @@ export default function ProjectDetailsPage({
     return normalized.slice(0, 6);
   }, [project.links, project.liveDemo, project.github, project.appStore, project.googlePlay]);
 
-  const normalizedChallenges = useMemo<TimelineChallengeItem[]>(() => {
+  const normalizedChallenges = useMemo<ProjectChallenge[]>(() => {
     if (!project.challenges?.length) return [];
-
     return project.challenges.map((item, index) => ({
+      icon: item.icon,
       title: item.title?.trim() || `Challenge ${String(index + 1).padStart(2, "0")}`,
       challenge: item.challenge,
       solution: item.solution,
@@ -287,11 +299,10 @@ export default function ProjectDetailsPage({
   const headingBadge = project.eyebrow || "Featured Project";
   const introText = project.overview || project.shortDescription;
   const subheading = project.subtitle || project.role;
-  const showInfoCards = sidebarHighlights.length > 0 || stackPreview.length > 0;
 
   return (
     <main className="px-4 pb-14 pt-[96px] sm:px-6 sm:pt-[108px] lg:px-8 lg:pb-20 lg:pt-[120px]">
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto w-full max-w-[1320px]">
         <button
           onClick={() => router.back()}
           className="mb-5 inline-flex items-center gap-2 rounded-[14px] px-3.5 py-2.5 text-[12px] font-[700] transition-all duration-300 hover:-translate-y-0.5"
@@ -307,14 +318,10 @@ export default function ProjectDetailsPage({
         </button>
 
         <section
-          className="overflow-hidden rounded-[30px] p-3 sm:rounded-[34px] sm:p-4 lg:p-5"
-          style={{
-            background: GRADIENTS.solidCard,
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
-          }}
+          className="w-full overflow-hidden rounded-[30px] p-3 sm:rounded-[34px] sm:p-4 lg:p-5"
+          style={SECTION_STYLE}
         >
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-5 xl:gap-6">
+          <div className="grid w-full min-w-0 gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-5 xl:gap-6">
             <div className="flex min-w-0 flex-col justify-between rounded-[24px] p-4 sm:rounded-[28px] sm:p-5 lg:p-6">
               <div>
                 <div
@@ -432,7 +439,7 @@ export default function ProjectDetailsPage({
                             className={commonClassName}
                             style={commonStyle}
                           >
-                            {renderLinkIcon(link.icon)}
+                            <LockedIconBadge icon={link.icon} />
                             <span>{link.label}</span>
                           </button>
                         );
@@ -495,20 +502,15 @@ export default function ProjectDetailsPage({
                 boxShadow: SHADOWS.card,
               }}
             >
-              <div
-                className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]"
-                style={{
-                  minHeight: "420px",
-                }}
-              >
+              <div className="relative h-[420px] w-full overflow-hidden sm:h-[520px] lg:h-[640px]">
                 {project.heroScreens?.length ? (
                   <AutoPlayScreens screens={project.heroScreens} />
                 ) : project.image ? (
-                  <div className="flex min-h-[420px] items-center justify-center p-5 sm:min-h-[520px] sm:p-6 lg:min-h-[640px]">
+                  <div className="relative h-full w-full overflow-hidden">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="h-auto max-h-[720px] w-full object-contain"
+                      className="h-full w-full object-cover"
                     />
                   </div>
                 ) : null}
@@ -518,167 +520,45 @@ export default function ProjectDetailsPage({
         </section>
 
         {ready && project.sections?.length ? (
-          <section className="mt-6">
-            <FeaturesScreensSection   projectName={project.title}
-  sections={project.sections} />
+          <section className={SECTION_CLASS} style={SECTION_STYLE}>
+            <FeaturesScreensSection
+              projectName={project.title}
+              sections={project.sections}
+            />
           </section>
         ) : null}
 
-        {showInfoCards ? (
-          <section className="mt-6">
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:gap-5">
-              {sidebarHighlights.length ? (
-                <div
-                  className="rounded-[24px] p-4 sm:rounded-[28px] sm:p-5"
-                  style={{
-                    background: GRADIENTS.cardBg,
-                    border: `1px solid ${BORDERS.subtle}`,
-                    boxShadow: SHADOWS.ghostBtn,
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
-                      style={{
-                        background: GRADIENTS.badge,
-                        border: `1px solid ${BORDERS.medium}`,
-                        color: "var(--accent)",
-                      }}
-                    >
-                      <Layers3 size={16} />
-                    </span>
-
-                    <div>
-                      <h2
-                        className="text-[15px] font-[900] tracking-[-0.03em] sm:text-[16px]"
-                        style={{ color: TEXT.primary }}
-                      >
-                        Key Highlights
-                      </h2>
-                      <p
-                        className="mt-1 text-[12px] font-[500] leading-[1.7]"
-                        style={{ color: TEXT.soft }}
-                      >
-                        The main product strengths, UX wins, and implementation details
-                        that shaped the final result.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {sidebarHighlights.map((item, index) => {
-                      const Icon = getHighlightIcon(index);
-
-                      return (
-                        <div
-                          key={item}
-                          className="flex items-start gap-3 rounded-[18px] px-3.5 py-3.5"
-                          style={{
-                            background: GRADIENTS.solidCard,
-                            border: `1px solid ${BORDERS.subtle}`,
-                          }}
-                        >
-                          <span
-                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[13px]"
-                            style={{
-                              background: GRADIENTS.badge,
-                              border: `1px solid ${BORDERS.medium}`,
-                              color: "var(--accent)",
-                            }}
-                          >
-                            <Icon size={16} />
-                          </span>
-
-                          <p
-                            className="text-[12px] font-[600] leading-[1.62] sm:text-[12.5px]"
-                            style={{ color: TEXT.soft }}
-                          >
-                            {item}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : (
-                <div />
-              )}
-
-              {stackPreview.length ? (
-                <div
-                  className="rounded-[24px] p-4 sm:rounded-[28px] sm:p-5"
-                  style={{
-                    background: GRADIENTS.cardBg,
-                    border: `1px solid ${BORDERS.subtle}`,
-                    boxShadow: SHADOWS.ghostBtn,
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
-                      style={{
-                        background: GRADIENTS.primaryBtn,
-                        border: `1px solid ${BORDERS.medium}`,
-                        color: TEXT.inverse,
-                        boxShadow: SHADOWS.primaryBtn,
-                      }}
-                    >
-                      <Cpu size={16} />
-                    </span>
-
-                    <div>
-                      <h2
-                        className="text-[15px] font-[900] tracking-[-0.03em] sm:text-[16px]"
-                        style={{ color: TEXT.primary }}
-                      >
-                        Stack Snapshot
-                      </h2>
-                      <p
-                        className="mt-1 text-[12px] font-[500] leading-[1.7]"
-                        style={{ color: TEXT.soft }}
-                      >
-                        The core tools and technical pieces used to build, organize,
-                        and scale the project.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {stackPreview.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full px-3 py-1.5 text-[10px] font-[700] sm:text-[10.5px]"
-                        style={{
-                          background: GRADIENTS.ghostBtn,
-                          border: `1px solid ${BORDERS.subtle}`,
-                          color: TEXT.primary,
-                        }}
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div />
-              )}
-            </div>
+        {ready &&
+        (project.features?.length ||
+          project.techStack?.length ||
+          project.developmentProcess?.length) ? (
+          <section className={SECTION_CLASS} style={SECTION_STYLE}>
+            <ProjectOverviewRow
+              architecture={project.features}
+              tech={project.tech}
+              developmentProcess={project.developmentProcess}
+            />
           </section>
         ) : null}
 
-      {ready &&
-(project.features?.length ||
-  project.techStack?.length ||
-  project.developmentProcess?.length) ? (
-  <section className="mt-6">
-    <ProjectOverviewRow
-      architecture={project.features}
-      techStack={project.techStack}
-      developmentProcess={project.developmentProcess}
-    />
-  </section>
-) : null}
+        {ready && normalizedChallenges.length > 0 ? (
+          <section className={SECTION_CLASS} style={SECTION_STYLE}>
+            <ChallengesGrid challenges={normalizedChallenges} />
+          </section>
+        ) : null}
+
+        {ready && (project.results || sidebarHighlights.length > 0) ? (
+          <section className={SECTION_CLASS} style={SECTION_STYLE}>
+            <ProjectResultsPanel
+              results={project.results}
+              githubFallback={project.github}
+              highlights={sidebarHighlights}
+            />
+          </section>
+        ) : null}
       </div>
+
+      {ready ? <Footer /> : null}
     </main>
   );
 }

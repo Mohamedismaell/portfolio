@@ -8,20 +8,19 @@ import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
 
 export default function AutoPlayScreens({ screens }: { screens: string[] }) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
 
   const safeScreens = useMemo(() => screens?.filter(Boolean) ?? [], [screens]);
   const total = safeScreens.length;
 
   useEffect(() => {
-    if (paused || total <= 1) return;
+    if (total <= 1) return;
 
     const interval = window.setInterval(() => {
       setIndex((prev) => (prev + 1) % total);
     }, 2800);
 
     return () => window.clearInterval(interval);
-  }, [paused, total]);
+  }, [total]);
 
   useEffect(() => {
     if (index > total - 1) setIndex(0);
@@ -44,10 +43,8 @@ export default function AutoPlayScreens({ screens }: { screens: string[] }) {
   };
 
   return (
-    <div
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      className="relative flex h-[420px] w-full items-center justify-center overflow-hidden rounded-[24px] sm:h-[520px] lg:h-[640px]"
+ <div
+  className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[24px] sm:rounded-[28px]"
       style={{
         background: GRADIENTS.solidCard,
       }}

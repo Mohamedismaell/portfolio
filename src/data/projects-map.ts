@@ -12,7 +12,7 @@ export const projectsMap: Record<string, any> = {
     comingSoon: false,
 
     eyebrow: "Reading Product",
-    subtitle: "Flutter Developer · Mobile Case Study",
+    subtitle: "Reading App",
     overview:
       "TinyShelf is a cloud-connected reading app built to explore scalable Flutter architecture, synced reading progress, and a polished light/dark reading experience using Supabase and Cubit-based state isolation.",
 
@@ -264,24 +264,37 @@ developmentProcess: [
 ],
     challenges: [
       {
+        icon: "database",
+        title: "Backend Decoupling",
         challenge:
           "Integrating Supabase authentication, database queries, and storage operations without tightly coupling backend logic to presentation components.",
         solution:
           "Applied repository abstraction within the data layer and injected dependencies into the domain layer to preserve Clean Architecture boundaries.",
       },
       {
+        icon: "performance",
+        title: "Rebuild Control",
         challenge:
           "Preventing unnecessary widget rebuilds in list-heavy and state-driven screens such as Home and Library.",
         solution:
           "Used granular Cubit state emissions and selective BlocBuilder scopes to isolate rebuild areas and improve rendering performance.",
       },
       {
+        icon: "auth",
+        title: "Auth Persistence",
         challenge:
           "Ensuring consistent authentication state across app restarts and navigation transitions.",
         solution:
           "Leveraged Supabase session persistence combined with Cubit-based auth state restoration and GoRouter redirect logic.",
       },
     ],
+
+    results: {
+      screens: "8+",
+      features: "9+",
+      linesOfCode: "3K+",
+      githubUrl: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
+    },
   },
 
   news_app: {

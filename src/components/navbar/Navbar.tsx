@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Download, Github, Linkedin, Menu, X } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -44,18 +44,25 @@ export default function ResponsiveNavbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
-
   const { animateScroll, isAutoScrollingRef, stopAnimation } = useAnimatedScroll();
 
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [projectTitle, setProjectTitle] = useState("");
 
   const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
+  const isProjectDetails = pathname.includes("/projects/");
+  const isProjectActive = isProjectDetails && !!projectTitle;
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
+
+      if (isProjectDetails) {
+        setActive("project");
+        return;
+      }
 
       if (isAutoScrollingRef.current) return;
 
@@ -85,7 +92,7 @@ export default function ResponsiveNavbar() {
       window.removeEventListener("touchstart", cancelAutoScrollOnTouch);
       window.removeEventListener("wheel", cancelAutoScrollOnWheel);
     };
-  }, [sectionIds, isAutoScrollingRef, stopAnimation]);
+  }, [sectionIds, isAutoScrollingRef, stopAnimation, isProjectDetails]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -97,6 +104,7 @@ export default function ResponsiveNavbar() {
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     if (!hash) return;
+    if (isProjectDetails) return;
 
     const timer = setTimeout(() => {
       const el = document.getElementById(hash);
@@ -107,7 +115,24 @@ export default function ResponsiveNavbar() {
     }, 120);
 
     return () => clearTimeout(timer);
-  }, [pathname, animateScroll]);
+  }, [pathname, animateScroll, isProjectDetails]);
+
+  useEffect(() => {
+    if (!isProjectDetails) {
+      setProjectTitle("");
+      return;
+    }
+
+    const updateProjectTitle = () => {
+      const heading = document.querySelector("main h1");
+      setProjectTitle(heading?.textContent?.trim() || "");
+      setActive("project");
+    };
+
+    const timer = setTimeout(updateProjectTitle, 120);
+
+    return () => clearTimeout(timer);
+  }, [isProjectDetails, pathname]);
 
   const scrollToSection = (id: string) => {
     setMobileOpen(false);
@@ -125,13 +150,20 @@ export default function ResponsiveNavbar() {
 
     const el = document.getElementById(id);
 
-    if (el) {
+    if (el && !isProjectDetails) {
       stopAnimation();
       animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
       setActive(id);
     } else {
       router.push(`/#${id}`);
     }
+  };
+
+  const handleProjectButtonClick = () => {
+    setMobileOpen(false);
+    stopAnimation();
+    animateScroll(0);
+    setActive("project");
   };
 
   const navShellStyle: CSSProperties = {
@@ -178,7 +210,6 @@ export default function ResponsiveNavbar() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="mx-auto max-w-[1280px]"
         >
-          {/* Desktop Navbar */}
           <div
             className="hidden items-center justify-between rounded-[24px] px-4 py-3 sm:flex lg:px-5"
             style={navShellStyle}
@@ -250,6 +281,43 @@ export default function ResponsiveNavbar() {
                   </button>
                 );
               })}
+
+              {projectTitle ? (
+                <button
+                  onClick={handleProjectButtonClick}
+                  className="relative rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                  style={{
+                    color: isProjectActive ? TEXT.badge : TEXT.primary,
+                  }}
+                >
+                  {isProjectActive && (
+                    <motion.span
+                      layoutId="desktop-nav-pill"
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: GRADIENTS.badge,
+                        border: `1px solid ${BORDERS.medium}`,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                  {!isProjectActive && (
+                    <span
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: GRADIENTS.ghostBtn,
+                        border: `1px solid ${BORDERS.subtle}`,
+                        boxShadow: SHADOWS.ghostBtn,
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">{projectTitle}</span>
+                </button>
+              ) : null}
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
@@ -298,7 +366,6 @@ export default function ResponsiveNavbar() {
             </div>
           </div>
 
-          {/* Mobile Navbar */}
           <div
             className="flex items-center justify-between rounded-[20px] px-4 py-3 sm:hidden"
             style={navShellStyle}
@@ -384,6 +451,29 @@ export default function ResponsiveNavbar() {
               }}
             >
               <div className="p-4">
+                {projectTitle ? (
+                  <button
+                    onClick={handleProjectButtonClick}
+                    className="mb-3 flex w-full items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
+                    style={{
+                      color: isProjectActive ? TEXT.badge : TEXT.primary,
+                      background: isProjectActive ? GRADIENTS.badge : GRADIENTS.ghostBtn,
+                      border: isProjectActive
+                        ? `1px solid ${BORDERS.medium}`
+                        : `1px solid ${BORDERS.subtle}`,
+                      boxShadow: SHADOWS.ghostBtn,
+                    }}
+                  >
+                    <span>{projectTitle}</span>
+                    {isProjectActive && (
+                      <span
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{ background: "var(--accent)" }}
+                      />
+                    )}
+                  </button>
+                ) : null}
+
                 <div className="flex flex-col gap-1">
                   {NAV_ITEMS.map((item, index) => {
                     const isActive = active === item.id;
