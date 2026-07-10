@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 
   --font-sans: "Manrope", sans-serif;
 
@@ -141,8 +142,6 @@
 }
 
 .dark {
-  color-scheme: dark;
-
   --background: #111111;
   --background-secondary: #171615;
   --background-tertiary: #1d1b1a;
@@ -260,12 +259,14 @@ html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
   font-family: var(--font-sans), sans-serif;
+  background-color: var(--background);
 }
 
 body {
   font-family: var(--font-sans), sans-serif;
   min-height: 100vh;
-  background: var(--gradient-page-bg);
+  background-color: var(--background);
+  background-image: var(--gradient-page-bg);
   color: var(--text-primary);
   overflow-x: hidden;
 }
@@ -374,7 +375,9 @@ html[data-theme-transition] *::after {
   to {
     clip-path: circle(calc(var(--theme-radius) + 80px) at var(--theme-x) var(--theme-y));
   }
-}.gradient-text {
+}
+
+.gradient-text {
   background-image: linear-gradient(180deg, var(--accent-strong) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
