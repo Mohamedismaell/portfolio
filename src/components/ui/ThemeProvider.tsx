@@ -4,6 +4,7 @@ import React, {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
   useCallback,
   type ReactNode,
@@ -26,35 +27,36 @@ interface ThemeProviderProps {
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
+// Runs only on the client, but synchronously before paint (layout phase)
+function getInitialTheme(defaultTheme: Theme, enableSystem: boolean): Theme {
+  if (typeof window === "undefined") return defaultTheme;
+
+  const savedTheme = localStorage.getItem("theme") as Theme | null;
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+
+  if (enableSystem) {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  return defaultTheme;
+}
+
 export function ThemeProvider({
   children,
   attribute = "class",
   defaultTheme = "light",
   enableSystem = false,
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(defaultTheme);
-  const [mounted, setMounted] = useState(false);
+  // Lazy initializer avoids a light->dark flash on first client render
+  const [theme, setThemeState] = useState<Theme>(() =>
+    getInitialTheme(defaultTheme, enableSystem)
+  );
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-
-    let initialTheme: Theme = defaultTheme;
-
-    if (savedTheme === "light" || savedTheme === "dark") {
-      initialTheme = savedTheme;
-    } else if (enableSystem && typeof window !== "undefined") {
-      initialTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-
-    setThemeState(initialTheme);
-    setMounted(true);
-  }, [defaultTheme, enableSystem]);
-
-  useEffect(() => {
-    if (!mounted || typeof document === "undefined") return;
-
+  // useLayoutEffect applies the class SYNCHRONOUSLY, before the browser paints
+  // and before a View Transition snapshot is taken. This is the key fix.
+  useLayoutEffect(() => {
     const root = document.documentElement;
 
     if (attribute === "class") {
@@ -63,9 +65,12 @@ export function ThemeProvider({
     } else {
       root.setAttribute(attribute, theme);
     }
+  }, [theme, attribute]);
 
+  // Persisting to localStorage has no visual impact, so a normal effect is fine
+  useEffect(() => {
     localStorage.setItem("theme", theme);
-  }, [theme, mounted, attribute]);
+  }, [theme]);
 
   const setTheme = useCallback((nextTheme: Theme) => {
     setThemeState(nextTheme);
@@ -84,10 +89,8 @@ export function ThemeProvider({
 
 export function useTheme() {
   const context = useContext(ThemeContext);
-
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
-
   return context;
 }

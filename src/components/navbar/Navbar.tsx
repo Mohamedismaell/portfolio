@@ -210,8 +210,9 @@ export default function ResponsiveNavbar() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="mx-auto max-w-[1280px]"
         >
+          {/* Desktop nav: switches at lg (1024px) instead of sm (640px) so it has room to breathe */}
           <div
-            className="hidden items-center justify-between rounded-[24px] px-4 py-3 sm:flex lg:px-5"
+            className="hidden items-center justify-between rounded-[24px] px-4 py-3 lg:flex lg:px-5"
             style={navShellStyle}
           >
             <button
@@ -366,8 +367,9 @@ export default function ResponsiveNavbar() {
             </div>
           </div>
 
+          {/* Mobile nav: shows below lg (1024px) instead of sm (640px) */}
           <div
-            className="flex items-center justify-between rounded-[20px] px-4 py-3 sm:hidden"
+            className="flex items-center justify-between rounded-[20px] px-4 py-3 lg:hidden"
             style={navShellStyle}
           >
             <button
@@ -379,7 +381,7 @@ export default function ResponsiveNavbar() {
                 style={brandMarkStyle}
               >
                 <Image
-                  src="/profile.jpg"
+                  src="/person_profile.jpg"
                   alt="Mohamed Ismail"
                   fill
                   className="object-cover object-center"
@@ -427,7 +429,7 @@ export default function ResponsiveNavbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
-              className="fixed inset-0 z-[100] sm:hidden"
+              className="fixed inset-0 z-[100] lg:hidden"
               style={{
                 background: "rgba(10, 8, 7, 0.28)",
                 backdropFilter: "blur(6px)",
@@ -441,7 +443,7 @@ export default function ResponsiveNavbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.24, ease: "easeOut" }}
-              className="fixed inset-x-4 top-[84px] z-[115] overflow-hidden rounded-[24px] sm:hidden"
+              className="fixed inset-x-4 top-[84px] z-[115] overflow-hidden rounded-[24px] lg:hidden"
               style={{
                 background: GRADIENTS.cardBg,
                 border: `1px solid ${BORDERS.subtle}`,

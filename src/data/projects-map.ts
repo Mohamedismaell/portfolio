@@ -71,14 +71,21 @@ export const projectsMap: Record<string, any> = {
     solution:
       "Applied Clean Architecture with repository abstraction to decouple Supabase operations from presentation logic. Used Cubit for granular state emission to control rebuild scope and maintain consistent UI performance. Centralized theming configuration to ensure global consistency.",
 
-    tech: [
-      "Supabase (Auth, Postgres, Storage)",
-      "GoRouter",
-      "Bloc / Cubit",
-      "Clean Architecture",
-      "Material 3",
-      "Flutter ScreenUtil",
-    ],
+   tech: [
+  "Flutter",
+  "Dart",
+  "Clean Architecture",
+  "Feature-First Structure",
+  "Bloc / Cubit",
+  "Hydrated Bloc",
+  "Supabase",
+  "GoRouter",
+  "Dependency Injection",
+  "Repository Pattern",
+  "Responsive UI",
+  "Offline Caching",
+  "Image Processing",
+],
 
     github: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
 
@@ -215,52 +222,13 @@ export const projectsMap: Record<string, any> = {
       "/projects/book_reading/2d_preview/library.png",
       "/projects/book_reading/2d_preview/profile.png",
     ],
-
-    techStack: [
-      {
-        title: "Architecture",
-        items: [
-          "SOLID Principles",
-          "Clean Architecture",
-          "Repository Pattern",
-          "Dependency Inversion",
-          "Feature-First Structure",
-        ],
-      },
-      {
-        title: "State Management",
-        items: ["Bloc / Cubit", "Selective Rebuild Control"],
-      },
-      {
-        title: "Backend & Cloud",
-        items: [
-          "Supabase Authentication",
-          "Supabase Postgres",
-          "Supabase Storage",
-          "Row-Level Security (RLS)",
-        ],
-      },
-      {
-        title: "Routing",
-        items: ["GoRouter", "Route Guards"],
-      },
-      {
-        title: "UI & Performance",
-        items: [
-          "Material 3",
-          "Dynamic Light/Dark Theme",
-          "Flutter ScreenUtil",
-          "Responsive Layout Scaling",
-          "Optimized List Rendering",
-        ],
-      },
-    ],
 developmentProcess: [
-  "Research and competitor review",
-  "Wireframing and flow mapping",
-  "UI design system setup",
-  "Frontend implementation",
-  "Testing and refinement",
+  "Requirement Analysis",
+  "Project Architecture",
+  "Authentication & Backend",
+  "Core Reading Features",
+  "Performance Optimization",
+  "Testing & Refinement"
 ],
     challenges: [
       {
@@ -289,12 +257,14 @@ developmentProcess: [
       },
     ],
 
-    results: {
-      screens: "8+",
-      features: "9+",
-      linesOfCode: "3K+",
-      githubUrl: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
-    },
+   results: {
+  screens: "8+",
+  features: "9+",
+  technologies: "14",
+  packages: "20+",
+  linesOfCode: "3K+",
+  githubUrl: "https://github.com/Mohamedismaell/Book_reading_flutter_app",
+}
   },
 
   news_app: {
@@ -337,24 +307,34 @@ developmentProcess: [
       { label: "Challenges", value: "2" },
     ],
 developmentProcess: [
-  "Research and competitor review",
-  "Wireframing and flow mapping",
-  "UI design system setup",
-  "Frontend implementation",
-  "Testing and refinement",
+  "Requirements & API planning",
+  "Architecture and project setup",
+  "News feed implementation",
+  "Offline caching integration",
+  "Performance optimization",
+  "Testing & refinement",
 ],
+results: {
+  screens: "9+",
+  features: "8+",
+  technologies: "10",
+  packages: "12+",
+    linesOfCode: "3K+",
+  githubUrl: "https://github.com/Mohamedismaell/News",
+},
     shortDescription:
       "A high-performance cross-platform news application engineered with scalable Clean Architecture, optimized state management, and intelligent caching strategies. Built to deliver real-time content updates, seamless offline reading, and a refined, production-ready user experience.",
 
     description:
       "Quick Read was architected using a modular Clean Architecture structure to ensure long-term scalability, maintainability, and testability. The application integrates robust REST API handling, structured caching mechanisms, and optimized UI rendering to deliver consistent performance across devices. Every layer was designed for separation of concerns, enabling rapid feature expansion without compromising stability.",
 
-    highlights: [
-      "Processes 20+ articles per API request with efficient parsing",
-      "Multi-category dynamic filtering with optimized state updates",
-      "Robust error, loading, and empty-state handling",
-      "Highly responsive and adaptive UI across device sizes",
-    ],
+   highlights: [
+  "Feature-First Clean Architecture implementation",
+  "Offline article caching with Hive",
+  "Optimized API handling using Dio",
+  "Responsive Material 3 interface",
+  "Cubit-based state management with selective rebuilds",
+],
 
     features: [
       "Category-driven news browsing system",
@@ -370,8 +350,17 @@ developmentProcess: [
     solution:
       "Implemented Clean Architecture with Cubit-driven state isolation, modular repositories, and reusable presentation components to ensure scalability, predictable state flow, and optimized rebuild performance.",
 
-    tech: ["Flutter", "REST API", "Cubit", "Clean Architecture"],
-
+tech: [
+  "Flutter",
+  "Dart",
+  "Clean Architecture",
+  "Bloc / Cubit",
+  "Dio",
+  "REST API",
+  "Hive",
+  "CachedNetworkImage",
+  "Responsive UI",
+],
     github: "https://github.com/Mohamedismaell/News",
 
     image: "/projects/news/cover.png",
@@ -456,99 +445,123 @@ developmentProcess: [
       },
     ],
 
-    challenges: [
-      {
-        challenge:
-          "Managing complex state synchronization across multiple independent screens without causing unnecessary UI rebuilds.",
-        solution:
-          "Implemented Cubit with granular state emissions and selective rebuild strategies to maintain predictable and performant UI updates.",
-      },
-      {
-        challenge:
-          "Designing a reliable offline caching mechanism without compromising data freshness.",
-        solution:
-          "Integrated Hive-based structured caching with controlled expiration logic to balance performance and content accuracy.",
-      },
-    ],
+  challenges: [
+  {
+    icon: "performance",
+    title: "Scalable State Flow",
+    challenge:
+      "Managing independent feature states across multiple news screens while maintaining responsive UI performance.",
+    solution:
+      "Separated business logic into feature-specific Cubits and optimized rebuilds through granular state emissions and reusable presentation components.",
+  },
+  {
+    icon: "database",
+    title: "Caching Strategy",
+    challenge:
+      "Delivering a fast reading experience while supporting offline access and minimizing unnecessary network requests.",
+    solution:
+      "Combined Hive local storage with a repository-driven caching strategy to provide quick content retrieval and controlled data refreshes.",
+  },
+],
   },
 
-  tasky: {
-    slug: "tasky",
-    title: "Tasky",
-    role: "Flutter Developer",
-    color: "#15B86C",
-    year: "2025",
-    duration: "2025",
-    googlePlay: null,
-    appStore: null,
-    liveDemo: null,
-    comingSoon: false,
+tasky: {
+  slug: "tasky",
+  title: "Tasky",
+  role: "Flutter Developer",
+  color: "#15B86C",
+  year: "2025",
+  duration: "2025",
+  googlePlay: null,
+  appStore: null,
+  liveDemo: null,
+  comingSoon: false,
 
-    eyebrow: "Productivity App",
-    subtitle: "Flutter Developer · Task Management",
-    overview:
-      "Tasky is a structured task management app built around persistent local state, responsive filtering flows, and scalable architecture for future feature growth.",
+  eyebrow: "Productivity App",
+  subtitle: "Flutter Developer · Task Management",
 
-    quickFacts: [
-      { label: "Platform", value: "iOS + Android" },
-      { label: "State", value: "Hydrated Bloc" },
-      { label: "Routing", value: "GoRouter + GetIt" },
-      { label: "Focus", value: "Offline task persistence" },
-    ],
+  overview:
+    "Tasky is a modern task management application built with Clean Architecture and Hydrated Bloc, delivering reliable offline task persistence, responsive state management, and a scalable foundation for future productivity features.",
 
-    links: [
-      {
-        label: "GitHub",
-        href: "https://github.com/Mohamedismaell/tasky",
-        variant: "primary",
-        icon: "github",
-      },
-    ],
+  quickFacts: [
+    { label: "Platform", value: "iOS + Android" },
+    { label: "Architecture", value: "Clean Architecture" },
+    { label: "Persistence", value: "Hydrated Bloc" },
+    { label: "Focus", value: "Offline Task Management" },
+  ],
 
-    stats: [
-      { label: "Screens", value: "7" },
-      { label: "Flows", value: "4" },
-      { label: "Tech", value: "10+" },
-      { label: "Challenges", value: "3" },
-    ],
+  links: [
+    {
+      label: "GitHub",
+      href: "https://github.com/Mohamedismaell/tasky",
+      variant: "primary",
+      icon: "github",
+    },
+  ],
 
-    shortDescription:
-      "A production-ready task management application engineered with Feature-First Clean Architecture, Hydrated Bloc state persistence, and a highly responsive UI system. Tasky delivers seamless task organization, dynamic filtering, and reliable offline storage with optimized performance across devices.",
+  stats: [
+    { label: "Screens", value: "7" },
+    { label: "Features", value: "7+" },
+    { label: "Tech", value: "10" },
+    { label: "Challenges", value: "3" },
+  ],
 
-    description:
-      "Tasky was architected with scalability, modular separation, and long-term maintainability as core principles. The application leverages Hydrated Bloc for automatic state restoration, GetIt for dependency injection, and structured routing via GoRouter. Designed for performance and extensibility, Tasky demonstrates clean separation of concerns, optimized rebuild boundaries, and a modern interactive UI experience.",
+  developmentProcess: [
+    "Requirements & feature planning",
+    "Architecture and project setup",
+    "Task management implementation",
+    "State persistence integration",
+    "Theme & profile customization",
+    "Testing & optimization",
+  ],
 
-    highlights: [
-      "Feature-First Clean Architecture structure",
-      "Hydrated Bloc persistent state management",
-      "Dynamic Light & Dark theme switching",
-      "Selective widget rebuild optimization",
-      "Scalable dependency injection setup",
-    ],
+  shortDescription:
+    "A production-ready task management application built with Feature-First Clean Architecture, Hydrated Bloc, and responsive Flutter UI. Tasky focuses on reliable offline persistence, efficient state management, and a clean user experience.",
 
-    features: [
-      "Create, edit, and delete tasks efficiently",
-      "Status-based filtering (Todo / Completed)",
-      "Persistent local state with Hydrated Bloc",
-      "User profile customization",
-      "Theme switching with global state control",
-      "Structured routing using GoRouter",
-      "Responsive UI with Flutter ScreenUtil",
-    ],
+  description:
+    "Tasky was developed to demonstrate scalable Flutter application architecture using Feature-First organization and Clean Architecture principles. The project combines Hydrated Bloc for automatic state restoration, GetIt for dependency injection, and GoRouter for structured navigation, resulting in a maintainable codebase with predictable state management and responsive performance.",
 
-    challenge:
-      "Designing a scalable state management structure that preserves tasks across app restarts while maintaining smooth UI performance and modular architecture separation.",
+  highlights: [
+    "Feature-First Clean Architecture implementation",
+    "Persistent state with Hydrated Bloc",
+    "Optimized Bloc rebuild strategy",
+    "Dynamic light & dark themes",
+    "Scalable dependency injection with GetIt",
+  ],
 
-    solution:
-      "Implemented Hydrated Bloc for automatic state serialization and restoration, structured the project using Feature-First Clean Architecture, and optimized Bloc emissions to prevent unnecessary rebuilds.",
+  features: [
+    "Create, edit, and delete tasks",
+    "Status-based task organization",
+    "Persistent offline task storage",
+    "Automatic state restoration",
+    "Theme customization",
+    "Profile management",
+    "Responsive Material 3 interface",
+  ],
 
-    tech: ["Flutter", "Flutter Bloc", "Hydrated Bloc", "Clean Architecture"],
+  challenge:
+    "Building a scalable task management application that preserves user data across app restarts while maintaining clean architecture and smooth UI performance.",
 
-    github: "https://github.com/Mohamedismaell/tasky",
+  solution:
+    "Implemented Hydrated Bloc for automatic state persistence, structured the project using Feature-First Clean Architecture, and optimized Bloc rebuilds to deliver responsive and maintainable application behavior.",
 
+  tech: [
+    "Flutter",
+    "Dart",
+    "Clean Architecture",
+    "Feature-First Structure",
+    "Bloc",
+    "Hydrated Bloc",
+    "GoRouter",
+    "GetIt",
+    "Material 3",
+    "Responsive UI",
+  ],
+
+  github: "https://github.com/Mohamedismaell/tasky",
     image: "/projects/tasky/normal/Screenshot 2026-02-15 184935.png",
 
-    heroScreens: [
+heroScreens: [
       "/projects/tasky/normal/Splash-portrait.png",
       "/projects/tasky/normal/Screenshot_1771159434-portrait.png",
       "/projects/tasky/normal/Screenshot_1771159896-portrait.png",
@@ -566,7 +579,15 @@ developmentProcess: [
       "/projects/tasky/2D_preview/completed.png",
       "/projects/tasky/2D_preview/profile.png",
     ],
-
+results: {
+  screens: "7",
+  features: "7+",
+  tech: "10",
+  linesOfCode: "1k+",
+  challenges: "3",
+  architecture: "Feature-First",
+  githubUrl: "https://github.com/Mohamedismaell/tasky",
+},
     sections: [
       {
         label: "SCREEN 01",
@@ -617,111 +638,383 @@ developmentProcess: [
         image: "/projects/tasky/normal/Screenshot_1771161022-portrait.png",
       },
     ],
+  challenges: [
+    {
+      icon: "database",
+      title: "Persistent State",
+      challenge:
+        "Keeping tasks and application state available after every app restart without relying on a backend.",
+      solution:
+        "Integrated Hydrated Bloc to automatically serialize and restore application state, providing a seamless offline experience.",
+    },
+    {
+      icon: "layers",
+      title: "Scalable Architecture",
+      challenge:
+        "Designing a project structure that remains maintainable as new features are introduced.",
+      solution:
+        "Adopted a Feature-First Clean Architecture with dependency injection and repository abstraction to keep features modular and scalable.",
+    },
+    {
+      icon: "performance",
+      title: "UI Performance",
+      challenge:
+        "Preventing unnecessary widget rebuilds while handling frequent task updates and filtering operations.",
+      solution:
+        "Separated business logic into feature-specific Blocs and optimized rebuilds using selective BlocBuilder updates.",
+    },
+  ],
+},
 
-    techStack: [
-      {
-        title: "Architecture",
-        items: ["Feature-First Structure", "Clean Architecture"],
-      },
-      {
-        title: "State Management",
-        items: ["Flutter Bloc", "Hydrated Bloc"],
-      },
-      {
-        title: "Routing & DI",
-        items: ["GoRouter", "GetIt"],
-      },
-      {
-        title: "Storage",
-        items: ["Hydrated Storage", "Shared Preferences"],
-      },
-      {
-        title: "UI & Performance",
-        items: [
-          "Flutter ScreenUtil",
-          "Flutter SVG",
-          "Cached Network Image",
-          "Animations Package",
-        ],
-      },
-    ],
+ mind_trip: {
+  slug: "mindtrip",
+  title: "MindTrip",
+  role: "Flutter Developer",
+  color: "#5596FE",
+  year: "2026",
+  duration: "2025 - Present",
 
-    challenges: [
-      {
-        challenge:
-          "Maintaining consistent state persistence across application restarts without degrading performance.",
-        solution:
-          "Integrated Hydrated Bloc with optimized state emission patterns to ensure efficient serialization and restoration.",
-      },
-      {
-        challenge: "Ensuring modular scalability for future feature expansion.",
-        solution:
-          "Adopted Feature-First Clean Architecture with strict separation of concerns and dependency injection.",
-      },
-      {
-        challenge:
-          "Preventing unnecessary UI rebuilds in complex state scenarios.",
-        solution:
-          "Applied selective rebuild logic and granular Bloc listeners to isolate widget updates.",
-      },
-    ],
+  googlePlay: null,
+  appStore: null,
+  liveDemo: null,
+  comingSoon: true,
+
+  eyebrow: "AI Travel Platform",
+  subtitle: "AI-powered Trip Planning & Smart Travel Companion",
+
+  overview:
+      "MindTrip is an AI-powered travel planning platform that transforms how people discover destinations, build itineraries, and organize trips. Combining conversational AI, personalized recommendations, interactive maps, and collaborative planning, it helps travelers create complete journeys tailored to their interests, budget, and travel style.",
+
+  quickFacts: [
+  { label: "Platform", value: "iOS + Android" },
+  { label: "Architecture", value: "Clean Architecture" },
+  { label: "Backend", value: "REST API" },
+  { label: "Focus", value: "AI Trip Planning" },
+],
+
+  links: [
+    {
+      label: "GitHub",
+      href: "https://github.com/Mohamedismaell/MindTrip",
+      variant: "primary",
+      icon: "github",
+    },
+  ],
+
+  stats: [
+    { label: "Screens", value: "40+" },
+    { label: "Features", value: "15+" },
+    { label: "Tech", value: "15" },
+    { label: "Challenges", value: "4" },
+  ],
+
+ developmentProcess: [
+  "Research & travel workflow analysis",
+  "User flow & AI conversation design",
+  "Design system & reusable UI components",
+  "Feature-First Clean Architecture",
+  "Backend & AI integration",
+  "Maps & location services",
+  "Testing & optimization",
+],
+  shortDescription:
+      "An AI-powered travel planning application built with Flutter, combining conversational trip planning, personalized recommendations, interactive maps, and collaborative itinerary management in a scalable architecture.",
+
+  description:
+      "MindTrip is a modern travel planning platform built with Flutter that simplifies every stage of travel. Users can chat with an AI assistant to generate personalized itineraries, discover destinations, hotels, restaurants, and attractions, organize multi-day trips, explore interactive maps, save favorite places, and collaborate with friends when planning journeys. The project follows Feature-First Clean Architecture with scalable state management and backend integration, creating a maintainable and production-ready codebase.",
+
+  highlights: [
+    "AI-powered conversational trip planning",
+    "Personalized itinerary generation",
+    "Interactive maps & nearby places",
+    "Collaborative trip planning",
+    "Feature-First Clean Architecture",
+  ],
+
+  features: [
+    "AI travel assistant",
+    "Personalized itinerary generation",
+    "Destination recommendations",
+    "Interactive maps",
+    "Nearby places discovery",
+    "Hotels & restaurants search",
+    "Saved places",
+    "Trip management",
+    "Trip calendar",
+    "Collaborative planning",
+    "Advanced search & filters",
+    "Authentication",
+    "Profile personalization",
+    "Responsive UI",
+    "Offline caching",
+  ],
+
+  challenge:
+      "Building a scalable AI-powered travel platform capable of combining conversational planning, interactive maps, destination discovery, itinerary generation, and collaborative trip management while maintaining clean architecture and smooth user experience.",
+
+  solution:
+    "Implemented the application using Feature-First Clean Architecture with BLoC state management, a custom REST API backend, Hive for local persistence, Google Authentication, and repository abstraction. Integrated AI-powered trip generation, interactive maps, and personalized recommendations into a scalable and maintainable architecture.",
+ tech: [
+  "Flutter",
+  "Dart",
+  "Clean Architecture",
+  "Feature-First Structure",
+  "Bloc",
+  "Cubit",
+  "REST API",
+  "Dio",
+  "Hive",
+  "Mapbox",
+  "Google Maps",
+  "Google Places API",
+  "Google Sign-In",
+  "JWT Authentication",
+  "Freezed",
+  "GoRouter",
+  "GetIt",
+  "Responsive UI",
+],
+
+  github: "https://github.com/Mohamedismaell/MindTrip",
+
+  image: "/projects/MindTrip/normal/cover.png",
+
+  heroScreens: [
+    "/projects/MindTrip/normal/mindTripMobileDemo.mp4",
+  ],
+
+  gallery: [
+    "/projects/MindTrip/2D_preview/Slice 1.png",
+    "/projects/MindTrip/2D_preview/Slice 2.png",
+    "/projects/MindTrip/2D_preview/Slice 3.png",
+    "/projects/MindTrip/2D_preview/Slice 4.png",
+    "/projects/MindTrip/2D_preview/Slice 5.png",
+    "/projects/MindTrip/2D_preview/Slice 6.png",
+    "/projects/MindTrip/2D_preview/Slice 7.png",
+    "/projects/MindTrip/2D_preview/Slice 8.png",
+    "/projects/MindTrip/2D_preview/Slice 9.png",
+    "/projects/MindTrip/2D_preview/Slice 10.png",
+    "/projects/MindTrip/2D_preview/Slice 11.png",
+    "/projects/MindTrip/2D_preview/Slice 12.png",
+    "/projects/MindTrip/2D_preview/Slice 13.png",
+    "/projects/MindTrip/2D_preview/Slice 14.png",
+    "/projects/MindTrip/2D_preview/Slice 15.png",
+  ],
+
+  results: {
+    screens: "40+",
+    features: "15+",
+    tech: "15",
+    linesOfCode: "12k+",
+    challenges: "4",
+    architecture: "Feature-First",
+    githubUrl: "https://github.com/Mohamedismaell/MindTrip",
   },
 
-  mind_trip: {
-    slug: "MindTrip",
-    title: "MindTrip",
-    role: "Flutter Developer",
-    color: "#5596FE",
-    year: "2026",
-    duration: "2026",
-    googlePlay: null,
-    appStore: null,
-    liveDemo: null,
-    comingSoon: true,
-
-    eyebrow: "AI Travel Product",
-    subtitle: "Flutter Developer · Coming Soon Case Study",
-    overview:
-      "MindTrip is an AI-powered travel planning experience designed around conversational trip discovery, itinerary building, and collaborative planning for modern travelers.",
-
-    quickFacts: [
-      { label: "Status", value: "Coming Soon" },
-      { label: "Platform", value: "Mobile App" },
-      { label: "Category", value: "AI Travel Planning" },
-      { label: "Focus", value: "Itineraries & collaboration" },
-    ],
-
-    links: [
-      {
-        label: "GitHub",
-        href: "https://github.com/Mohamedismaell/MindTrip",
-        variant: "primary",
-        icon: "github",
-      },
-    ],
-
-    stats: [
-      { label: "Status", value: "WIP" },
-      { label: "AI", value: "Trip Assistant" },
-      { label: "Focus", value: "Planning" },
-      { label: "Mode", value: "Collaborative" },
-    ],
-
-    shortDescription:
-      "MindTrip is an AI-powered travel app that helps users plan, organize, and personalize their trips in one place. It uses conversational AI to suggest destinations, activities, hotels, and restaurants based on your preferences, location, and travel style, while also creating customizable itineraries, maps, and collaborative trip plans you can share with friends.",
-
+sections: [
+  {
+    label: "SCREEN 01",
+    title: "Personalized Home",
     description:
-      "MindTrip is an AI-powered travel app that helps users plan, organize, and personalize their trips in one place. It uses conversational AI to suggest destinations, activities, hotels, and restaurants based on your preferences, location, and travel style, while also creating customizable itineraries, maps, and collaborative trip plans you can share with friends.",
-
-    github: "https://github.com/Mohamedismaell/MindTrip",
-
-    image: "/projects/MindTrip/normal/cover.png",
-    developmentProcess: [
-  "Research and competitor review",
-  "Wireframing and flow mapping",
-  "UI design system setup",
-  "Frontend implementation",
-  "Testing and refinement",
-]
+        "A personalized dashboard that greets users with curated destinations, AI-powered recommendations, and quick access to discover new places.",
+    features: [
+      "Personalized recommendations",
+      "Featured destinations",
+      "Quick search access",
+    ],
+    image: "/projects/MindTrip/normal/Device(15).png",
   },
+  {
+    label: "SCREEN 02",
+    title: "Explore Destinations",
+    description:
+        "Browse destinations through smart categories, voice search, filters, and personalized recommendations tailored to your interests.",
+    features: [
+      "Category browsing",
+      "Voice search",
+      "Smart recommendations",
+    ],
+    image: "/projects/MindTrip/normal/Device(10).png",
+  },
+  {
+    label: "SCREEN 03",
+    title: "Advanced Filters",
+    description:
+        "Refine search results using location, travel style, hidden gems, and budget filters to discover the perfect destination.",
+    features: [
+      "Location filtering",
+      "Budget selection",
+      "Travel preferences",
+    ],
+    image: "/projects/MindTrip/normal/Device(11).png",
+  },
+  {
+    label: "SCREEN 04",
+    title: "Travel Discovery",
+    description:
+        "Explore hotels, restaurants, hidden gems, and local experiences organized into intuitive travel categories.",
+    features: [
+      "Hotels & restaurants",
+      "Hidden gems",
+      "Travel collections",
+    ],
+    image: "/projects/MindTrip/normal/Device(1).png",
+  },
+  {
+    label: "SCREEN 05",
+    title: "Saved Places",
+    description:
+        "Keep favorite destinations, restaurants, hotels, and attractions organized for quick access during trip planning.",
+    features: [
+      "Favorites management",
+      "Category organization",
+      "Quick access",
+    ],
+    image: "/projects/MindTrip/normal/Device(2).png",
+  },
+  {
+    label: "SCREEN 06",
+    title: "AI Trip Planning",
+    description:
+        "Start planning with Mindy, the AI travel assistant, through a guided conversational experience.",
+    features: [
+      "AI assistant",
+      "Guided planning",
+      "Trip generation",
+    ],
+    image: "/projects/MindTrip/normal/Device(3).png",
+  },
+  {
+    label: "SCREEN 07",
+    title: "Trip Preferences",
+    description:
+        "Collect travel dates and preferences through an intuitive step-by-step planning flow before generating itineraries.",
+    features: [
+      "Date selection",
+      "Planning wizard",
+      "Progress tracking",
+    ],
+    image: "/projects/MindTrip/normal/Device(4).png",
+  },
+  {
+    label: "SCREEN 08",
+    title: "AI Conversation",
+    description:
+        "Interact naturally with Mindy to describe your destination, travel style, and preferences before generating your trip.",
+    features: [
+      "Conversational AI",
+      "Natural language",
+      "Personalized responses",
+    ],
+    image: "/projects/MindTrip/normal/Device(5).png",
+  },
+  {
+    label: "SCREEN 09",
+    title: "Trip Details",
+    description:
+        "View complete travel itineraries with accommodations, daily activities, budgets, and organized schedules.",
+    features: [
+      "Daily itinerary",
+      "Accommodation details",
+      "Budget overview",
+    ],
+    image: "/projects/MindTrip/normal/Device(6).png",
+  },
+  {
+    label: "SCREEN 10",
+    title: "Add to Trip",
+    description:
+        "Save destinations directly into existing travel plans through a streamlined trip selection interface.",
+    features: [
+      "Trip selection",
+      "Destination saving",
+      "Trip organization",
+    ],
+    image: "/projects/MindTrip/normal/Device(12).png",
+  },
+  {
+    label: "SCREEN 11",
+    title: "Smart Search",
+    description:
+        "Find attractions, restaurants, and experiences instantly with intelligent search suggestions and categorized results.",
+    features: [
+      "Instant search",
+      "Smart suggestions",
+      "Categorized results",
+    ],
+    image: "/projects/MindTrip/normal/Device(13).png",
+  },
+  {
+    label: "SCREEN 12",
+    title: "Trip Management",
+    description:
+        "Manage upcoming, draft, and completed trips from a centralized dashboard with organized travel history.",
+    features: [
+      "Trip organization",
+      "Draft management",
+      "Travel history",
+    ],
+    image: "/projects/MindTrip/normal/Device(8).png",
+  },
+  {
+    label: "SCREEN 13",
+    title: "Travel Calendar",
+    description:
+        "Visualize upcoming journeys with an integrated calendar that keeps every travel schedule in one place.",
+    features: [
+      "Calendar view",
+      "Schedule overview",
+      "Trip timeline",
+    ],
+    image: "/projects/MindTrip/normal/Device(7).png",
+  },
+  {
+    label: "SCREEN 14",
+    title: "User Profile",
+    description:
+        "Personalize your travel experience by managing your profile, interests, saved places, and travel statistics.",
+    features: [
+      "Profile customization",
+      "Travel interests",
+      "Activity overview",
+    ],
+    image: "/projects/MindTrip/normal/Device(9).png",
+  },
+],
+
+  challenges: [
+    {
+      icon: "ai",
+      title: "Conversational AI Planning",
+      challenge:
+          "Creating a natural AI-driven planning experience that collects travel preferences through conversation while progressively generating personalized itineraries.",
+      solution:
+          "Designed a conversational planning flow with structured AI prompts, incremental preference collection, and dynamic itinerary generation to deliver a seamless user experience.",
+    },
+    {
+      icon: "map",
+      title: "Interactive Travel Experience",
+      challenge:
+          "Synchronizing maps, destination details, nearby places, and generated itineraries into one connected travel experience without breaking navigation flow.",
+      solution:
+          "Integrated interactive maps with deep linking between destinations, trip plans, and place details, allowing users to seamlessly navigate across every stage of trip planning.",
+    },
+    {
+      icon: "layers",
+      title: "Scalable Architecture",
+      challenge:
+          "Building a large-scale travel platform with AI, authentication, maps, recommendations, chat, and trip management while keeping the codebase maintainable.",
+      solution:
+          "Implemented a Feature-First Clean Architecture using BLoC, dependency injection, repositories, and modular features to ensure scalability, maintainability, and testability.",
+    },
+  {
+  icon: "database",
+  title: "Data Synchronization",
+  challenge:
+      "Synchronizing user trips, AI-generated itineraries, favorites, and travel data between the backend and local storage while keeping the application responsive.",
+  solution:
+      "Implemented a repository-based data layer using REST APIs with Dio and Hive caching, ensuring smooth synchronization, offline persistence, and fast application performance.",
+},
+  ],
+},
 };

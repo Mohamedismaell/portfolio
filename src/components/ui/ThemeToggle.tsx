@@ -1,7 +1,7 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/ui/ThemeProvider";
@@ -21,12 +21,19 @@ type DocumentWithTransition = Document & {
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = async () => {
+    if (!mounted) return;
+
     const nextTheme: Theme = theme === "light" ? "dark" : "light";
     const root = document.documentElement;
-    const rect = buttonRef.current?.getBoundingClientRect();
 
+    const rect = buttonRef.current?.getBoundingClientRect();
     const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const y = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
 
@@ -41,7 +48,9 @@ export default function ThemeToggle() {
     root.dataset.themeTransition = nextTheme === "dark" ? "to-dark" : "to-light";
 
     const doc = document as DocumentWithTransition;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
     if (!doc.startViewTransition || reduceMotion) {
       setTheme(nextTheme);
@@ -55,10 +64,6 @@ export default function ThemeToggle() {
     const transition = doc.startViewTransition(() => {
       flushSync(() => {
         setTheme(nextTheme);
-        // Update DOM synchronously during view transition
-        // const root = document.documentElement;
-        // root.classList.remove("light", "dark");
-        // root.classList.add(nextTheme);
       });
     });
 
@@ -91,13 +96,13 @@ export default function ThemeToggle() {
       />
 
       <motion.span
-        key={theme}
+        key={mounted ? theme : "loading"}
         initial={{ rotate: -90, opacity: 0, scale: 0.72 }}
         animate={{ rotate: 0, opacity: 1, scale: 1 }}
         transition={{ duration: 0.22, ease: "easeOut" }}
-        className="relative z-10"
+        className="relative z-10 flex h-[17px] w-[17px] items-center justify-center"
       >
-        {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+        {!mounted ? null : theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
       </motion.span>
     </button>
   );

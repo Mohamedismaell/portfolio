@@ -17,7 +17,7 @@ import ProjectResultsPanel from "./high_lights_result";
 import Footer from "../footer/Footer";
 import ProjectOverviewRow from "./ProjectOverviewRow";
 import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
-
+import ImagePhonePreview from "./ImagePhonePreview";
 type ProjectStat = {
   label: string;
   value: string;
@@ -494,28 +494,24 @@ export default function ProjectDetailsPage({
               </div>
             </div>
 
-            <div
-              className="overflow-hidden rounded-[24px] sm:rounded-[28px]"
-              style={{
-                background: GRADIENTS.cardBg,
-                border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: SHADOWS.card,
-              }}
-            >
-              <div className="relative h-[420px] w-full overflow-hidden sm:h-[520px] lg:h-[640px]">
-                {project.heroScreens?.length ? (
-                  <AutoPlayScreens screens={project.heroScreens} />
-                ) : project.image ? (
-                  <div className="relative h-full w-full overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                ) : null}
-              </div>
-            </div>
+{/* Right-Hand Media Showcase Container Frame */}
+<div
+  className="overflow-hidden rounded-[24px] sm:rounded-[28px]"
+  style={{
+    background: GRADIENTS.cardBg,
+    border: `1px solid ${BORDERS.subtle}`,
+    boxShadow: SHADOWS.card,
+  }}
+>
+  {/* FIX: Set to h-auto on mobile with clean py-8 padding so the phone frame never hits the edges */}
+<div className="relative flex w-full items-center justify-center px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
+    {project.heroScreens?.length ? (
+      <AutoPlayScreens screens={project.heroScreens} />
+    ) : project.image ? (
+      <ImagePhonePreview src={project.image} alt={project.title} />
+    ) : null}
+  </div>
+</div>
           </div>
         </section>
 
