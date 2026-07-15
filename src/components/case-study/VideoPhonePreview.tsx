@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import { Pause, Play, RotateCcw, RotateCw } from "lucide-react";
+import {
+  LoaderCircle,
+  Pause,
+  Play,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
 import PhoneFrame from "./PhoneFrame";
 
 function formatTime(seconds: number) {
@@ -25,6 +31,7 @@ export default function VideoPhonePreview({
   onEnded,
 }: VideoPhonePreviewProps) {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
@@ -38,6 +45,7 @@ export default function VideoPhonePreview({
     setCurrentTime(0);
     setDuration(0);
     setIsPlaying(true);
+    setIsLoading(true);
     el.currentTime = 0;
 
     const playPromise = el.play();
@@ -93,7 +101,7 @@ export default function VideoPhonePreview({
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      <div className="mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[300px] xl:max-w-[320px]">
+      <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[300px] xl:max-w-[320px]">
         <PhoneFrame>
           <video
             ref={videoRef}
@@ -103,10 +111,16 @@ export default function VideoPhonePreview({
             muted
             loop={loop}
             playsInline
+            preload="metadata"
             controls={false}
             onEnded={onEnded}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
+            onLoadStart={() => setIsLoading(true)}
+            onLoadedData={() => setIsLoading(false)}
+            onCanPlay={() => setIsLoading(false)}
+            onWaiting={() => setIsLoading(true)}
+            onPlaying={() => setIsLoading(false)}
             onLoadedMetadata={(e) =>
               setDuration(e.currentTarget.duration || 0)
             }
@@ -116,6 +130,39 @@ export default function VideoPhonePreview({
               }
             }}
           />
+
+          {isLoading ? (
+            <div
+              className="absolute inset-0 z-10 flex items-center justify-center"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(10,10,12,0.22), rgba(10,10,12,0.38))",
+                backdropFilter: "blur(6px)",
+                WebkitBackdropFilter: "blur(6px)",
+              }}
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-full"
+                  style={{
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.16)",
+                  }}
+                >
+                  <LoaderCircle
+                    size={20}
+                    className="animate-spin"
+                    style={{ color: "#EF9D57" }}
+                  />
+                </div>
+
+                <span className="text-[11px] font-[700] uppercase tracking-[0.08em] text-white/80">
+                  Loading video
+                </span>
+              </div>
+            </div>
+          ) : null}
         </PhoneFrame>
       </div>
 
