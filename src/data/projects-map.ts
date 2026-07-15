@@ -777,7 +777,7 @@ results: {
 
   github: "https://github.com/Mohamedismaell/MindTrip",
 
-  image: "/projects/MindTrip/normal/cover.png",
+  image: "/projects/MindTrip/2D_preview/cover.png",
 
   heroScreens: [
     "/projects/MindTrip/normal/mindTripMobileDemo.mp4",
