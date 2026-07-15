@@ -275,24 +275,42 @@ export default function HeroIllustration({
           [67, 268, "5. Testing", "Quality"],
           [27, 312, "6. Deployment", "Release"],
           [88, 353, "7. Launch", "Live"],
-        ].map(([x, y, a, b], i) => (
-          <g key={i}>
-            <path
-              d={`M${x} ${y + 4}C${x + 5} ${y - 2} ${x + 14} ${y - 2} ${x + 14} ${y + 6}C${x + 14} ${y + 14} ${x + 7} ${y + 18} ${x + 7} ${y + 18}C${x + 7} ${y + 18} ${x} ${y + 14} ${x} ${y + 6}C${x} ${y + 1} ${x + 3} ${y - 2} ${x + 7} ${y - 2}`}
-              fill={accent}
-              fillOpacity="0.65"
-            />
-            <text x={x + 18} y={y + 7} fontSize="7.2" fontWeight="800" fill="currentColor">
-              {a}
-            </text>
-            <text x={x + 18} y={y + 16} fontSize="6.1" fontWeight="600" fill="currentColor" opacity="0.62">
-              {b}
-            </text>
-          </g>
-        ))}
+        ].map(([x, y, a, b], i) => {
+          const nx = Number(x);
+          const ny = Number(y);
+
+          return (
+            <g key={i}>
+              <path
+                d={`M${nx} ${ny + 4}C${nx + 5} ${ny - 2} ${nx + 14} ${ny - 2} ${nx + 14} ${ny + 6}C${nx + 14} ${ny + 14} ${nx + 7} ${ny + 18} ${nx + 7} ${ny + 18}C${nx + 7} ${ny + 18} ${nx} ${ny + 14} ${nx} ${ny + 6}C${nx} ${ny + 1} ${nx + 3} ${ny - 2} ${nx + 7} ${ny - 2}`}
+                fill={accent}
+                fillOpacity="0.65"
+              />
+              <text x={nx + 18} y={ny + 7} fontSize="7.2" fontWeight="800" fill="currentColor">
+                {a}
+              </text>
+              <text
+                x={nx + 18}
+                y={ny + 16}
+                fontSize="6.1"
+                fontWeight="600"
+                fill="currentColor"
+                opacity="0.62"
+              >
+                {b}
+              </text>
+            </g>
+          );
+        })}
 
         <circle cx="116" cy="326" r="16" fill="rgba(255,255,255,0.94)" stroke="rgba(210,188,160,0.55)" />
-        <path d="M111 327L119 319M119 319L119 325M119 319H113" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M111 327L119 319M119 319L119 325M119 319H113"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </g>
 
       <circle cx="160" cy="220" r="14" fill="white" stroke="currentColor" strokeOpacity="0.18" />
