@@ -103,7 +103,7 @@ export default function Footer() {
 
               <div className="flex flex-col gap-3">
                 <a
-                  href="mailto:mohamed.ismael.dev@outlook.com"
+                  href="mailto:mohamed.ismael.dev@gmail.com"
                   className="group inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] px-3.5 py-2.5 text-[12px] font-[600] transition-all duration-300 sm:text-[13px]"
                   style={{
                     background: "var(--background-tertiary)",
@@ -122,7 +122,7 @@ export default function Footer() {
                   </span>
 
                   <span className="truncate">
-                    mohamed.ismael.dev@outlook.com
+                    mohamed.ismael.dev@gmail.com
                   </span>
                 </a>
 
