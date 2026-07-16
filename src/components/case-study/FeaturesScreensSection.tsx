@@ -17,7 +17,7 @@ type SectionItem = {
 const pageVariants = {
   enter: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? 28 : -28,
+    x: direction > 0 ? 24 : -24,
   }),
   center: {
     opacity: 1,
@@ -25,7 +25,7 @@ const pageVariants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? -28 : 28,
+    x: direction > 0 ? -24 : 24,
   }),
 };
 
@@ -80,7 +80,7 @@ export default function FeaturesScreensSection({
 
   return (
     <div className="w-full">
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5 sm:gap-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p
@@ -91,7 +91,7 @@ export default function FeaturesScreensSection({
             </p>
 
             <h2
-              className="mt-1 text-[1.45rem] font-[800] leading-[1.2] tracking-[-0.03em] sm:text-[1.65rem] lg:text-[1.85rem]"
+              className="mt-1 text-[1.35rem] font-[800] leading-[1.15] tracking-[-0.03em] sm:text-[1.55rem] lg:text-[1.75rem]"
               style={{ color: TEXT.primary }}
             >
               Take a closer look at{" "}
@@ -105,7 +105,7 @@ export default function FeaturesScreensSection({
               type="button"
               onClick={() => goTo(page - 1, -1)}
               aria-label="Previous screens"
-              className="flex h-11 w-11 items-center justify-center rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
+              className="flex h-10 w-10 items-center justify-center rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
               style={{
                 background: GRADIENTS.ghostBtn,
                 border: `1px solid ${BORDERS.subtle}`,
@@ -113,14 +113,14 @@ export default function FeaturesScreensSection({
                 boxShadow: SHADOWS.ghostBtn,
               }}
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={15} />
             </button>
 
             <button
               type="button"
               onClick={() => goTo(page + 1, 1)}
               aria-label="Next screens"
-              className="flex h-11 w-11 items-center justify-center rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
+              className="flex h-10 w-10 items-center justify-center rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
               style={{
                 background: GRADIENTS.ghostBtn,
                 border: `1px solid ${BORDERS.subtle}`,
@@ -128,7 +128,7 @@ export default function FeaturesScreensSection({
                 boxShadow: SHADOWS.ghostBtn,
               }}
             >
-              <ArrowRight size={16} />
+              <ArrowRight size={15} />
             </button>
           </div>
         </div>
@@ -142,7 +142,7 @@ export default function FeaturesScreensSection({
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.28, ease: "easeOut" }}
+              transition={{ duration: 0.26, ease: "easeOut" }}
               className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6 xl:gap-8"
             >
               {visibleSections.map((section, localIndex) => {
@@ -151,7 +151,7 @@ export default function FeaturesScreensSection({
                 return (
                   <article
                     key={`${section.title}-${absoluteIndex}`}
-                    className="flex h-full min-w-0 flex-col rounded-[24px] px-4 py-4 sm:px-5 sm:py-5"
+                    className="flex min-w-0 flex-col rounded-[24px] px-4 py-4 sm:px-5 sm:py-5"
                     style={{
                       background: GRADIENTS.cardBg,
                       border: `1px solid ${BORDERS.subtle}`,
@@ -160,19 +160,14 @@ export default function FeaturesScreensSection({
                   >
                     <div className="flex flex-col items-center text-center">
                       <span
-                        className="flex h-16 w-16 items-center justify-center rounded-full text-[1.65rem] font-[900] tracking-[-0.06em]"
-                        style={{
-                          background: GRADIENTS.badge,
-                          border: `1px solid ${BORDERS.medium}`,
-                          color: "var(--accent)",
-                          boxShadow: SHADOWS.ghostBtn,
-                        }}
+                        className="text-[1.55rem] font-[900] leading-none tracking-[-0.07em] sm:text-[1.75rem]"
+                        style={{ color: "var(--accent)" }}
                       >
                         {String(absoluteIndex + 1).padStart(2, "0")}
                       </span>
 
                       <h3
-                        className="mt-4 text-[1.22rem] font-[800] leading-[1.1] tracking-[-0.04em] sm:text-[1.38rem]"
+                        className="mt-2 text-[1.12rem] font-[800] leading-[1.12] tracking-[-0.04em] sm:text-[1.25rem]"
                         style={{ color: TEXT.primary }}
                       >
                         {section.title}
@@ -180,18 +175,18 @@ export default function FeaturesScreensSection({
                     </div>
 
                     <p
-                      className="mt-4 min-h-[88px] text-[14px] font-[500] leading-[1.8] sm:text-[15px]"
+                      className="mt-3 text-center text-[13px] font-[500] leading-[1.72] sm:mt-3.5 sm:text-[14px]"
                       style={{ color: TEXT.soft }}
                     >
                       {section.description}
                     </p>
 
                     {!!section.features?.length && (
-                      <div className="mt-4 grid gap-3">
+                      <div className="mt-4 grid gap-2.5">
                         {section.features.slice(0, 4).map((feature) => (
                           <div key={feature} className="flex items-start gap-3">
                             <span
-                              className="mt-[8px] h-2.5 w-2.5 shrink-0 rounded-full"
+                              className="mt-[7px] h-2 w-2 shrink-0 rounded-full"
                               style={{
                                 background: "var(--accent)",
                                 boxShadow: "0 0 0 4px rgba(239,157,87,0.12)",
@@ -199,7 +194,7 @@ export default function FeaturesScreensSection({
                             />
 
                             <p
-                              className="text-[13px] font-[600] leading-[1.6] sm:text-[14px]"
+                              className="text-[12.5px] font-[600] leading-[1.55] sm:text-[13px]"
                               style={{ color: TEXT.primary }}
                             >
                               {feature}
@@ -209,17 +204,17 @@ export default function FeaturesScreensSection({
                       </div>
                     )}
 
-              <div className="mt-6 flex flex-1 items-start justify-center">
-  <div className="relative aspect-[10/20.2] w-[42%] sm:w-[34%] lg:w-[30%] xl:w-[34%]">
-    <Image
-      src={section.image}
-      alt={section.title}
-      fill
-      className="object-contain object-top"
-      sizes="(max-width: 640px) 38vw, (max-width: 1024px) 24vw, 180px"
-    />
-  </div>
-</div>
+                    <div className="mt-5 flex items-start justify-center">
+                      <div className="relative aspect-[10/20.2] w-[34%] sm:w-[28%] lg:w-[24%] xl:w-[28%]">
+                        <Image
+                          src={section.image}
+                          alt={section.title}
+                          fill
+                          className="object-contain object-top"
+                          sizes="(max-width: 640px) 30vw, (max-width: 1024px) 22vw, 150px"
+                        />
+                      </div>
+                    </div>
                   </article>
                 );
               })}
@@ -253,7 +248,7 @@ export default function FeaturesScreensSection({
                   }}
                   className="rounded-full transition-all duration-300"
                   style={{
-                    width: isActive ? "28px" : "8px",
+                    width: isActive ? "24px" : "8px",
                     height: "8px",
                     background: isActive
                       ? GRADIENTS.primaryBtn
@@ -283,7 +278,7 @@ export default function FeaturesScreensSection({
               boxShadow: SHADOWS.ghostBtn,
             }}
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={15} />
           </button>
 
           <button
@@ -298,7 +293,7 @@ export default function FeaturesScreensSection({
               boxShadow: SHADOWS.ghostBtn,
             }}
           >
-            <ArrowRight size={16} />
+            <ArrowRight size={15} />
           </button>
         </div>
       </div>
