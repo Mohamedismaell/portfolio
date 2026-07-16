@@ -496,15 +496,14 @@ export default function ProjectDetailsPage({
 
 {/* Right-Hand Media Showcase Container Frame */}
 <div
-  className="overflow-hidden rounded-[24px] sm:rounded-[28px]"
+  className="relative min-h-[500px] overflow-hidden rounded-[24px] sm:min-h-[560px] sm:rounded-[28px] lg:min-h-0"
   style={{
     background: GRADIENTS.cardBg,
     border: `1px solid ${BORDERS.subtle}`,
     boxShadow: SHADOWS.card,
   }}
 >
-  {/* FIX: Set to h-auto on mobile with clean py-8 padding so the phone frame never hits the edges */}
-<div className="relative flex w-full items-center justify-center px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
+  <div className="absolute inset-0 h-full w-full">
     {project.heroScreens?.length ? (
       <AutoPlayScreens screens={project.heroScreens} />
     ) : project.image ? (

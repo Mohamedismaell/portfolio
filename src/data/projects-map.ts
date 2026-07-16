@@ -113,8 +113,8 @@ export const projectsMap: Record<string, any> = {
   image: "/projects/MindTrip/2D_preview/cover.png",
 
   heroScreens: [
-    "/projects/MindTrip/normal/mindTripMobileDemo.mp4",
-  ],
+  "https://youtu.be/8QZpCPYGpNE?si=5420RqDnble_UyQJ", 
+ ],
 
   gallery: [
     "/projects/MindTrip/2D_preview/Slice 1.png",

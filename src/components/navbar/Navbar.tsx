@@ -102,20 +102,36 @@ export default function ResponsiveNavbar() {
   }, [mobileOpen]);
 
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (!hash) return;
     if (isProjectDetails) return;
 
-    const timer = setTimeout(() => {
-      const el = document.getElementById(hash);
-      if (el) {
-        animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
-        setActive(hash);
-      }
-    }, 120);
+    const scrollToHash = () => {
+      const hash = window.location.hash.replace("#", "");
 
-    return () => clearTimeout(timer);
-  }, [pathname, animateScroll, isProjectDetails]);
+      if (!hash) {
+        setActive("home");
+        return;
+      }
+
+      const element = document.getElementById(hash);
+      if (!element) return;
+
+      window.setTimeout(() => {
+        stopAnimation();
+        animateScroll(
+          element.getBoundingClientRect().top + window.pageYOffset - 96,
+        );
+        setActive(hash);
+      }, 180);
+    };
+
+    scrollToHash();
+
+    window.addEventListener("hashchange", scrollToHash);
+
+    return () => {
+      window.removeEventListener("hashchange", scrollToHash);
+    };
+  }, [pathname, animateScroll, stopAnimation, isProjectDetails]);
 
   useEffect(() => {
     if (!isProjectDetails) {
@@ -137,26 +153,32 @@ export default function ResponsiveNavbar() {
   const scrollToSection = (id: string) => {
     setMobileOpen(false);
 
-    if (id === "home") {
-      if (pathname === "/") {
-        stopAnimation();
-        animateScroll(0);
-        setActive("home");
-      } else {
-        router.push("/");
-      }
+    const isOnLandingPage = !isProjectDetails;
+    const homePath = (pathname.replace(/\/projects\/.*$/, "") || "/").replace(/\/$/, "") || "/";
+
+    if (!isOnLandingPage) {
+      const target = id === "home" ? homePath : `${homePath}#${id}`;
+      window.location.assign(target);
       return;
     }
 
-    const el = document.getElementById(id);
-
-    if (el && !isProjectDetails) {
+    if (id === "home") {
       stopAnimation();
-      animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
-      setActive(id);
-    } else {
-      router.push(`/#${id}`);
+      animateScroll(0);
+      setActive("home");
+      window.history.replaceState(null, "", pathname);
+      return;
     }
+
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    stopAnimation();
+    animateScroll(
+      element.getBoundingClientRect().top + window.pageYOffset - 96,
+    );
+    setActive(id);
+    window.history.replaceState(null, "", `${pathname}#${id}`);
   };
 
   const handleProjectButtonClick = () => {
@@ -210,7 +232,6 @@ export default function ResponsiveNavbar() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="mx-auto max-w-[1280px]"
         >
-          {/* Desktop nav: switches at lg (1024px) instead of sm (640px) so it has room to breathe */}
           <div
             className="hidden items-center justify-between rounded-[24px] px-4 py-3 lg:flex lg:px-5"
             style={navShellStyle}
@@ -367,7 +388,6 @@ export default function ResponsiveNavbar() {
             </div>
           </div>
 
-          {/* Mobile nav: shows below lg (1024px) instead of sm (640px) */}
           <div
             className="flex items-center justify-between rounded-[20px] px-4 py-3 lg:hidden"
             style={navShellStyle}
