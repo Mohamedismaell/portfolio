@@ -3,6 +3,7 @@
 import { Github, Linkedin, Mail, ArrowRight } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
 import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
+import { useRouter } from "@/i18n/routing";
 
 const SOCIAL_LINKS = [
   {
@@ -28,14 +29,19 @@ const SOCIAL_LINKS = [
 ];
 
 export default function Footer() {
+  const router = useRouter();
   const { animateScroll, stopAnimation } = useAnimatedScroll();
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
-    if (!el) return;
 
-    stopAnimation();
-    animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
+    if (el) {
+      stopAnimation();
+      animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
+      return;
+    }
+
+    router.push(`/#${id}`);
   };
 
   return (
@@ -73,32 +79,32 @@ export default function Footer() {
             <div className="grid flex-1 grid-cols-1 gap-5 lg:grid-cols-[1.05fr_2px_0.95fr] lg:items-center lg:gap-8">
               <div className="min-w-0">
                 <h2
-                  className="text-[1.65rem] sm:text-[1.9rem] lg:text-[2.05rem] font-[800] leading-[0.95] tracking-[-0.06em]"
+                  className="text-[1.65rem] font-[800] leading-[0.95] tracking-[-0.06em] sm:text-[1.9rem] lg:text-[2.05rem]"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  Let's build something
+                  Let&apos;s build something
                   <br />
                   <span className="gradient-text">amazing</span>{" "}
                   together
                 </h2>
 
                 <p
-                  className="mt-3 max-w-[30ch] text-[13px] sm:text-[14px] leading-[1.7]"
+                  className="mt-3 max-w-[30ch] text-[13px] leading-[1.7] sm:text-[14px]"
                   style={{ color: "var(--text-soft)" }}
                 >
-                  I'm open to full-time opportunities and exciting projects.
+                  I&apos;m open to full-time opportunities and exciting projects.
                 </p>
               </div>
 
               <div
-                className="hidden lg:block h-full min-h-[120px] w-0.5 rounded-full"
+                className="hidden h-full min-h-[120px] w-0.5 rounded-full lg:block"
                 style={{ background: "var(--border-medium)" }}
               />
 
               <div className="flex flex-col gap-3">
                 <a
                   href="mailto:mohamed.ismael.dev@outlook.com"
-                  className="group inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] px-3.5 py-2.5 text-[12px] sm:text-[13px] font-[600] transition-all duration-300"
+                  className="group inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] px-3.5 py-2.5 text-[12px] font-[600] transition-all duration-300 sm:text-[13px]"
                   style={{
                     background: "var(--background-tertiary)",
                     border: "1px solid var(--border-subtle)",
@@ -115,7 +121,9 @@ export default function Footer() {
                     <Mail size={14} />
                   </span>
 
-                  <span className="truncate">mohamed.ismael.dev@outlook.com</span>
+                  <span className="truncate">
+                    mohamed.ismael.dev@outlook.com
+                  </span>
                 </a>
 
                 <div className="flex items-center gap-2.5">
@@ -145,7 +153,7 @@ export default function Footer() {
             <div className="lg:pl-4">
               <button
                 onClick={() => scrollTo("contact")}
-                className="group inline-flex w-full items-center justify-center gap-3 rounded-[18px] px-6 py-4 text-[14px] sm:text-[15px] font-[700] transition-all duration-300 hover:-translate-y-0.5 lg:min-w-[190px]"
+                className="group inline-flex w-full items-center justify-center gap-3 rounded-[18px] px-6 py-4 text-[14px] font-[700] transition-all duration-300 hover:-translate-y-0.5 sm:text-[15px] lg:min-w-[190px]"
                 style={{
                   background: "var(--gradient-primary-btn)",
                   border: "1px solid var(--border-medium)",
@@ -153,7 +161,7 @@ export default function Footer() {
                   boxShadow: "var(--shadow-primary-btn)",
                 }}
               >
-                <span>Let's Connect</span>
+                <span>Let&apos;s Connect</span>
                 <ArrowRight
                   size={17}
                   className="transition-transform duration-300 group-hover:translate-x-1"
