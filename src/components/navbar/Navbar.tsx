@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Download, Github, Linkedin, Menu, X } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 import Image from "next/image";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
@@ -40,8 +40,17 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const TAB_HOVER = {
+  y: -2,
+  scale: 1.02,
+};
+
+const TAB_TAP = {
+  y: 0,
+  scale: 0.985,
+};
+
 export default function ResponsiveNavbar() {
-  const router = useRouter();
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const { animateScroll, isAutoScrollingRef, stopAnimation } = useAnimatedScroll();
@@ -154,7 +163,8 @@ export default function ResponsiveNavbar() {
     setMobileOpen(false);
 
     const isOnLandingPage = !isProjectDetails;
-    const homePath = (pathname.replace(/\/projects\/.*$/, "") || "/").replace(/\/$/, "") || "/";
+    const homePath =
+      (pathname.replace(/\/projects\/.*$/, "") || "/").replace(/\/$/, "") || "/";
 
     if (!isOnLandingPage) {
       const target = id === "home" ? homePath : `${homePath}#${id}`;
@@ -236,9 +246,11 @@ export default function ResponsiveNavbar() {
             className="hidden items-center justify-between rounded-[24px] px-4 py-3 lg:flex lg:px-5"
             style={navShellStyle}
           >
-            <button
+            <motion.button
+              whileHover={{ y: -1, scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
               onClick={() => scrollToSection("home")}
-              className="shrink-0 text-left"
+              className="shrink-0 cursor-pointer text-left"
             >
               <div className="flex items-center gap-3">
                 <div
@@ -269,17 +281,19 @@ export default function ResponsiveNavbar() {
                   </div>
                 </div>
               </div>
-            </button>
+            </motion.button>
 
             <div className="flex items-center gap-1 rounded-full px-2 py-1">
               {NAV_ITEMS.map((item) => {
                 const isActive = active === item.id;
 
                 return (
-                  <button
+                  <motion.button
                     key={item.id}
+                    whileHover={TAB_HOVER}
+                    whileTap={TAB_TAP}
                     onClick={() => scrollToSection(item.id)}
-                    className="relative rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
+                    className="group relative cursor-pointer rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
                     style={{
                       color: isActive ? TEXT.badge : TEXT.soft,
                     }}
@@ -299,15 +313,28 @@ export default function ResponsiveNavbar() {
                         }}
                       />
                     )}
+
+                    {!isActive && (
+                      <span
+                        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        style={{
+                          background: GRADIENTS.ghostBtn,
+                          border: `1px solid ${BORDERS.subtle}`,
+                        }}
+                      />
+                    )}
+
                     <span className="relative z-10">{item.label}</span>
-                  </button>
+                  </motion.button>
                 );
               })}
 
               {projectTitle ? (
-                <button
+                <motion.button
+                  whileHover={TAB_HOVER}
+                  whileTap={TAB_TAP}
                   onClick={handleProjectButtonClick}
-                  className="relative rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                  className="relative cursor-pointer rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
                   style={{
                     color: isProjectActive ? TEXT.badge : TEXT.primary,
                   }}
@@ -327,6 +354,7 @@ export default function ResponsiveNavbar() {
                       }}
                     />
                   )}
+
                   {!isProjectActive && (
                     <span
                       className="absolute inset-0 rounded-full"
@@ -337,21 +365,24 @@ export default function ResponsiveNavbar() {
                       }}
                     />
                   )}
+
                   <span className="relative z-10">{projectTitle}</span>
-                </button>
+                </motion.button>
               ) : null}
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
               <div className="mr-1 hidden items-center gap-2 lg:flex">
                 {SOCIAL_LINKS.map((item) => (
-                  <a
+                  <motion.a
                     key={item.label}
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    whileTap={{ scale: 0.96 }}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.label}
-                    className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
+                    className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
                     style={socialBtnStyle}
                   >
                     <span
@@ -366,15 +397,17 @@ export default function ResponsiveNavbar() {
                     >
                       {item.icon}
                     </span>
-                  </a>
+                  </motion.a>
                 ))}
               </div>
 
-              <a
+              <motion.a
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 href="/Mohamed_Ismael_CV.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex h-10 items-center gap-2 rounded-[14px] px-4 text-[13px] font-bold transition-all duration-300 hover:-translate-y-0.5 lg:px-5"
+                className="group inline-flex h-10 cursor-pointer items-center gap-2 rounded-[14px] px-4 text-[13px] font-bold transition-all duration-300 lg:px-5"
                 style={primaryBtnStyle}
               >
                 <span>Download CV</span>
@@ -382,7 +415,7 @@ export default function ResponsiveNavbar() {
                   size={14}
                   className="transition-transform duration-300 group-hover:translate-y-0.5"
                 />
-              </a>
+              </motion.a>
 
               <ThemeToggle />
             </div>
@@ -392,9 +425,10 @@ export default function ResponsiveNavbar() {
             className="flex items-center justify-between rounded-[20px] px-4 py-3 lg:hidden"
             style={navShellStyle}
           >
-            <button
+            <motion.button
+              whileTap={{ scale: 0.99 }}
               onClick={() => scrollToSection("home")}
-              className="flex items-center gap-2.5 text-left"
+              className="flex cursor-pointer items-center gap-2.5 text-left"
             >
               <div
                 className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-[12px]"
@@ -423,18 +457,19 @@ export default function ResponsiveNavbar() {
                   Flutter Developer
                 </div>
               </div>
-            </button>
+            </motion.button>
 
             <div className="flex items-center gap-2">
               <ThemeToggle />
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setMobileOpen((prev) => !prev)}
                 aria-label="Toggle menu"
-                className="flex h-10 w-10 items-center justify-center rounded-[14px] transition-all duration-300"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[14px] transition-all duration-300"
                 style={socialBtnStyle}
               >
                 {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.nav>
@@ -474,9 +509,11 @@ export default function ResponsiveNavbar() {
             >
               <div className="p-4">
                 {projectTitle ? (
-                  <button
+                  <motion.button
+                    whileHover={{ y: -1, scale: 1.01 }}
+                    whileTap={{ scale: 0.985 }}
                     onClick={handleProjectButtonClick}
-                    className="mb-3 flex w-full items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
+                    className="mb-3 flex w-full cursor-pointer items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
                     style={{
                       color: isProjectActive ? TEXT.badge : TEXT.primary,
                       background: isProjectActive ? GRADIENTS.badge : GRADIENTS.ghostBtn,
@@ -493,7 +530,7 @@ export default function ResponsiveNavbar() {
                         style={{ background: "var(--accent)" }}
                       />
                     )}
-                  </button>
+                  </motion.button>
                 ) : null}
 
                 <div className="flex flex-col gap-1">
@@ -505,9 +542,11 @@ export default function ResponsiveNavbar() {
                         key={item.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.985 }}
                         transition={{ delay: index * 0.04, duration: 0.22 }}
                         onClick={() => scrollToSection(item.id)}
-                        className="flex items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
+                        className="flex cursor-pointer items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
                         style={{
                           color: isActive ? TEXT.badge : TEXT.soft,
                           background: isActive ? GRADIENTS.badge : "transparent",
@@ -537,13 +576,15 @@ export default function ResponsiveNavbar() {
 
                 <div className="mb-4 flex items-center justify-center gap-2">
                   {SOCIAL_LINKS.map((item) => (
-                    <a
+                    <motion.a
                       key={item.label}
+                      whileHover={{ y: -2, scale: 1.05 }}
+                      whileTap={{ scale: 0.96 }}
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={item.label}
-                      className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
+                      className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
                       style={socialBtnStyle}
                     >
                       <span
@@ -558,16 +599,18 @@ export default function ResponsiveNavbar() {
                       >
                         {item.icon}
                       </span>
-                    </a>
+                    </motion.a>
                   ))}
                 </div>
 
-                <a
+                <motion.a
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.985 }}
                   href="/Mohamed_Ismael_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="group inline-flex h-11 w-full items-center justify-center gap-2 rounded-[16px] text-sm font-bold transition-all duration-300"
+                  className="group inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-[16px] text-sm font-bold transition-all duration-300"
                   style={primaryBtnStyle}
                 >
                   <span>Download CV</span>
@@ -575,7 +618,7 @@ export default function ResponsiveNavbar() {
                     size={15}
                     className="transition-transform duration-300 group-hover:translate-y-0.5"
                   />
-                </a>
+                </motion.a>
               </div>
             </motion.div>
           </>

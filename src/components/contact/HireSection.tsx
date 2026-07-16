@@ -1,7 +1,14 @@
 "use client";
 
-import { motion, AnimatePresence, Variants } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import {
+  useState,
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import { ChevronDown, X, Send, BriefcaseBusiness } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -31,8 +38,11 @@ const SERVICES = [
   "Other",
 ];
 
+const WEB3FORMS_ACCESS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
+  
 const inputClass =
-  "w-full rounded-[16px] px-4 py-3.5 text-sm outline-none transition-all placeholder:text-[var(--text-secondary)]";
+  "w-full rounded-[16px] px-4 py-4 text-sm outline-none transition-all placeholder:text-[var(--text-secondary)] sm:text-[14px]";
 
 export default function HireSection() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -45,7 +55,7 @@ export default function HireSection() {
 
   const filteredServices = SERVICES.filter(
     (s) =>
-      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s)
+      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s),
   );
 
   useEffect(() => {
@@ -62,11 +72,13 @@ export default function HireSection() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setOpen(true);
-      setHighlightedIndex((p) => Math.min(p + 1, filteredServices.length - 1));
+      setHighlightedIndex((p) =>
+        Math.min(p + 1, filteredServices.length - 1),
+      );
     }
 
     if (e.key === "ArrowUp") {
@@ -93,12 +105,22 @@ export default function HireSection() {
     setSelected((p) => p.filter((s) => s !== service));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const fd = new FormData(e.currentTarget);
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "PASTE_YOUR_KEY_HERE") {
+      toast.error("Add your Web3Forms access key first.");
+      return;
+    }
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
     const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim();
+    const phone = String(fd.get("phone") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
+    const botcheck = fd.get("botcheck");
 
     if (name.length < 2) {
       toast.error("Name must be at least 2 characters.");
@@ -118,29 +140,39 @@ export default function HireSection() {
     setStatus("sending");
 
     const body = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: "New Portfolio Contact",
+      from_name: name,
       name,
-      email: String(fd.get("email") ?? "").trim(),
-      phone: String(fd.get("phone") ?? "").trim(),
+      email,
+      phone,
       services: selected.join(", "),
       message,
-      website: String(fd.get("website") ?? ""),
+      botcheck: botcheck ? "true" : "",
     };
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify(body),
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Request failed");
+      const result = await res.json();
+
+      if (!res.ok || !result.success) {
+        throw new Error(result.message || "Failed to send message");
       }
 
       toast.success("Message sent! I'll get back to you soon.");
-      (e.target as HTMLFormElement).reset();
+      form.reset();
       setSelected([]);
+      setQuery("");
+      setOpen(false);
+      setHighlightedIndex(0);
       setStatus("sent");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (err: any) {
@@ -150,7 +182,7 @@ export default function HireSection() {
     }
   };
 
-  const baseInputStyle: React.CSSProperties = {
+  const baseInputStyle: CSSProperties = {
     background: GRADIENTS.ghostBtn,
     border: `1px solid ${BORDERS.subtle}`,
     color: TEXT.primary,
@@ -159,7 +191,7 @@ export default function HireSection() {
     WebkitBackdropFilter: "blur(12px)",
   };
 
-  const focusInputStyle: React.CSSProperties = {
+  const focusInputStyle: CSSProperties = {
     background: GRADIENTS.cardBg,
     border: `1px solid ${BORDERS.strong}`,
     color: TEXT.primary,
@@ -179,7 +211,7 @@ export default function HireSection() {
             boxShadow: SHADOWS.card,
           }}
         >
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(380px,1fr)_440px] lg:gap-6">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(340px,0.9fr)_minmax(520px,1.1fr)] lg:gap-6 xl:grid-cols-[minmax(360px,0.88fr)_minmax(580px,1.12fr)]">
             <div
               className="rounded-[24px] p-5 sm:p-6"
               style={{
@@ -199,7 +231,7 @@ export default function HireSection() {
                 className="mt-2 text-[2rem] font-[800] leading-[0.98] tracking-[-0.06em] sm:text-[2.3rem] lg:text-[2.5rem]"
                 style={{ color: TEXT.primary }}
               >
-                Let's build your next product
+                Let&apos;s build your next product
               </h2>
 
               <div className="mt-5 flex flex-col items-start gap-4 sm:flex-row">
@@ -271,9 +303,9 @@ export default function HireSection() {
                       className="mt-2 text-[13.5px] leading-[1.7]"
                       style={{ color: TEXT.soft }}
                     >
-                      Every project is a chance to build something meaningful.
-                      I enjoy creating mobile apps with thoughtful design,
-                      solid architecture, and an experience users can rely on.
+                      Every project is a chance to build something meaningful. I
+                      enjoy creating mobile apps with thoughtful design, solid
+                      architecture, and an experience users can rely on.
                     </p>
                   </div>
                 </div>
@@ -285,7 +317,7 @@ export default function HireSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.12 }}
-              className="rounded-[24px] p-4 sm:p-5 lg:p-5"
+              className="rounded-[24px] p-5 sm:p-6 lg:p-7"
               style={{
                 background: GRADIENTS.cardBg,
                 border: `1px solid ${BORDERS.subtle}`,
@@ -296,9 +328,10 @@ export default function HireSection() {
             >
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                 <input
-                  type="text"
-                  name="website"
+                  type="checkbox"
+                  name="botcheck"
                   className="hidden"
+                  style={{ display: "none" }}
                   tabIndex={-1}
                   autoComplete="off"
                 />
@@ -320,7 +353,9 @@ export default function HireSection() {
                     onBlur={() => setFocusedField(null)}
                     className={inputClass}
                     style={
-                      focusedField === "name" ? focusInputStyle : baseInputStyle
+                      focusedField === "name"
+                        ? focusInputStyle
+                        : baseInputStyle
                     }
                   />
 
@@ -478,7 +513,7 @@ export default function HireSection() {
                 >
                   <textarea
                     name="message"
-                    rows={5}
+                    rows={7}
                     placeholder="Tell me about your project..."
                     required
                     onFocus={() => setFocusedField("message")}
