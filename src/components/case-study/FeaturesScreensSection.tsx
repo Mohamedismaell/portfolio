@@ -209,17 +209,17 @@ export default function FeaturesScreensSection({
                       </div>
                     )}
 
-                    <div className="mt-7 flex flex-1 items-start justify-center">
-                      <div className="relative aspect-[10/20.2] w-[58%] sm:w-[48%] lg:w-[44%] xl:w-[52%]">
-                        <Image
-                          src={section.image}
-                          alt={section.title}
-                          fill
-                          className="object-contain object-top"
-                          sizes="(max-width: 640px) 52vw, (max-width: 1024px) 34vw, 280px"
-                        />
-                      </div>
-                    </div>
+              <div className="mt-6 flex flex-1 items-start justify-center">
+  <div className="relative aspect-[10/20.2] w-[42%] sm:w-[34%] lg:w-[30%] xl:w-[34%]">
+    <Image
+      src={section.image}
+      alt={section.title}
+      fill
+      className="object-contain object-top"
+      sizes="(max-width: 640px) 38vw, (max-width: 1024px) 24vw, 180px"
+    />
+  </div>
+</div>
                   </article>
                 );
               })}
