@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { projectsMap } from "@/data/projects-map";
 import {
@@ -48,156 +48,62 @@ export default function ProjectsSection() {
   const projects = Object.values(projectsMap);
   const [galleryImages, setGalleryImages] = useState<string[] | null>(null);
   const [galleryTitle, setGalleryTitle] = useState("");
-  const [isDraggingGallery, setIsDraggingGallery] = useState(false);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
-  const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
 
-  const galleryScrollRef = useRef<HTMLDivElement | null>(null);
-  const dragStateRef = useRef({
-    isDragging: false,
-    startX: 0,
-    scrollLeft: 0,
-  });
-  const isProgrammaticScrollRef = useRef(false);
-  const programmaticScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const galleryOpen = !!galleryImages?.length;
 
-  const updateActiveGalleryIndex = () => {
-    if (isProgrammaticScrollRef.current) return;
-
-    const el = galleryScrollRef.current;
-    if (!el) return;
-
-    const children = Array.from(el.children) as HTMLElement[];
-    if (!children.length) return;
-
-    const viewportCenter = el.scrollLeft + el.clientWidth / 2;
-
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-
-    children.forEach((child, index) => {
-      const childCenter = child.offsetLeft + child.offsetWidth / 2;
-      const distance = Math.abs(childCenter - viewportCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    setCurrentGalleryIndex(closestIndex);
+  const closeGallery = () => {
+    setGalleryImages(null);
+    setGalleryTitle("");
+    setCurrentGalleryIndex(0);
   };
 
-  const scrollGalleryToIndex = (index: number) => {
-    const el = galleryScrollRef.current;
-    if (!el) return;
-
-    const children = Array.from(el.children) as HTMLElement[];
-    const target = children[index];
-    if (!target) return;
-
-    if (programmaticScrollTimeoutRef.current) {
-      clearTimeout(programmaticScrollTimeoutRef.current);
-    }
-
-    isProgrammaticScrollRef.current = true;
-    setCurrentGalleryIndex(index);
-
-    const targetScroll =
-      target.offsetLeft - (el.clientWidth - target.offsetWidth) / 2;
-
-    el.scrollTo({
-      left: targetScroll,
-      behavior: "smooth",
-    });
-
-    programmaticScrollTimeoutRef.current = setTimeout(() => {
-      isProgrammaticScrollRef.current = false;
-    }, 500);
+  const openGallery = (title: string, images: string[]) => {
+    setGalleryTitle(title);
+    setGalleryImages(images);
+    setCurrentGalleryIndex(0);
   };
 
-  const scrollGallery = (direction: "left" | "right") => {
+  const goToGalleryIndex = (index: number) => {
     if (!galleryImages?.length) return;
-
-    const nextIndex =
-      direction === "right"
-        ? Math.min(currentGalleryIndex + 1, galleryImages.length - 1)
-        : Math.max(currentGalleryIndex - 1, 0);
-
-    scrollGalleryToIndex(nextIndex);
+    if (index < 0 || index >= galleryImages.length) return;
+    setCurrentGalleryIndex(index);
   };
 
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = galleryScrollRef.current;
-    if (!el) return;
-
-    isProgrammaticScrollRef.current = false;
-
-    dragStateRef.current = {
-      isDragging: true,
-      startX: e.clientX,
-      scrollLeft: el.scrollLeft,
-    };
-
-    setIsDraggingGallery(true);
-    el.setPointerCapture(e.pointerId);
+  const goToPrevImage = () => {
+    if (!galleryImages?.length) return;
+    setCurrentGalleryIndex((prev) => Math.max(prev - 1, 0));
   };
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = galleryScrollRef.current;
-    const state = dragStateRef.current;
-
-    if (!el || !state.isDragging) return;
-
-    const delta = e.clientX - state.startX;
-    el.scrollLeft = state.scrollLeft - delta;
-  };
-
-  const handlePointerUp = () => {
-    dragStateRef.current.isDragging = false;
-    setIsDraggingGallery(false);
-    updateActiveGalleryIndex();
-  };
-
-  const handleImageLoad = (
-    src: string,
-    e: React.SyntheticEvent<HTMLImageElement>
-  ) => {
-    const { naturalWidth, naturalHeight } = e.currentTarget;
-    if (!naturalWidth || !naturalHeight) return;
-
-    const ratio = naturalWidth / naturalHeight;
-
-    setImageRatios((prev) => {
-      if (prev[src]) return prev;
-      return { ...prev, [src]: ratio };
-    });
+  const goToNextImage = () => {
+    if (!galleryImages?.length) return;
+    setCurrentGalleryIndex((prev) =>
+      Math.min(prev + 1, galleryImages.length - 1)
+    );
   };
 
   useEffect(() => {
     if (!galleryImages?.length) return;
 
-    setCurrentGalleryIndex(0);
-    isProgrammaticScrollRef.current = true;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeGallery();
+      if (e.key === "ArrowLeft") goToPrevImage();
+      if (e.key === "ArrowRight") goToNextImage();
+    };
 
-    requestAnimationFrame(() => {
-      galleryScrollRef.current?.scrollTo({
-        left: 0,
-        behavior: "auto",
-      });
-
-      setTimeout(() => {
-        isProgrammaticScrollRef.current = false;
-      }, 300);
-    });
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [galleryImages]);
 
   useEffect(() => {
+    document.body.dataset.galleryOpen = galleryOpen ? "true" : "false";
+    document.body.style.overflow = galleryOpen ? "hidden" : "";
+
     return () => {
-      if (programmaticScrollTimeoutRef.current) {
-        clearTimeout(programmaticScrollTimeoutRef.current);
-      }
+      document.body.dataset.galleryOpen = "false";
+      document.body.style.overflow = "";
     };
-  }, []);
+  }, [galleryOpen]);
 
   return (
     <SectionWrapper id="projects" className="pb-12 sm:pb-16 lg:pb-20">
@@ -238,7 +144,7 @@ export default function ProjectsSection() {
               <motion.article
                 key={project.slug}
                 variants={cardVariants}
-                className="rounded-[26px] p-3 sm:rounded-[30px] sm:p-4 lg:p-5"
+                className="group rounded-[26px] p-3 sm:rounded-[30px] sm:p-4 lg:p-5"
                 style={{
                   background: GRADIENTS.solidCard,
                   border: `1px solid ${BORDERS.subtle}`,
@@ -265,7 +171,7 @@ export default function ProjectsSection() {
                       />
 
                       <div
-                        className="absolute inset-0"
+                        className="pointer-events-none absolute inset-0"
                         style={{
                           background:
                             "linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(20,14,9,0.08) 100%)",
@@ -373,11 +279,8 @@ export default function ProjectsSection() {
 
                       {hasGallery && (
                         <button
-                          onClick={() => {
-                            setGalleryImages(project.gallery);
-                            setGalleryTitle(project.title);
-                            setCurrentGalleryIndex(0);
-                          }}
+                          type="button"
+                          onClick={() => openGallery(project.title, project.gallery)}
                           className="inline-flex h-[36px] items-center gap-1.5 rounded-[12px] px-3.5 text-[11px] font-[700] transition-transform duration-300 hover:-translate-y-0.5"
                           style={{
                             background: GRADIENTS.ghostBtn,
@@ -418,34 +321,30 @@ export default function ProjectsSection() {
       </div>
 
       <AnimatePresence mode="wait">
-        {galleryImages && (
+        {galleryOpen && galleryImages && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:px-4 sm:py-6"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-3 sm:p-4 lg:p-6"
             style={{
-              background: "rgba(10, 8, 7, 0.64)",
+              background: "rgba(10, 8, 7, 0.72)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
             }}
-            onClick={() => {
-              setGalleryImages(null);
-              setIsDraggingGallery(false);
-              setCurrentGalleryIndex(0);
-            }}
+            onClick={closeGallery}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.97, y: 18 }}
+              initial={{ opacity: 0, scale: 0.98, y: 14 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: 18 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full max-w-[1540px] max-h-[92vh] overflow-y-auto px-0 sm:px-4 md:px-6"
+              exit={{ opacity: 0, scale: 0.98, y: 14 }}
+              transition={{ duration: 0.24, ease: "easeOut" }}
+              className="relative w-full max-w-[920px]"
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="overflow-hidden rounded-[20px] sm:rounded-[26px]"
+                className="overflow-hidden rounded-[22px] sm:rounded-[26px]"
                 style={{
                   background: GRADIENTS.solidCard,
                   border: `1px solid ${BORDERS.medium}`,
@@ -453,24 +352,33 @@ export default function ProjectsSection() {
                 }}
               >
                 <div
-                  className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-4"
+                  className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4"
                   style={{ borderBottom: `1px solid ${BORDERS.subtle}` }}
                 >
-                  <h3
-                    className="text-[13px] font-[800] tracking-tight sm:text-[15px]"
-                    style={{ color: TEXT.primary }}
-                  >
-                    {galleryTitle}
-                  </h3>
+                  <div className="min-w-0">
+                    <h3
+                      className="truncate text-[13px] font-[800] tracking-tight sm:text-[15px]"
+                      style={{ color: TEXT.primary }}
+                    >
+                      {galleryTitle}
+                    </h3>
+
+                    <p
+                      className="mt-1 text-[11px] font-[700] sm:text-[12px]"
+                      style={{ color: TEXT.soft }}
+                    >
+                      {currentGalleryIndex + 1} / {galleryImages.length}
+                    </p>
+                  </div>
 
                   <button
-                    onClick={() => {
-                      setGalleryImages(null);
-                      setIsDraggingGallery(false);
-                      setCurrentGalleryIndex(0);
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeGallery();
                     }}
                     aria-label="Close gallery"
-                    className="flex h-9 w-9 items-center justify-center rounded-[12px] transition-all duration-300 hover:scale-105"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] transition-all duration-300 hover:scale-105"
                     style={{
                       background: GRADIENTS.ghostBtn,
                       border: `1px solid ${BORDERS.subtle}`,
@@ -481,111 +389,93 @@ export default function ProjectsSection() {
                   </button>
                 </div>
 
-                <div className="px-2 py-4 sm:px-4 sm:py-6 lg:px-6">
-                  <div
-                    ref={galleryScrollRef}
-                    onScroll={updateActiveGalleryIndex}
-                    onPointerDown={handlePointerDown}
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={handlePointerUp}
-                    onPointerCancel={handlePointerUp}
-                    onPointerLeave={handlePointerUp}
-                    className={`no-scrollbar flex items-center overflow-x-auto px-1 select-none ${
-                      isDraggingGallery ? "cursor-grabbing" : "cursor-grab"
-                    } snap-x snap-mandatory`}
-                    style={{
-                      gap: "16px",
-                      overscrollBehaviorX: "contain",
-                      touchAction: "pan-y",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
-                    }}
-                  >
-                    {galleryImages.map((img, idx) => {
-                      const isActive = idx === currentGalleryIndex;
-                      const ratio = imageRatios[img];
-                      const isLandscape = !!ratio && ratio > 1.15;
+                <div className="px-3 py-3 sm:px-4 sm:py-4 lg:px-5 lg:py-5">
+                  <div className="relative mx-auto w-full max-w-[760px]">
+                    {galleryImages.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goToPrevImage();
+                        }}
+                        aria-label="Previous preview"
+                        disabled={currentGalleryIndex === 0}
+                        className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full transition-all duration-300 hover:scale-105 sm:left-3"
+                        style={{
+                          background: GRADIENTS.ghostBtn,
+                          border: `1px solid ${BORDERS.subtle}`,
+                          color: TEXT.primary,
+                          boxShadow: SHADOWS.ghostBtn,
+                          opacity: currentGalleryIndex === 0 ? 0.35 : 1,
+                          pointerEvents: currentGalleryIndex === 0 ? "none" : "auto",
+                        }}
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                    ) : null}
 
-                      const widthStyle = isLandscape
-                        ? "min(92vw, 880px)"
-                        : "min(78vw, 340px)";
-                      const minWidthStyle = isLandscape ? "280px" : "220px";
-
-                      return (
-                        <motion.div
-                          key={`${img}-${idx}`}
-                          onClick={() => {
-                            if (isDraggingGallery) return;
-                            scrollGalleryToIndex(idx);
-                          }}
-                          animate={{
-                            scale: isActive ? 1 : 0.965,
-                            opacity: isActive ? 1 : 0.72,
-                            y: isActive ? 0 : 6,
-                          }}
-                          transition={{
-                            duration: 0.28,
-                            ease: "easeOut",
-                          }}
-                          className="relative shrink-0 snap-center overflow-hidden rounded-[18px] sm:rounded-[22px] cursor-pointer"
-                          style={{
-                            width: widthStyle,
-                            height: "min(76vh, 720px)",
-                            minWidth: minWidthStyle,
-                            minHeight: "380px",
-                            background: GRADIENTS.cardBg,
-                            border: `1px solid ${
-                              isActive ? BORDERS.medium : BORDERS.subtle
-                            }`,
-                            boxShadow: isActive ? SHADOWS.card : SHADOWS.ghostBtn,
-                            transition:
-                              "width 0.25s ease, min-width 0.25s ease",
-                          }}
-                        >
-                          <Image
-                            src={img}
-                            alt={`${galleryTitle} preview ${idx + 1}`}
-                            fill
-                            draggable={false}
-                            onLoad={(e) => handleImageLoad(img, e)}
-                            className="pointer-events-none object-contain object-center"
-                            sizes="(max-width: 640px) 92vw, 880px"
-                          />
-
-                          <motion.div
-                            animate={{ opacity: isActive ? 0 : 0.14 }}
-                            transition={{ duration: 0.25 }}
-                            className="pointer-events-none absolute inset-0"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.12) 100%)",
-                            }}
-                          />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="mt-5 flex items-center justify-center gap-3 sm:mt-6">
-                    <button
-                      type="button"
-                      onClick={() => scrollGallery("left")}
-                      aria-label="Previous preview"
-                      disabled={currentGalleryIndex === 0}
-                      className="flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 hover:scale-105 sm:h-10 sm:w-10"
+                    <div
+                      className="relative w-full overflow-hidden rounded-[18px] sm:rounded-[22px]"
                       style={{
-                        background: GRADIENTS.ghostBtn,
+                        background: GRADIENTS.cardBg,
                         border: `1px solid ${BORDERS.subtle}`,
-                        color: TEXT.primary,
                         boxShadow: SHADOWS.ghostBtn,
-                        opacity: currentGalleryIndex === 0 ? 0.35 : 1,
-                        pointerEvents: currentGalleryIndex === 0 ? "none" : "auto",
+                        height: "clamp(320px, 68vh, 620px)",
                       }}
                     >
-                      <ChevronLeft size={16} />
-                    </button>
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={galleryImages[currentGalleryIndex]}
+                          initial={{ opacity: 0, scale: 0.988 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.988 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="absolute inset-0"
+                        >
+                          <Image
+                            src={galleryImages[currentGalleryIndex]}
+                            alt={`${galleryTitle} preview ${currentGalleryIndex + 1}`}
+                            fill
+                            className="object-contain object-center"
+                            sizes="(max-width: 640px) 88vw, (max-width: 1024px) 78vw, 760px"
+                            priority
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
 
-                    <div className="flex items-center gap-2">
+                    {galleryImages.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goToNextImage();
+                        }}
+                        aria-label="Next preview"
+                        disabled={currentGalleryIndex === galleryImages.length - 1}
+                        className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full transition-all duration-300 hover:scale-105 sm:right-3"
+                        style={{
+                          background: GRADIENTS.ghostBtn,
+                          border: `1px solid ${BORDERS.subtle}`,
+                          color: TEXT.primary,
+                          boxShadow: SHADOWS.ghostBtn,
+                          opacity:
+                            currentGalleryIndex === galleryImages.length - 1
+                              ? 0.35
+                              : 1,
+                          pointerEvents:
+                            currentGalleryIndex === galleryImages.length - 1
+                              ? "none"
+                              : "auto",
+                        }}
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {galleryImages.length > 1 ? (
+                    <div className="mt-4 flex items-center justify-center gap-2">
                       {galleryImages.map((_, idx) => {
                         const isActive = idx === currentGalleryIndex;
 
@@ -593,50 +483,29 @@ export default function ProjectsSection() {
                           <button
                             key={idx}
                             type="button"
-                            onClick={() => scrollGalleryToIndex(idx)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              goToGalleryIndex(idx);
+                            }}
                             aria-label={`Go to preview ${idx + 1}`}
                             className="rounded-full transition-all duration-300"
                             style={{
-                              width: isActive ? "30px" : "10px",
-                              height: "10px",
+                              width: isActive ? "26px" : "8px",
+                              height: "8px",
                               background: isActive
                                 ? GRADIENTS.primaryBtn
                                 : GRADIENTS.badge,
                               border: isActive
                                 ? `1px solid ${BORDERS.medium}`
                                 : `1px solid ${BORDERS.subtle}`,
-                              opacity: isActive ? 1 : 0.68,
+                              opacity: isActive ? 1 : 0.72,
                               boxShadow: isActive ? SHADOWS.ghostBtn : "none",
                             }}
                           />
                         );
                       })}
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={() => scrollGallery("right")}
-                      aria-label="Next preview"
-                      disabled={currentGalleryIndex === galleryImages.length - 1}
-                      className="flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 hover:scale-105 sm:h-10 sm:w-10"
-                      style={{
-                        background: GRADIENTS.ghostBtn,
-                        border: `1px solid ${BORDERS.subtle}`,
-                        color: TEXT.primary,
-                        boxShadow: SHADOWS.ghostBtn,
-                        opacity:
-                          currentGalleryIndex === galleryImages.length - 1
-                            ? 0.35
-                            : 1,
-                        pointerEvents:
-                          currentGalleryIndex === galleryImages.length - 1
-                            ? "none"
-                            : "auto",
-                      }}
-                    >
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
+                  ) : null}
                 </div>
               </div>
             </motion.div>

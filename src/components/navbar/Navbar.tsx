@@ -3,7 +3,12 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Download, Github, Linkedin, Menu, X } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type CSSProperties,
+} from "react";
 import { usePathname } from "@/i18n/routing";
 import Image from "next/image";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -53,16 +58,40 @@ const TAB_TAP = {
 export default function ResponsiveNavbar() {
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
-  const { animateScroll, isAutoScrollingRef, stopAnimation } = useAnimatedScroll();
+  const { animateScroll, isAutoScrollingRef, stopAnimation } =
+    useAnimatedScroll();
 
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [projectTitle, setProjectTitle] = useState("");
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
   const isProjectDetails = pathname.includes("/projects/");
   const isProjectActive = isProjectDetails && !!projectTitle;
+
+  useEffect(() => {
+    const syncGalleryState = () => {
+      setGalleryOpen(document.body.dataset.galleryOpen === "true");
+    };
+
+    syncGalleryState();
+
+    const observer = new MutationObserver(syncGalleryState);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-gallery-open"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (galleryOpen) {
+      setMobileOpen(false);
+    }
+  }, [galleryOpen]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -91,8 +120,12 @@ export default function ResponsiveNavbar() {
     const cancelAutoScrollOnWheel = () => stopAnimation();
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchstart", cancelAutoScrollOnTouch, { passive: true });
-    window.addEventListener("wheel", cancelAutoScrollOnWheel, { passive: true });
+    window.addEventListener("touchstart", cancelAutoScrollOnTouch, {
+      passive: true,
+    });
+    window.addEventListener("wheel", cancelAutoScrollOnWheel, {
+      passive: true,
+    });
 
     onScroll();
 
@@ -127,7 +160,7 @@ export default function ResponsiveNavbar() {
       window.setTimeout(() => {
         stopAnimation();
         animateScroll(
-          element.getBoundingClientRect().top + window.pageYOffset - 96,
+          element.getBoundingClientRect().top + window.pageYOffset - 96
         );
         setActive(hash);
       }, 180);
@@ -185,7 +218,7 @@ export default function ResponsiveNavbar() {
 
     stopAnimation();
     animateScroll(
-      element.getBoundingClientRect().top + window.pageYOffset - 96,
+      element.getBoundingClientRect().top + window.pageYOffset - 96
     );
     setActive(id);
     window.history.replaceState(null, "", `${pathname}#${id}`);
@@ -224,6 +257,8 @@ export default function ResponsiveNavbar() {
     color: TEXT.inverse,
     boxShadow: SHADOWS.primaryBtn,
   };
+
+  if (galleryOpen) return null;
 
   return (
     <>
@@ -516,7 +551,9 @@ export default function ResponsiveNavbar() {
                     className="mb-3 flex w-full cursor-pointer items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
                     style={{
                       color: isProjectActive ? TEXT.badge : TEXT.primary,
-                      background: isProjectActive ? GRADIENTS.badge : GRADIENTS.ghostBtn,
+                      background: isProjectActive
+                        ? GRADIENTS.badge
+                        : GRADIENTS.ghostBtn,
                       border: isProjectActive
                         ? `1px solid ${BORDERS.medium}`
                         : `1px solid ${BORDERS.subtle}`,
