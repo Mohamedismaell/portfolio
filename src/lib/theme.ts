@@ -56,3 +56,11 @@ export const RADIUS = {
   lg: "var(--radius-lg)",
   xl: "var(--radius-xl)",
 };
+
+export const PAPER = {
+  bg: "var(--paper)",
+  card: "var(--cardbg)",
+  border: "var(--subtle-border)",
+  darkSection: "var(--dark-section)",
+  muted: "var(--muted)",
+};

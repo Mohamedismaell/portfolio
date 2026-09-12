@@ -1,9 +1,72 @@
 {
   "hero": {
     "title": "Mohamed Ismael",
-    "subtitle": "Flutter Developer & Software Engineer",
+    "subtitle": "Senior Mobile & Flutter Engineer",
     "description": "Building scalable Flutter apps with Clean Architecture, smooth UX, and production-ready systems.",
     "ctaProjects": "View Projects",
-    "ctaHire": "Hire Me"
+    "ctaHire": "Hire Me",
+    "headline": "Let's see where this goes."
+  },
+  "bio": {
+    "statement": "I build mobile experiences that refuse to be ignored. Bridging the gap between {italic_start}obsessive design{italic_end} and {italic_start}rock-solid production Flutter code{italic_end}.",
+    "paragraph1": "As a mobile architect and UI engineer, I understand that aesthetics must serve function. Not only does an app need to look like it belongs in an Apple Design Award lineup, it must hold 120 FPS frame budgets on low-end silicon.",
+    "paragraph2": "Over the past 5+ years, I've partnered with venture-backed startups and established digital brands to ship production mobile products. Always obsessing over native platform nuances, zero-latency micro-interactions, and deterministic state pipelines.",
+    "exploreApps": "Explore Selected Apps"
+  },
+  "whatIBuild": {
+    "eyebrow": "TURNING IDEAS INTO APPS",
+    "title": "What I Build",
+    "subtitle": "Things I enjoy building with Flutter and the technologies I use along the way.",
+    "card1Title": "",
+    "card1Desc": "Building complete cross-platform applications with structured architecture, reusable components, and responsive interfaces.",
+    "card2Title": "",
+    "card2Desc": "Turning ideas and designs into polished interfaces with attention to interaction, usability, and visual details.",
+    "card3Title": "",
+    "card3Desc": "Connecting Flutter applications to real backend services with authentication, data persistence, APIs, and offline-friendly flows."
+  },
+  "credentials": {
+    "eyebrow": "BUILDING • LEARNING • IMPROVING",
+    "title": "Built with",
+    "titleItalic": "curiosity.",
+    "description": "I learn by building real products and turning ideas into working applications.",
+    "projectsBuilt": "Projects Built",
+    "publishedConcepts": "Published Concepts",
+    "techUsed": "Technologies Used",
+    "handsOn": "Hands On",
+    "coreFocus": "CORE FOCUS",
+    "coreFocusTitle": "Flutter Development",
+    "coreFocusDesc": "Building cross-platform mobile applications with Flutter and Dart while focusing on clean architecture, state management, and responsive UI.",
+    "continuousPractice": "CONTINUOUS PRACTICE",
+    "continuousTitle": "Learning Through Projects",
+    "continuousDesc": "Exploring new technologies by applying them to real projects from backend integration and local storage to AI and modern product design."
+  },
+  "footer": {
+    "eyebrow": "Initiate Contact",
+    "title": "Let's build something",
+    "titleItalic": "unforgettable.",
+    "emailCopied": "Copied to clipboard!",
+    "copyright": "All rights reserved.",
+    "credits": "Crafted with Flutter spirit"
+  },
+  "contact": {
+    "eyebrow": "DIRECT INQUIRY",
+    "title": "Let's talk.",
+    "namePlaceholder": "Jane Doe",
+    "nameLabel": "FIRST THINGS FIRST — YOUR NAME",
+    "intentLabel": "WHAT BRINGS YOU HERE?",
+    "intentProject": "A project",
+    "intentJob": "A job opportunity",
+    "intentOther": "Something else",
+    "messageLabel": "TELL ME MORE",
+    "messagePlaceholder": "Share details about your project, timeline, or anything else...",
+    "sendBtn": "Send Message",
+    "sendingBtn": "Sending...",
+    "sentBtn": "Sent!"
+  },
+  "nav": {
+    "whatIBuild": "What I Build",
+    "projects": "Work",
+    "education": "Education",
+    "letsTalk": "Let's Talk"
   }
 }

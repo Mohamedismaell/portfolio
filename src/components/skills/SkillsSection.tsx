@@ -1,242 +1,164 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
-import {
-  Smartphone,
-  Code2,
-  Palette,
-  Link2,
-  UploadCloud,
-  Layers,
-  GitBranch,
-  Wrench,
-  Database,
-  Bell,
-  Brain,
-  Zap,
-  Map,
-  Cpu,
-  Globe,
-  Server,
-} from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
-
-const FlutterIcon = ({ size = 22 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path d="M14 3L4 13L7 16L20 3H14Z" fill="currentColor" opacity={0.9} />
-    <path d="M7 16L11 20L20 11H14L7 16Z" fill="currentColor" opacity={0.55} />
-  </svg>
-);
-
-type Skill = { name: string; icon: any };
-
-type SkillCategory = {
-  title: string;
-  icon: any;
-  color: string;
-  skills: Skill[];
-};
-
-const skillData: SkillCategory[] = [
-  {
-    title: "Core",
-    icon: Smartphone,
-    color: "#ef9d57",
-    skills: [
-      { name: "Flutter", icon: FlutterIcon },
-      { name: "Dart", icon: Code2 },
-      { name: "Theming", icon: Palette },
-      { name: "Animations", icon: Zap },
-    ],
-  },
-  {
-    title: "Architecture",
-    icon: Layers,
-    color: "#ef9d57",
-    skills: [
-      { name: "Clean Architecture", icon: Layers },
-      { name: "BLoC / Cubit", icon: Cpu },
-      { name: "MVVM", icon: Layers },
-      { name: "Provider", icon: Code2 },
-      { name: "Dependency Injection", icon: Wrench },
-    ],
-  },
-  {
-    title: "State & Local",
-    icon: Database,
-    color: "#ef9d57",
-    skills: [
-      { name: "Hive", icon: Database },
-      { name: "Provider", icon: Cpu },
-      { name: "Shared Prefs", icon: Globe },
-      { name: "SQLite", icon: Server },
-    ],
-  },
-  {
-    title: "Integrations",
-    icon: Link2,
-    color: "#ef9d57",
-    skills: [
-      { name: "Firebase", icon: Database },
-      { name: "REST APIs", icon: Server },
-      { name: "Supabase", icon: Database },
-      { name: "Google APIs", icon: Globe },
-      { name: "WebSockets", icon: Bell },
-    ],
-  },
-  {
-    title: "Platform & Tools",
-    icon: Wrench,
-    color: "#ef9d57",
-    skills: [
-      { name: "Git", icon: GitBranch },
-      { name: "GitHub", icon: GitBranch },
-      { name: "Dart Code", icon: Code2 },
-      { name: "Figma", icon: Palette },
-      { name: "Postman", icon: UploadCloud },
-    ],
-  },
-  {
-    title: "Advanced",
-    icon: Brain,
-    color: "#ef9d57",
-    skills: [
-      { name: "AI APIs", icon: Brain },
-      { name: "Real-time Data", icon: Zap },
-      { name: "Search & Filters", icon: Cpu },
-      { name: "Analytics", icon: Database },
-      { name: "Geo-features", icon: Map },
-    ],
-  },
-];
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 22 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
+const BLUEPRINT_CARDS = [
+  {
+    number: "01",
+    titleKey: "card1Title" as const,
+    descKey: "card1Desc" as const,
+    image: "/flutterold-design.png",
+    icon: "/flutter-svgrepo-com(1).svg",
+    skills: ["Flutter", "Dart", "Bloc / Cubit", "Clean Architecture", "REST APIs", "Local Storage"],
+  },
+  {
+    number: "02",
+    titleKey: "card2Title" as const,
+    descKey: "card2Desc" as const,
+    image: "/uiolddesign.png",
+    icon: "/figma-svgrepo-com.svg",
+    skills: ["Flutter UI", "Figma", "Responsive Design", "Animations", "Custom Components", "Material 3"],
+  },
+  {
+    number: "03",
+    titleKey: "card3Title" as const,
+    descKey: "card3Desc" as const,
+    image: "/databaseolddesign.png",
+    icon: "/database-svgrepo-com.svg",
+    skills: ["Supabase", "REST APIs", "Authentication", "PostgreSQL", "Dio", "Local Caching"],
+  },
+];
+
+const TECH_PILLS = [
+  "Flutter",
+  "Dart",
+  "Bloc",
+  "Cubit",
+  "Figma",
+  "Supabase",
+  "Firebase",
+  "PostgreSQL",
+  "REST APIs",
+  "Dio",
+  "Hive",
+  "GoRouter",
+  "GetIt",
+  "Clean Architecture",
+  "Git",
+  "GitHub",
+  "Responsive UI",
+  "Animations",
+];
+
+const MARQUEE_TECH = [...TECH_PILLS, ...TECH_PILLS, ...TECH_PILLS];
+
 export default function SkillsSection() {
+  const t = useTranslations("whatIBuild");
+
   return (
-    <SectionWrapper id="skills" className="pb-12 sm:pb-16 lg:pb-20">
-      <div className="mx-auto max-w-[1240px]">
-        <div
-          className="rounded-[28px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
-          style={{
-            background: GRADIENTS.solidCard,
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
-          }}
-        >
-          <div className="mb-5 flex items-start justify-between gap-4">
-            <div>
-              <p
-                className="text-[11px] font-[800] uppercase tracking-[0.08em] sm:text-[12px]"
-                style={{ color: TEXT.badge }}
-              >
-                Tech Stack
-              </p>
-
-              <h2
-                className="mt-1 text-[1.95rem] font-[800] leading-[0.96] tracking-[-0.06em] sm:text-[2.2rem] lg:text-[2.55rem]"
-                style={{ color: TEXT.primary }}
-              >
-                Technologies I Use
-              </h2>
-            </div>
+    <SectionWrapper id="what-i-build" className="py-20 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto relative">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-14 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-solid)] shadow-xs text-[11px] font-sans font-medium uppercase tracking-wider text-[var(--text-primary)] mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)]" />
+            <span>{t("eyebrow")}</span>
           </div>
+          <h2 className="font-editorial text-5xl sm:text-6xl text-[var(--text-primary)] tracking-tight leading-none">
+            {t("title")} <span className="font-editorial-italic font-normal">{t("title").split(" ").pop()}</span>
+          </h2>
+          <p className="text-sm sm:text-base mt-3 max-w-xl mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
+            {t("subtitle")}
+          </p>
+        </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
-          >
-            {skillData.map((category, index) => {
-              const TitleIcon = category.icon;
-
-              return (
-                <motion.div
-                  key={category.title + index}
-                  variants={cardVariants}
-                  className="rounded-[20px] px-4 py-4 sm:px-5 sm:py-5"
-                  style={{
-                    background: GRADIENTS.cardBg,
-                    border: `1px solid ${BORDERS.subtle}`,
-                    boxShadow: SHADOWS.card,
-                  }}
-                >
-                  <div className="flex items-center gap-2.5">
+        {/* Blueprint Cards */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10"
+        >
+          {BLUEPRINT_CARDS.map((card) => (
+            <motion.div
+              key={card.number}
+              variants={cardVariants}
+              className="bg-[var(--surface-solid)] border border-[var(--border-subtle)] rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow duration-200 relative overflow-hidden group"
+            >
+              <div>
+                {/* Icon in bordered card */}
+                <div className="w-12 h-12 mb-4 flex items-center justify-center rounded-md border-2 border-[var(--text-primary)] bg-white shadow-xs group-hover:translate-x-0.5 transition-transform duration-200">
+                  <Image src={card.icon} alt="" width={28} height={28} className="w-7 h-7" />
+                </div>
+                {/* Blueprint artwork */}
+                <div className="h-48 rounded-2xl relative overflow-hidden mb-6 select-none">
+                  <Image
+                    src={card.image}
+                    alt={t(card.titleKey)}
+                    fill
+                    className="object-cover w-full h-full"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
+                {/* Bottom Textual Meta */}
+                <div className="text-left">
+                  <span className="text-xs font-mono text-[var(--text-muted)] font-medium block mb-1">{card.number}</span>
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
+                    {t(card.titleKey)}
+                  </h3>
+                  <p className="text-xs sm:text-sm mt-2 leading-relaxed font-normal" style={{ color: "var(--text-soft)" }}>
+                    {t(card.descKey)}
+                  </p>
+                </div>
+                {/* Skill Pills */}
+                <div className="flex flex-wrap gap-1.5 mt-5 text-left">
+                  {card.skills.map((skill) => (
                     <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
-                      style={{
-                        background: GRADIENTS.primaryBtn,
-                        color: TEXT.inverse,
-                        boxShadow: SHADOWS.primaryBtn,
-                      }}
+                      key={skill}
+                      className="px-2.5 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--background-secondary)] text-[11px] font-sans font-medium cursor-default hover:bg-[var(--text-primary)] hover:text-white hover:border-[var(--text-primary)] hover:scale-105 transition-all duration-200"
                     >
-                      <TitleIcon size={18} strokeWidth={2.2} />
+                      {skill}
                     </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
-                    <h3
-                      className="text-[15px] font-[800] tracking-[-0.03em] sm:text-[16px]"
-                      style={{ color: TEXT.primary }}
-                    >
-                      {category.title}
-                    </h3>
-                  </div>
-
-                  <div className="mt-4 space-y-3">
-                    {category.skills.map((skill, i) => {
-                      const Icon = skill.icon;
-
-                      return (
-                        <motion.div
-                          key={skill.name + i}
-                          initial={{ opacity: 0, x: -8 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{
-                            delay: index * 0.05 + i * 0.04,
-                            duration: 0.28,
-                          }}
-                          className="flex items-center gap-3"
-                        >
-                          <span
-                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                            style={{
-                              background: GRADIENTS.badge,
-                              color: category.color,
-                              border: `1px solid ${BORDERS.medium}`,
-                            }}
-                          >
-                            <Icon size={13} />
-                          </span>
-
-                          <span
-                            className="text-[14px] font-[600] leading-[1.45] sm:text-[15px]"
-                            style={{ color: TEXT.soft }}
-                          >
-                            {skill.name}
-                          </span>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+        {/* Tech Pill Marquee */}
+        <div className="mt-14 overflow-hidden relative z-10">
+          <style>{`
+            @keyframes marquee {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-33.333%); }
+            }
+          `}</style>
+          <div className="flex w-max gap-3" style={{ animation: "marquee 30s linear infinite" }}>
+            {MARQUEE_TECH.map((tech, i) => (
+              <div
+                key={`${tech}-${i}`}
+                className="px-4 py-2 rounded-full text-xs sm:text-sm font-sans font-medium bg-[var(--surface-solid)] border border-[var(--border-subtle)] flex items-center gap-2 shadow-xs cursor-default hover:border-[var(--border-strong)] transition-colors whitespace-nowrap"
+                style={{ color: "var(--text-primary)" }}
+              >
+                <span>{tech}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </SectionWrapper>

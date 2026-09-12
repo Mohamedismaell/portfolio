@@ -2,7 +2,7 @@ import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import ResponsiveNavbar from "@/components/navbar/Navbar";
-import { Manrope } from "next/font/google";
+import { Manrope, Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
@@ -12,6 +12,26 @@ const manrope = Manrope({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -65,7 +85,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir="ltr"
-      className={manrope.variable}
+      className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -108,42 +128,18 @@ export default async function LocaleLayout({
             />
 
             <div
-              className="absolute -left-24 -top-24 h-[460px] w-[460px] rounded-full opacity-70 blur-[72px] theme-transition dark:opacity-30"
+              className="absolute -left-24 -top-24 h-[460px] w-[460px] rounded-full opacity-70 blur-[72px] theme-transition dark:opacity-15"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(237,207,170,0.20) 0%, rgba(237,207,170,0.06) 48%, transparent 74%)",
+                  "radial-gradient(circle, rgba(180,180,180,0.10) 0%, transparent 48%)",
               }}
             />
 
             <div
-              className="absolute right-[-80px] top-[80px] h-[360px] w-[360px] rounded-full opacity-55 blur-[76px] theme-transition dark:opacity-20"
+              className="absolute right-[-80px] top-[80px] h-[360px] w-[360px] rounded-full opacity-55 blur-[76px] theme-transition dark:opacity-10"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(237,207,170,0.14) 0%, rgba(237,207,170,0.04) 52%, transparent 76%)",
-              }}
-            />
-
-            <div
-              className="absolute left-[42%] top-[14%] hidden h-[320px] w-[320px] rounded-full opacity-0 blur-[90px] theme-transition dark:opacity-18 lg:block"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(239,157,87,0.18) 0%, rgba(239,157,87,0.06) 44%, transparent 74%)",
-              }}
-            />
-
-            <div
-              className="absolute bottom-[-120px] left-[12%] h-[300px] w-[300px] rounded-full opacity-0 blur-[100px] theme-transition dark:opacity-14"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(247,190,132,0.14) 0%, rgba(247,190,132,0.04) 48%, transparent 76%)",
-              }}
-            />
-
-            <div
-              className="absolute bottom-[-80px] right-[10%] h-[260px] w-[260px] rounded-full opacity-0 blur-[90px] theme-transition dark:opacity-12"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(239,157,87,0.16) 0%, rgba(239,157,87,0.05) 46%, transparent 78%)",
+                  "radial-gradient(circle, rgba(180,180,180,0.08) 0%, transparent 52%)",
               }}
             />
           </div>

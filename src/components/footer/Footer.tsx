@@ -1,174 +1,76 @@
 "use client";
 
-import { Github, Linkedin, Mail, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { Github, Linkedin } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
-import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
-import { useRouter } from "@/i18n/routing";
 
 const SOCIAL_LINKS = [
-  {
-    href: "https://www.linkedin.com/in/mohamed-ismail-dev",
-    icon: <Linkedin size={17} />,
-    label: "LinkedIn",
-  },
-  {
-    href: "https://github.com/Mohamedismaell",
-    icon: <Github size={17} />,
-    label: "GitHub",
-  },
-  {
-    href: "https://discord.com/users/406180177261887489",
-    icon: <SiDiscord size={16} />,
-    label: "Discord",
-  },
-  {
-    href: "https://wa.me/201026564376",
-    icon: <SiWhatsapp size={16} />,
-    label: "WhatsApp",
-  },
+  { href: "https://github.com/Mohamedismaell", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/mohamed-ismail-dev", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://discord.com/users/406180177261887489", icon: SiDiscord, label: "Discord" },
+  { href: "https://wa.me/201026564376", icon: SiWhatsapp, label: "WhatsApp" },
 ];
 
 export default function Footer() {
-  const router = useRouter();
-  const { animateScroll, stopAnimation } = useAnimatedScroll();
+  const [copied, setCopied] = useState(false);
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-
-    if (el) {
-      stopAnimation();
-      animateScroll(el.getBoundingClientRect().top + window.pageYOffset - 96);
-      return;
-    }
-
-    router.push(`/#${id}`);
+  const copyEmail = () => {
+    navigator.clipboard.writeText("mohamed.ismael.dev@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <footer className="mt-16 px-4 pb-6 sm:mt-20 sm:px-6 sm:pb-8 lg:mt-24">
-      <div className="mx-auto max-w-[1240px]">
-        <div
-          className="relative overflow-hidden rounded-[24px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-5"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 8% 18%, rgba(239,157,87,0.12), transparent 20%)",
-            backgroundColor: "var(--background-secondary)",
-            border: "1px solid var(--border-subtle)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
-          <div
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 24%, rgba(239,157,87,0.10), transparent 18%), radial-gradient(circle at 68% 38%, rgba(239,157,87,0.07), transparent 16%)",
-            }}
-          />
+    <footer className="border-t border-[var(--border-subtle)] bg-[var(--background-secondary)] py-20 px-6">
+      <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+        <span className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: "var(--text-muted)" }}>
+          Initiate Contact
+        </span>
+        <h2 className="font-editorial text-5xl sm:text-7xl text-[var(--text-primary)] mb-6">
+          Let&apos;s build something <br />
+          <span className="font-editorial-italic">unforgettable.</span>
+        </h2>
 
-          <div
-            className="pointer-events-none absolute left-[34%] top-[18%] hidden h-[110px] w-[220px] lg:block"
-            style={{
-              borderTop: "1.5px dashed var(--border-medium)",
-              borderRight: "1.5px dashed var(--border-medium)",
-              borderRadius: "999px",
-              transform: "rotate(8deg)",
-            }}
-          />
+        {/* Copy Email Pill */}
+        <div className="mt-4 mb-10 flex items-center justify-center">
+          <button
+            onClick={copyEmail}
+            className="group cursor-pointer bg-[var(--surface-solid)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] rounded-full px-5 py-3 shadow-sm hover:shadow flex items-center gap-3 transition-all"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+            <span className="text-sm font-mono font-medium text-[var(--text-primary)]">mohamed.ismael.dev@gmail.com</span>
+            <span className="text-xs px-2 py-1 rounded-full transition-colors" style={{ background: "var(--background-secondary)", color: "var(--text-muted)" }}>
+              {copied ? "✓ Copied!" : "Copy 📋"}
+            </span>
+          </button>
+        </div>
 
-          <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div className="grid flex-1 grid-cols-1 gap-5 lg:grid-cols-[1.05fr_2px_0.95fr] lg:items-center lg:gap-8">
-              <div className="min-w-0">
-                <h2
-                  className="text-[1.65rem] font-[800] leading-[0.95] tracking-[-0.06em] sm:text-[1.9rem] lg:text-[2.05rem]"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  Let&apos;s build something
-                  <br />
-                  <span className="gradient-text">amazing</span>{" "}
-                  together
-                </h2>
+        {copied && (
+          <p className="text-xs font-mono text-emerald-600 mb-4 font-semibold">✓ Copied to clipboard!</p>
+        )}
 
-                <p
-                  className="mt-3 max-w-[30ch] text-[13px] leading-[1.7] sm:text-[14px]"
-                  style={{ color: "var(--text-soft)" }}
-                >
-                  I&apos;m open to full-time opportunities and exciting projects.
-                </p>
-              </div>
+        {/* Social Links */}
+        <div className="flex items-center gap-6 text-sm font-medium mb-12" style={{ color: "var(--text-soft)" }}>
+          {SOCIAL_LINKS.map(({ href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--text-primary)] transition-colors"
+            >
+              {label}
+            </a>
+          ))}
+          <a href="mailto:mohamed.ismael.dev@gmail.com" className="hover:text-[var(--text-primary)] transition-colors">
+            Direct Mail
+          </a>
+        </div>
 
-              <div
-                className="hidden h-full min-h-[120px] w-0.5 rounded-full lg:block"
-                style={{ background: "var(--border-medium)" }}
-              />
-
-              <div className="flex flex-col gap-3">
-                <a
-                  href="mailto:mohamed.ismael.dev@gmail.com"
-                  className="group inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] px-3.5 py-2.5 text-[12px] font-[600] transition-all duration-300 sm:text-[13px]"
-                  style={{
-                    background: "var(--background-tertiary)",
-                    border: "1px solid var(--border-subtle)",
-                    color: "var(--text-primary)",
-                  }}
-                >
-                  <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                    style={{
-                      background: "var(--gradient-badge)",
-                      color: "var(--accent)",
-                    }}
-                  >
-                    <Mail size={14} />
-                  </span>
-
-                  <span className="truncate">
-                    mohamed.ismael.dev@gmail.com
-                  </span>
-                </a>
-
-                <div className="flex items-center gap-2.5">
-                  {SOCIAL_LINKS.map(({ href, icon, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={label}
-                      className="group flex h-11 w-11 items-center justify-center rounded-[14px] transition-all duration-300 hover:-translate-y-0.5"
-                      style={{
-                        background: "var(--background-tertiary)",
-                        border: "1px solid var(--border-subtle)",
-                        color: "var(--text-soft)",
-                      }}
-                    >
-                      <span className="transition-transform duration-300 group-hover:scale-110">
-                        {icon}
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:pl-4">
-              <button
-                onClick={() => scrollTo("contact")}
-                className="group inline-flex w-full items-center justify-center gap-3 rounded-[18px] px-6 py-4 text-[14px] font-[700] transition-all duration-300 hover:-translate-y-0.5 sm:text-[15px] lg:min-w-[190px]"
-                style={{
-                  background: "var(--gradient-primary-btn)",
-                  border: "1px solid var(--border-medium)",
-                  color: "var(--text-inverse)",
-                  boxShadow: "var(--shadow-primary-btn)",
-                }}
-              >
-                <span>Let&apos;s Connect</span>
-                <ArrowRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </button>
-            </div>
-          </div>
+        {/* Copyright */}
+        <div className="pt-8 border-t border-[var(--border-subtle)] w-full flex flex-col sm:flex-row items-center justify-between text-xs font-mono gap-4" style={{ color: "var(--text-muted)" }}>
+          <div>© {new Date().getFullYear()} Mohamed Ismael. All rights reserved.</div>
+          <div>Crafted with Flutter spirit</div>
         </div>
       </div>
     </footer>

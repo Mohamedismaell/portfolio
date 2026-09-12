@@ -1,207 +1,68 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { Download, Github, Linkedin, Menu, X } from "lucide-react";
-import { SiDiscord, SiWhatsapp } from "react-icons/si";
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type CSSProperties,
-} from "react";
-import { usePathname } from "@/i18n/routing";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
-import { BORDERS, GRADIENTS, SHADOWS, TEXT } from "@/lib/theme";
 
 const NAV_ITEMS = [
-  { id: "home", label: "Home" },
-  { id: "projects", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "contact", label: "Contact" },
+  { id: "what-i-build", labelKey: "nav.whatIBuild" },
+  { id: "projects", labelKey: "nav.projects" },
+  { id: "education", labelKey: "nav.education" },
 ];
-
-const SOCIAL_LINKS = [
-  {
-    href: "https://github.com/Mohamedismaell",
-    icon: <Github size={16} />,
-    label: "GitHub",
-  },
-  {
-    href: "https://www.linkedin.com/in/mohamed-ismail-dev",
-    icon: <Linkedin size={16} />,
-    label: "LinkedIn",
-  },
-  {
-    href: "https://discord.com/users/406180177261887489",
-    icon: <SiDiscord size={16} />,
-    label: "Discord",
-  },
-  {
-    href: "https://wa.me/201026564376",
-    icon: <SiWhatsapp size={16} />,
-    label: "WhatsApp",
-  },
-];
-
-const TAB_HOVER = {
-  y: -2,
-  scale: 1.02,
-};
-
-const TAB_TAP = {
-  y: 0,
-  scale: 0.985,
-};
 
 export default function ResponsiveNavbar() {
+  const t = useTranslations();
   const pathname = usePathname();
-  const { scrollYProgress } = useScroll();
   const { animateScroll, isAutoScrollingRef, stopAnimation } =
     useAnimatedScroll();
 
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [projectTitle, setProjectTitle] = useState("");
-  const [galleryOpen, setGalleryOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
   const isProjectDetails = pathname.includes("/projects/");
-  const isProjectActive = isProjectDetails && !!projectTitle;
-
-  useEffect(() => {
-    const syncGalleryState = () => {
-      setGalleryOpen(document.body.dataset.galleryOpen === "true");
-    };
-
-    syncGalleryState();
-
-    const observer = new MutationObserver(syncGalleryState);
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["data-gallery-open"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (galleryOpen) {
-      setMobileOpen(false);
-    }
-  }, [galleryOpen]);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 10);
-
-      if (isProjectDetails) {
-        setActive("project");
-        return;
-      }
-
+      if (isProjectDetails) return;
       if (isAutoScrollingRef.current) return;
 
-      let current = "home";
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 120);
 
+      let current = "home";
       sectionIds.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 140) {
+        if (el && scrollY >= el.offsetTop - 140) {
           current = id;
         }
       });
-
       setActive(current);
+      lastScrollY.current = scrollY;
     };
-
-    const cancelAutoScrollOnTouch = () => stopAnimation();
-    const cancelAutoScrollOnWheel = () => stopAnimation();
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchstart", cancelAutoScrollOnTouch, {
-      passive: true,
-    });
-    window.addEventListener("wheel", cancelAutoScrollOnWheel, {
-      passive: true,
-    });
-
     onScroll();
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchstart", cancelAutoScrollOnTouch);
-      window.removeEventListener("wheel", cancelAutoScrollOnWheel);
-    };
-  }, [sectionIds, isAutoScrollingRef, stopAnimation, isProjectDetails]);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [sectionIds, isAutoScrollingRef, isProjectDetails]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
-
-  useEffect(() => {
-    if (isProjectDetails) return;
-
-    const scrollToHash = () => {
-      const hash = window.location.hash.replace("#", "");
-
-      if (!hash) {
-        setActive("home");
-        return;
-      }
-
-      const element = document.getElementById(hash);
-      if (!element) return;
-
-      window.setTimeout(() => {
-        stopAnimation();
-        animateScroll(
-          element.getBoundingClientRect().top + window.pageYOffset - 96
-        );
-        setActive(hash);
-      }, 180);
-    };
-
-    scrollToHash();
-
-    window.addEventListener("hashchange", scrollToHash);
-
-    return () => {
-      window.removeEventListener("hashchange", scrollToHash);
-    };
-  }, [pathname, animateScroll, stopAnimation, isProjectDetails]);
-
-  useEffect(() => {
-    if (!isProjectDetails) {
-      setProjectTitle("");
-      return;
-    }
-
-    const updateProjectTitle = () => {
-      const heading = document.querySelector("main h1");
-      setProjectTitle(heading?.textContent?.trim() || "");
-      setActive("project");
-    };
-
-    const timer = setTimeout(updateProjectTitle, 120);
-
-    return () => clearTimeout(timer);
-  }, [isProjectDetails, pathname]);
 
   const scrollToSection = (id: string) => {
     setMobileOpen(false);
-
-    const isOnLandingPage = !isProjectDetails;
-    const homePath =
-      (pathname.replace(/\/projects\/.*$/, "") || "/").replace(/\/$/, "") || "/";
-
-    if (!isOnLandingPage) {
-      const target = id === "home" ? homePath : `${homePath}#${id}`;
-      window.location.assign(target);
+    if (isProjectDetails) {
+      window.location.assign(`${pathname.replace(/\/projects\/.*$/, "") || "/"}#${id}`);
       return;
     }
 
@@ -215,301 +76,125 @@ export default function ResponsiveNavbar() {
 
     const element = document.getElementById(id);
     if (!element) return;
-
     stopAnimation();
-    animateScroll(
-      element.getBoundingClientRect().top + window.pageYOffset - 96
-    );
+    animateScroll(element.getBoundingClientRect().top + window.pageYOffset - 96);
     setActive(id);
     window.history.replaceState(null, "", `${pathname}#${id}`);
   };
 
-  const handleProjectButtonClick = () => {
+  const openContactModal = () => {
     setMobileOpen(false);
-    stopAnimation();
-    animateScroll(0);
-    setActive("project");
+    window.dispatchEvent(new CustomEvent("open-contact-modal"));
   };
 
-  const navShellStyle: CSSProperties = {
-    background: GRADIENTS.navBg,
-    border: `1px solid ${BORDERS.subtle}`,
-    boxShadow: scrolled ? SHADOWS.card : "0 10px 28px rgba(39, 30, 20, 0.06)",
-    backdropFilter: "blur(22px) saturate(180%)",
-    WebkitBackdropFilter: "blur(22px) saturate(180%)",
-  };
-
-  const brandMarkStyle: CSSProperties = {
-    background: GRADIENTS.cvBtn,
-    color: TEXT.inverse,
-    boxShadow: SHADOWS.cvBtn,
-  };
-
-  const socialBtnStyle: CSSProperties = {
-    background: GRADIENTS.ghostBtn,
-    border: `1px solid ${BORDERS.subtle}`,
-    color: TEXT.soft,
-    boxShadow: SHADOWS.ghostBtn,
-  };
-
-  const primaryBtnStyle: CSSProperties = {
-    background: GRADIENTS.primaryBtn,
-    color: TEXT.inverse,
-    boxShadow: SHADOWS.primaryBtn,
-  };
-
-  if (galleryOpen) return null;
+  if (isProjectDetails) return null;
 
   return (
     <>
-      <motion.div
-        className="pointer-events-none fixed left-0 right-0 top-0 z-[120] h-[2px] origin-left"
-        style={{
-          scaleX: scrollYProgress,
-          background: GRADIENTS.progressBar,
-        }}
-      />
-
-      <header className="fixed inset-x-0 top-0 z-[110] px-4 pt-4 sm:px-6 lg:px-8">
-        <motion.nav
+      <header className="fixed top-5 inset-x-0 z-[120] flex justify-center px-4 pointer-events-none">
+        <motion.div
+          layout
           initial={{ opacity: 0, y: -18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="mx-auto max-w-[1280px]"
+          className="glass-pill rounded-full pointer-events-auto flex items-center overflow-hidden"
         >
-          <div
-            className="hidden items-center justify-between rounded-[24px] px-4 py-3 lg:flex lg:px-5"
-            style={navShellStyle}
-          >
-            <motion.button
-              whileHover={{ y: -1, scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              onClick={() => scrollToSection("home")}
-              className="shrink-0 cursor-pointer text-left"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[14px]"
-                  style={brandMarkStyle}
+          <AnimatePresence mode="wait">
+            {scrolled ? (
+              /* ── Shrunk state: image + Let's Talk only ── */
+              <motion.div
+                key="shrunk"
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "auto", opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex items-center gap-2 py-1.5 pl-2 pr-2.5"
+              >
+                <button
+                  onClick={() => scrollToSection("home")}
+                  className="w-10 h-10 rounded-full overflow-hidden border border-[var(--border-subtle)] shrink-0 pointer-events-auto"
                 >
                   <Image
                     src="/person_profile.jpg"
-                    alt="Mohamed Ismail"
-                    fill
-                    className="object-cover object-center"
-                    sizes="40px"
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="w-full h-full object-cover object-top"
                   />
-                </div>
-
-                <div className="leading-none">
-                  <div
-                    className="text-[15px] font-bold tracking-tight"
-                    style={{ color: TEXT.primary }}
-                  >
-                    Mohamed Ismail
-                  </div>
-                  <div
-                    className="mt-1 text-[11px] font-medium"
-                    style={{ color: TEXT.dim }}
-                  >
-                    Flutter Developer
-                  </div>
-                </div>
-              </div>
-            </motion.button>
-
-            <div className="flex items-center gap-1 rounded-full px-2 py-1">
-              {NAV_ITEMS.map((item) => {
-                const isActive = active === item.id;
-
-                return (
-                  <motion.button
-                    key={item.id}
-                    whileHover={TAB_HOVER}
-                    whileTap={TAB_TAP}
-                    onClick={() => scrollToSection(item.id)}
-                    className="group relative cursor-pointer rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
-                    style={{
-                      color: isActive ? TEXT.badge : TEXT.soft,
-                    }}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId="desktop-nav-pill"
-                        className="absolute inset-0 rounded-full"
-                        style={{
-                          background: GRADIENTS.badge,
-                          border: `1px solid ${BORDERS.medium}`,
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 380,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-
-                    {!isActive && (
-                      <span
-                        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                        style={{
-                          background: GRADIENTS.ghostBtn,
-                          border: `1px solid ${BORDERS.subtle}`,
-                        }}
-                      />
-                    )}
-
-                    <span className="relative z-10">{item.label}</span>
-                  </motion.button>
-                );
-              })}
-
-              {projectTitle ? (
-                <motion.button
-                  whileHover={TAB_HOVER}
-                  whileTap={TAB_TAP}
-                  onClick={handleProjectButtonClick}
-                  className="relative cursor-pointer rounded-full px-4 py-2 text-[14px] font-semibold transition-all duration-300"
-                  style={{
-                    color: isProjectActive ? TEXT.badge : TEXT.primary,
-                  }}
+                </button>
+                <button
+                  onClick={openContactModal}
+                  className="text-xs bg-[var(--text-primary)] hover:opacity-90 text-[var(--text-inverse)] px-3.5 py-1.5 rounded-full font-medium transition-all"
                 >
-                  {isProjectActive && (
-                    <motion.span
-                      layoutId="desktop-nav-pill"
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background: GRADIENTS.badge,
-                        border: `1px solid ${BORDERS.medium}`,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-
-                  {!isProjectActive && (
-                    <span
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        background: GRADIENTS.ghostBtn,
-                        border: `1px solid ${BORDERS.subtle}`,
-                        boxShadow: SHADOWS.ghostBtn,
-                      }}
-                    />
-                  )}
-
-                  <span className="relative z-10">{projectTitle}</span>
-                </motion.button>
-              ) : null}
-            </div>
-
-            <div className="flex shrink-0 items-center gap-2">
-              <div className="mr-1 hidden items-center gap-2 lg:flex">
-                {SOCIAL_LINKS.map((item) => (
-                  <motion.a
-                    key={item.label}
-                    whileHover={{ y: -2, scale: 1.05 }}
-                    whileTap={{ scale: 0.96 }}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={item.label}
-                    className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
-                    style={socialBtnStyle}
+                  {t("nav.letsTalk")}
+                </button>
+              </motion.div>
+            ) : (
+              /* ── Full state ── */
+              <motion.div
+                key="full"
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "auto", opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex items-center gap-3 py-1.5 pl-2 pr-2.5"
+              >
+                {/* Brand */}
+                <div className="flex items-center gap-2 pl-2 pr-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+                  <button
+                    onClick={() => scrollToSection("home")}
+                    className="text-xs font-bold text-[var(--text-primary)] hover:opacity-80 transition-opacity tracking-tight whitespace-nowrap"
                   >
-                    <span
-                      className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      style={{
-                        background: GRADIENTS.socialHover,
-                      }}
-                    />
-                    <span
-                      className="relative z-10 transition-all duration-300 group-hover:scale-110"
-                      style={{ color: "inherit" }}
+                    {t("hero.title")}
+                  </button>
+                </div>
+
+                {/* Desktop Nav */}
+                <nav className="hidden md:flex items-center gap-1 text-xs font-medium text-[var(--text-muted)] px-2">
+                  {NAV_ITEMS.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`px-3 py-1.5 rounded-full transition-colors ${
+                        active === item.id
+                          ? "text-[var(--text-primary)] bg-[var(--background-secondary)]"
+                          : "hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)]"
+                      }`}
                     >
-                      {item.icon}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
+                      {t(item.labelKey as "nav.whatIBuild" | "nav.projects" | "nav.education")}
+                    </button>
+                  ))}
+                </nav>
 
-              <motion.a
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="/Mohamed_Ismael_CV.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex h-10 cursor-pointer items-center gap-2 rounded-[14px] px-4 text-[13px] font-bold transition-all duration-300 lg:px-5"
-                style={primaryBtnStyle}
-              >
-                <span>Download CV</span>
-                <Download
-                  size={14}
-                  className="transition-transform duration-300 group-hover:translate-y-0.5"
-                />
-              </motion.a>
+                {/* Right actions */}
+                <div className="flex items-center gap-1.5">
+                  <LanguageSwitcher />
+                  <ThemeToggle />
+                  <button
+                    onClick={openContactModal}
+                    className="hidden md:flex text-xs bg-[var(--text-primary)] hover:opacity-90 text-[var(--text-inverse)] px-3.5 py-1.5 rounded-full font-medium transition-all items-center gap-1.5 group shadow-sm"
+                  >
+                    <span>{t("nav.letsTalk")}</span>
+                    <span className="text-[var(--text-muted)] group-hover:translate-x-0.5 transition-transform">→</span>
+                  </button>
 
-              <ThemeToggle />
-            </div>
-          </div>
-
-          <div
-            className="flex items-center justify-between rounded-[20px] px-4 py-3 lg:hidden"
-            style={navShellStyle}
-          >
-            <motion.button
-              whileTap={{ scale: 0.99 }}
-              onClick={() => scrollToSection("home")}
-              className="flex cursor-pointer items-center gap-2.5 text-left"
-            >
-              <div
-                className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-[12px]"
-                style={brandMarkStyle}
-              >
-                <Image
-                  src="/person_profile.jpg"
-                  alt="Mohamed Ismail"
-                  fill
-                  className="object-cover object-center"
-                  sizes="36px"
-                />
-              </div>
-
-              <div className="leading-none">
-                <div
-                  className="text-[14px] font-bold tracking-tight"
-                  style={{ color: TEXT.primary }}
-                >
-                  Mohamed Ismail
+                  {/* Mobile toggle */}
+                  <button
+                    onClick={() => setMobileOpen((prev) => !prev)}
+                    aria-label="Toggle menu"
+                    className="md:hidden flex h-8 w-8 items-center justify-center rounded-full bg-[var(--background-secondary)] border border-[var(--border-subtle)] text-[var(--text-primary)]"
+                  >
+                    {mobileOpen ? <X size={14} /> : <Menu size={14} />}
+                  </button>
                 </div>
-                <div
-                  className="mt-1 text-[10px] font-medium"
-                  style={{ color: TEXT.dim }}
-                >
-                  Flutter Developer
-                </div>
-              </div>
-            </motion.button>
-
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setMobileOpen((prev) => !prev)}
-                aria-label="Toggle menu"
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[14px] transition-all duration-300"
-                style={socialBtnStyle}
-              >
-                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-              </motion.button>
-            </div>
-          </div>
-        </motion.nav>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </header>
 
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -518,144 +203,40 @@ export default function ResponsiveNavbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              className="fixed inset-0 z-[100] lg:hidden"
-              style={{
-                background: "rgba(10, 8, 7, 0.28)",
-                backdropFilter: "blur(6px)",
-              }}
+              className="fixed inset-0 z-[100] md:hidden"
+              style={{ background: "rgba(10, 8, 7, 0.28)", backdropFilter: "blur(6px)" }}
               onClick={() => setMobileOpen(false)}
             />
-
             <motion.div
               key="mobile-drawer"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.24, ease: "easeOut" }}
-              className="fixed inset-x-4 top-[84px] z-[115] overflow-hidden rounded-[24px] lg:hidden"
-              style={{
-                background: GRADIENTS.cardBg,
-                border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: SHADOWS.card,
-                backdropFilter: "blur(22px) saturate(180%)",
-                WebkitBackdropFilter: "blur(22px) saturate(180%)",
-              }}
+              className="fixed inset-x-4 top-[84px] z-[115] overflow-hidden rounded-[24px] md:hidden glass-pill"
             >
               <div className="p-4">
-                {projectTitle ? (
-                  <motion.button
-                    whileHover={{ y: -1, scale: 1.01 }}
-                    whileTap={{ scale: 0.985 }}
-                    onClick={handleProjectButtonClick}
-                    className="mb-3 flex w-full cursor-pointer items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
-                    style={{
-                      color: isProjectActive ? TEXT.badge : TEXT.primary,
-                      background: isProjectActive
-                        ? GRADIENTS.badge
-                        : GRADIENTS.ghostBtn,
-                      border: isProjectActive
-                        ? `1px solid ${BORDERS.medium}`
-                        : `1px solid ${BORDERS.subtle}`,
-                      boxShadow: SHADOWS.ghostBtn,
-                    }}
-                  >
-                    <span>{projectTitle}</span>
-                    {isProjectActive && (
-                      <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ background: "var(--accent)" }}
-                      />
-                    )}
-                  </motion.button>
-                ) : null}
-
                 <div className="flex flex-col gap-1">
-                  {NAV_ITEMS.map((item, index) => {
-                    const isActive = active === item.id;
-
-                    return (
-                      <motion.button
-                        key={item.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.985 }}
-                        transition={{ delay: index * 0.04, duration: 0.22 }}
-                        onClick={() => scrollToSection(item.id)}
-                        className="flex cursor-pointer items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all duration-300"
-                        style={{
-                          color: isActive ? TEXT.badge : TEXT.soft,
-                          background: isActive ? GRADIENTS.badge : "transparent",
-                          border: isActive
-                            ? `1px solid ${BORDERS.medium}`
-                            : "1px solid transparent",
-                        }}
-                      >
-                        <span>{item.label}</span>
-                        {isActive && (
-                          <span
-                            className="h-1.5 w-1.5 rounded-full"
-                            style={{ background: "var(--accent)" }}
-                          />
-                        )}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-
-                <div
-                  className="my-4 h-px"
-                  style={{
-                    background: GRADIENTS.divider,
-                  }}
-                />
-
-                <div className="mb-4 flex items-center justify-center gap-2">
-                  {SOCIAL_LINKS.map((item) => (
-                    <motion.a
-                      key={item.label}
-                      whileHover={{ y: -2, scale: 1.05 }}
-                      whileTap={{ scale: 0.96 }}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={item.label}
-                      className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-[14px] transition-all duration-300"
-                      style={socialBtnStyle}
+                  {NAV_ITEMS.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`flex items-center justify-between rounded-[16px] px-4 py-3 text-sm font-semibold transition-all ${
+                        active === item.id
+                          ? "text-[var(--text-primary)] bg-[var(--background-secondary)]"
+                          : "text-[var(--text-muted)]"
+                      }`}
                     >
-                      <span
-                        className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                        style={{
-                          background: GRADIENTS.socialHover,
-                        }}
-                      />
-                      <span
-                        className="relative z-10 transition-all duration-300 group-hover:scale-110"
-                        style={{ color: "inherit" }}
-                      >
-                        {item.icon}
-                      </span>
-                    </motion.a>
+                      <span>{t(item.labelKey as "nav.whatIBuild" | "nav.projects" | "nav.education")}</span>
+                    </button>
                   ))}
                 </div>
-
-                <motion.a
-                  whileHover={{ y: -2, scale: 1.01 }}
-                  whileTap={{ scale: 0.985 }}
-                  href="/Mohamed_Ismael_CV.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileOpen(false)}
-                  className="group inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-[16px] text-sm font-bold transition-all duration-300"
-                  style={primaryBtnStyle}
+                <div className="my-3 h-px bg-[var(--border-subtle)]" />
+                <button
+                  onClick={openContactModal}
+                  className="w-full rounded-[16px] px-4 py-3 text-sm font-bold bg-[var(--text-primary)] text-[var(--text-inverse)] text-center"
                 >
-                  <span>Download CV</span>
-                  <Download
-                    size={15}
-                    className="transition-transform duration-300 group-hover:translate-y-0.5"
-                  />
-                </motion.a>
+                  {t("nav.letsTalk")}
+                </button>
               </div>
             </motion.div>
           </>
