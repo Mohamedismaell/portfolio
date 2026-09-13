@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mohamed Ismael — Senior Mobile &amp; Flutter Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Newsreader', 'Georgia', 'serif'],
+            sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            porcelain: '#FAF9F6',
+            charcoal: '#111113',
+            surfaceMuted: '#F5F4F0',
+            borderSubtle: '#E8E7E0',
+          }
+        }
+      }
+    }
+</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+    .font-editorial {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: normal;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+    }
+    .font-editorial-italic {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+    .glass-pill {
+      background: rgba(250, 249, 246, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 20px rgba(17, 17, 19, 0.05);
+    }
+    .mask-gradient-edges {
+      mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    }
+    /* Orbital fanout elements */
+    .orbit-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      z-index: 40;
+    }
+    .group:hover .orbit-item-1 { transform: translate(calc(-50% - 110px), calc(-50% - 18px)) scale(1); opacity: 1; pointer-events: auto; }
+    .group:hover .orbit-item-2 { transform: translate(calc(-50% - 74px), calc(-50% - 90px)) scale(1); opacity: 1; pointer-events: auto; }
+    .group:hover .orbit-item-3 { transform: translate(-50%, calc(-50% - 118px)) scale(1); opacity: 1; pointer-events: auto; }
+    .group:hover .orbit-item-4 { transform: translate(calc(-50% + 74px), calc(-50% - 90px)) scale(1); opacity: 1; pointer-events: auto; }
+    .group:hover .orbit-item-5 { transform: translate(calc(-50% + 110px), calc(-50% - 18px)) scale(1); opacity: 1; pointer-events: auto; }
+
+    /* Soundwave equalizer bars hover effect */
+    .group:hover .eq-1 { height: 2.25rem; }
+    .group:hover .eq-2 { height: 4.75rem; }
+    .group:hover .eq-3 { height: 3.5rem; }
+    .group:hover .eq-4 { height: 5.5rem; }
+    .group:hover .eq-5 { height: 2.25rem; }
+    .group:hover .eq-6 { height: 6.25rem; }
+    .group:hover .eq-7 { height: 4.25rem; }
+    .group:hover .eq-8 { height: 2.75rem; }
+
+    /* Repel interactive typography */
+    .repel-char {
+      display: inline-block;
+      position: relative;
+      will-change: transform, filter;
+      transform-origin: center center;
+      transition: color 0.15s ease;
+    }
+    .repel-space {
+      display: inline;
+      white-space: pre;
+    }
+    /* Vertical marquee for certifications */
+    .mask-vertical-fade {
+      mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+    }
+    @keyframes vertical-loop {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+    .animate-vertical-loop {
+      animation: vertical-loop 25s linear infinite;
+    }
+</style>
+</head>
+<body class="bg-[#FAF9F6] text-[#111113] antialiased selection:bg-[#111113] selection:text-white relative min-h-screen overflow-x-hidden">
+<!-- Floating Top Navigation -->
+<header class="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+<div class="glass-pill rounded-full py-1.5 pl-2.5 pr-2 flex items-center gap-3 pointer-events-auto transition-transform hover:shadow-md border border-stone-200/80">
+<span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+<div class="text-xs flex items-center gap-1.5 font-medium pr-1">
+<span class="font-semibold text-[#111113]">Mohamed Ismael</span>
+<span class="text-stone-300 font-normal">/</span>
+<span class="text-stone-500 hidden sm:inline">Senior Flutter &amp; Mobile Architect</span>
+</div>
+<nav class="hidden md:flex items-center gap-1 text-xs font-medium text-stone-600 px-2">
+<a href="#education" class="px-3 py-1.5 rounded-full hover:text-black hover:bg-stone-100 transition-colors">Education</a>
+</nav>
+<a class="text-xs bg-[#111113] hover:bg-black text-white px-3.5 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 shadow-sm" href="mailto:mohamed.ismael.dev@gmail.com">
+<span>Book a call</span>
+<span class="text-stone-400">→</span>
+</a>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="pt-28 sm:pt-36 pb-16 w-full flex flex-col items-center text-center">
+<div class="px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center text-center w-full">
+<!-- Interactive Portrait Arch -->
+<div class="relative mb-8 group cursor-pointer" tabindex="0">
+<!-- Email Orbit -->
+<div class="orbit-item orbit-item-1">
+<a class="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-md flex items-center justify-center text-stone-800 hover:scale-110 hover:bg-black hover:text-white transition-all" href="mailto:mohamed.ismael.dev@gmail.com" title="Email Mohamed">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"></path><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"></path></svg>
+</a>
+</div>
+<!-- GitHub Orbit -->
+<div class="orbit-item orbit-item-2">
+<a class="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-md flex items-center justify-center text-stone-800 hover:scale-110 hover:bg-black hover:text-white transition-all" href="https://github.com" target="_blank" title="GitHub">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+<!-- Calendar Orbit -->
+<div class="orbit-item orbit-item-3">
+<a class="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-md flex items-center justify-center text-stone-800 hover:scale-110 hover:bg-black hover:text-white transition-all" href="mailto:mohamed.ismael.dev@gmail.com?subject=Project%20Inquiry" title="Book Consultation">
+<svg class="w-4 h-4 fill-none stroke-current stroke-2" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+</a>
+</div>
+<!-- LinkedIn Orbit -->
+<div class="orbit-item orbit-item-4">
+<a class="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-md flex items-center justify-center text-stone-800 hover:scale-110 hover:bg-[#0A66C2] hover:text-white transition-all" href="https://linkedin.com" target="_blank" title="LinkedIn">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.45 1.45 0 0 0 1.45-1.45c0-.8-.65-1.45-1.45-1.45a1.45 1.45 0 1 0 0 2.9m1.37 9.74v-8.37H5.09v8.37h2.74z"></path></svg>
+</a>
+</div>
+<!-- Online Bot Orbit -->
+<div class="orbit-item orbit-item-5">
+<div class="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 shadow-md flex items-center justify-center hover:scale-110 transition-all cursor-pointer">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+</div>
+</div>
+<!-- Arch Profile Image -->
+<div class="relative w-36 sm:w-40 h-48 sm:h-52 rounded-t-full rounded-b-2xl overflow-hidden shadow-lg border-2 border-white/80 ring-1 ring-stone-200 bg-stone-100 transition-transform duration-500 group-hover:scale-95">
+<img alt="Mohamed Ismael — Senior Mobile Architect" class="w-full h-full object-cover object-top" src="https://lh3.googleusercontent.com/aida/AEtjO1WsUMRMyLfiFAvsbC0AK94sAIiHeuz0m-x3bHWKIoqRf37ilwhCodORu042-Zau3KMgW7yz1RNcqCyOUh1N0bQiFccDxsNi-Zsvadl2R61mdXJsOR6Ga5ifFrmpscKUQiptppF2ZDWUB0Qib9mNn-hiaPx27C-vYXLurSNFNWnYwMwgOoLV8fTOUKr7hF0SWTu94zVM-DeAu0-he6LfgG-xajCk8sKsJTcB3q6JmPTflmUzUQmn443d4avB"/>
+</div>
+</div>
+<!-- Badge & Title -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200 bg-stone-100/80 text-[11px] font-mono uppercase tracking-widest text-stone-600 mb-6">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        Multidisciplinary Mobile Architect &amp; Flutter Specialist
+      </div>
+<!-- Repulsion-enabled Hero Title -->
+<h1 class="repel-interactive font-editorial text-6xl sm:text-8xl md:text-9xl font-normal tracking-tight text-[#111113] max-w-5xl leading-none select-none">Let’s see<br/>where this goes.</h1>
+</div>
+<!-- Phone Showcase Carousel Preview -->
+<div class="w-full mt-10 relative overflow-hidden mask-gradient-edges py-6" id="carousel-container">
+<div class="flex items-center justify-center gap-4 sm:gap-6 px-4 overflow-x-auto no-scrollbar py-4">
+<!-- Phone 1: Nova Commerce -->
+<div class="w-36 sm:w-44 h-72 sm:h-80 rounded-[2rem] bg-stone-900 border-4 border-stone-800 shadow-xl overflow-hidden shrink-0 flex flex-col justify-between p-3 relative group/phone hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-1 bg-stone-700 rounded-full mx-auto"></div>
+<div class="space-y-2 my-auto text-left">
+<span class="text-[9px] font-mono text-purple-400 uppercase tracking-widest">Nova Mobile</span>
+<p class="text-xs font-bold text-white leading-tight">Biometric Designer Apparel</p>
+<div class="h-24 rounded-lg bg-stone-800/80 p-2 flex flex-col justify-end">
+<span class="text-[10px] text-stone-300 font-mono">$1,450</span>
+<span class="text-[8px] text-emerald-400">120 FPS Cached</span>
+</div>
+</div>
+<div class="w-14 h-1 bg-stone-700 rounded-full mx-auto"></div>
+</div>
+<!-- Phone 2: CapWave Audio -->
+<div class="w-36 sm:w-44 h-72 sm:h-80 rounded-[2rem] bg-[#07131D] border-4 border-[#122B3E] shadow-xl overflow-hidden shrink-0 flex flex-col justify-between p-3 relative group/phone hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-1 bg-[#1A384F] rounded-full mx-auto"></div>
+<div class="space-y-2 my-auto text-left">
+<span class="text-[9px] font-mono text-cyan-400 uppercase tracking-widest">CapWave</span>
+<p class="text-xs font-bold text-white leading-tight">Spatial BLE Audio Engine</p>
+<div class="h-24 rounded-lg bg-black/40 border border-cyan-500/20 p-2 flex items-end justify-around">
+<span class="w-1.5 h-8 bg-cyan-400 rounded-full"></span>
+<span class="w-1.5 h-14 bg-cyan-300 rounded-full"></span>
+<span class="w-1.5 h-10 bg-cyan-400 rounded-full"></span>
+<span class="w-1.5 h-16 bg-cyan-200 rounded-full"></span>
+</div>
+</div>
+<div class="w-14 h-1 bg-[#1A384F] rounded-full mx-auto"></div>
+</div>
+<!-- Phone 3: Centerpiece Flagship (Apex Wallet) -->
+<div class="w-40 sm:w-48 h-80 sm:h-92 rounded-[2.25rem] bg-stone-950 border-4 border-stone-700 shadow-2xl overflow-hidden shrink-0 flex flex-col justify-between p-3.5 relative ring-2 ring-stone-400/20 group/phone hover:-translate-y-2 transition-transform duration-300">
+<div class="w-14 h-1 bg-stone-700 rounded-full mx-auto"></div>
+<div class="space-y-2.5 my-auto text-left">
+<div class="flex items-center justify-between">
+<span class="text-[9px] font-mono text-emerald-400 uppercase tracking-widest">Apex Protocol</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+</div>
+<p class="text-sm font-bold text-white leading-tight">Sub-16ms Institutional Ledger</p>
+<div class="h-28 rounded-xl bg-gradient-to-br from-stone-900 to-black border border-stone-800 p-2.5 flex flex-col justify-between">
+<span class="text-[9px] text-stone-400 font-mono">Portfolio Balance</span>
+<span class="text-base font-bold text-white font-mono">$48,290.15</span>
+<div class="w-full bg-emerald-500/20 rounded py-0.5 text-center text-[8px] text-emerald-300 font-mono">Instant Sharded Sync</div>
+</div>
+</div>
+<div class="w-16 h-1 bg-stone-700 rounded-full mx-auto"></div>
+</div>
+<!-- Phone 4: Slate Health -->
+<div class="w-36 sm:w-44 h-72 sm:h-80 rounded-[2rem] bg-stone-900 border-4 border-stone-800 shadow-xl overflow-hidden shrink-0 flex flex-col justify-between p-3 relative group/phone hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-1 bg-stone-700 rounded-full mx-auto"></div>
+<div class="space-y-2 my-auto text-left">
+<span class="text-[9px] font-mono text-rose-400 uppercase tracking-widest">Slate Health</span>
+<p class="text-xs font-bold text-white leading-tight">Continuous Biometrics</p>
+<div class="h-24 rounded-lg bg-stone-800/80 p-2 flex flex-col justify-between">
+<span class="text-[10px] text-rose-300 font-mono">HRV 68 ms</span>
+<div class="w-full h-1 bg-rose-500/40 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-rose-400"></div>
+</div>
+<span class="text-[8px] text-stone-400">Offline SQLite Store</span>
+</div>
+</div>
+<div class="w-14 h-1 bg-stone-700 rounded-full mx-auto"></div>
+</div>
+<!-- Phone 5: Vertex Space -->
+<div class="w-36 sm:w-44 h-72 sm:h-80 rounded-[2rem] bg-[#0F101A] border-4 border-[#1E2135] shadow-xl overflow-hidden shrink-0 flex flex-col justify-between p-3 relative group/phone hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-1 bg-[#252A44] rounded-full mx-auto"></div>
+<div class="space-y-2 my-auto text-left">
+<span class="text-[9px] font-mono text-amber-400 uppercase tracking-widest">Vertex Space</span>
+<p class="text-xs font-bold text-white leading-tight">Orbital Telemetry App</p>
+<div class="h-24 rounded-lg bg-black/50 border border-amber-500/20 p-2 flex flex-col justify-center items-center text-center">
+<span class="text-[10px] text-amber-300 font-mono">T-Minus 04:12:08</span>
+<span class="text-[8px] text-stone-400 mt-1">Telemetry Live Stream</span>
+</div>
+</div>
+<div class="w-14 h-1 bg-[#252A44] rounded-full mx-auto"></div>
+</div>
+</div>
+<div class="text-center mt-6">
+<h3 class="text-lg font-bold uppercase tracking-wider text-[#111113]">5 Flagship Architectures •</h3>
+<p class="text-stone-500 text-xs mt-1">Custom shaders, offline sync caches, and sub-16ms biometric checkout.</p>
+</div>
+</div>
+</section>
+<!-- Editorial Bio Statement with Repel Physics -->
+<section class="py-16 px-6 max-w-5xl mx-auto border-t border-stone-200">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+<div class="md:col-span-7">
+<h2 class="repel-interactive text-3xl sm:text-4xl md:text-5xl font-editorial font-normal leading-[1.1] text-[#111113] select-none">
+          I build mobile experiences that refuse to be ignored. Bridging the gap between <span class="font-editorial-italic">obsessive design</span> and <span class="font-editorial-italic">rock-solid production Flutter code</span>.
+        </h2>
+</div>
+<div class="md:col-span-5 space-y-4 text-stone-600 text-sm leading-relaxed">
+<p>As a mobile architect and UI engineer, I understand that aesthetics must serve function. Not only does an app need to look like it belongs in an Apple Design Award lineup, it must hold 120 FPS frame budgets on low-end silicon.</p>
+<p>Over the past 5+ years, I’ve partnered with venture-backed startups and established digital brands to ship production mobile products.</p>
+</div>
+</div>
+</section>
+<!-- What I Build Section (Blueprint Architecture Cards) -->
+<section class="py-20 px-4 sm:px-6 max-w-6xl mx-auto relative">
+<div class="text-center max-w-2xl mx-auto mb-14">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200 bg-white shadow-xs text-[11px] font-mono uppercase tracking-wider text-stone-800 mb-4">
+<span class="w-1.5 h-1.5 rounded-full bg-black"></span>
+<span>TURNING IDEAS INTO APPS</span>
+</div>
+<h2 class="font-editorial text-5xl sm:text-6xl text-[#111113] tracking-tight">
+        What I <span class="font-editorial-italic font-normal">Build</span>
+</h2>
+<p class="text-stone-500 text-sm mt-3">Things I enjoy building with Flutter and the technologies I use along the way.</p>
+</div>
+<!-- 3 Blueprint Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white border border-stone-200 rounded-3xl p-6 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-xl border border-stone-200 bg-stone-50 flex items-center justify-center text-black">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M14.5 2.5L3.5 13.5l3.5 3.5L20.5 3.5h-6z"></path><path d="M14.5 13.5l-4 4 3.5 3.5 4-4-3.5-3.5z"></path></svg>
+</div>
+<span class="text-[10px] px-2.5 py-1 rounded-full bg-stone-100 font-medium">Build Once Run Everywhere</span>
+</div>
+<span class="text-xs font-mono text-stone-400 block mb-1">01</span>
+<h3 class="text-lg font-bold text-[#111113]">Flutter Applications</h3>
+<p class="text-stone-600 text-xs mt-2 leading-relaxed">Complete cross-platform applications with clean architecture and responsive interfaces.</p>
+</div>
+<div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-medium text-stone-700">
+<span>Application Development</span><span>→</span>
+</div>
+</div>
+<div class="bg-white border border-stone-200 rounded-3xl p-6 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-xl border border-stone-200 bg-stone-50 flex items-center justify-center text-black">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+</div>
+<span class="text-[10px] px-2.5 py-1 rounded-full bg-stone-100 font-medium">Design to Code</span>
+</div>
+<span class="text-xs font-mono text-stone-400 block mb-1">02</span>
+<h3 class="text-lg font-bold text-[#111113]">Product &amp; UI</h3>
+<p class="text-stone-600 text-xs mt-2 leading-relaxed">Turning ideas into polished interfaces with attention to fluid interaction and visual craft.</p>
+</div>
+<div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-medium text-stone-700">
+<span>UI Implementation</span><span>→</span>
+</div>
+</div>
+<div class="bg-white border border-stone-200 rounded-3xl p-6 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-xl border border-stone-200 bg-stone-50 flex items-center justify-center text-black">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+</div>
+<span class="text-[10px] px-2.5 py-1 rounded-full bg-stone-100 font-medium">Data That Works</span>
+</div>
+<span class="text-xs font-mono text-stone-400 block mb-1">03</span>
+<h3 class="text-lg font-bold text-[#111113]">Backend Integration</h3>
+<p class="text-stone-600 text-xs mt-2 leading-relaxed">Connecting Flutter applications to reliable backends with offline-first caching and auth.</p>
+</div>
+<div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-medium text-stone-700">
+<span>Backend Integration</span><span>→</span>
+</div>
+</div>
+</div>
+</section>
+<!-- REDESIGNED PROJECTS SECTION -->
+<section class="py-24 px-4 sm:px-6 max-w-6xl mx-auto" id="projects">
+<!-- Section Header -->
+<div class="text-center max-w-2xl mx-auto mb-16">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200/80 bg-white/90 shadow-xs text-[11px] font-mono uppercase tracking-widest text-stone-600 mb-4">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Selected Case Studies</span>
+</div>
+<h2 class="font-editorial text-5xl sm:text-7xl text-[#111113] tracking-tight">
+        Projects I've <span class="font-editorial-italic font-normal">built.</span>
+</h2>
+<p class="text-stone-500 text-sm sm:text-base mt-3 max-w-lg mx-auto leading-relaxed">
+        Production software serving thousands of daily active users across iOS and Android.
+      </p>
+</div>
+<!-- Case Study 1: Nova Mobile -->
+<div class="group mb-12 rounded-[2.5rem] bg-white border border-[#E6E6EA] p-3 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-950/10 hover:border-purple-300/80 relative overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-[#FCFBF9] overflow-hidden border border-stone-100">
+<!-- Left Column -->
+<div class="p-8 sm:p-12 lg:col-span-7 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-2xl bg-purple-100/70 border border-purple-200/90 shadow-xs flex items-center justify-center p-2.5 text-purple-700 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M6 3h12l4 6-10 12L2 9z"></path>
+<path d="M2 9h20"></path>
+<path d="M10 3l-2 6 4 12 4-12-2-6"></path>
+</svg>
+</div>
+<div>
+<span class="px-3 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase bg-purple-100/70 text-purple-900 border border-purple-200 font-semibold">Luxury E-Commerce</span>
+<span class="text-stone-400 text-xs font-mono ml-2">120 FPS · Stripe</span>
+</div>
+</div>
+<span class="hidden sm:inline-flex text-[10px] font-mono text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60">01 / Universal</span>
+</div>
+<h3 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#101219] mb-4">Nova Mobile</h3>
+<p class="text-stone-600 text-sm sm:text-base leading-relaxed mb-6">
+              A top-tier high-converting mobile commerce client for designer apparel. Built from scratch with an offline-first inventory cache, biometric one-click Apple/Google Pay, and custom liquid hero transitions.
+            </p>
+<!-- Metrics bar -->
+<div class="grid grid-cols-2 gap-4 py-5 border-y border-stone-200/60 my-6 bg-white rounded-2xl px-5 shadow-xs">
+<div>
+<div class="text-2xl sm:text-3xl font-bold text-stone-900 font-mono tracking-tight">+340%</div>
+<div class="text-xs text-stone-500 font-sans mt-0.5">Checkout completion speed</div>
+</div>
+<div>
+<div class="text-2xl sm:text-3xl font-bold text-stone-900 font-mono tracking-tight">4.9 ★</div>
+<div class="text-xs text-stone-500 font-sans mt-0.5">App Store score (2.8k ratings)</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action -->
+<div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+<button class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#111113] hover:bg-black text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn">
+<span>View Case Breakdown</span>
+<span class="text-stone-400 group-hover/btn:translate-x-1 transition-transform">→</span>
+</button>
+<span class="text-xs text-stone-400 font-mono">iOS &amp; Android Universal</span>
+</div>
+</div>
+<!-- Right Visual Mockup Showcase -->
+<div class="lg:col-span-5 bg-gradient-to-br from-[#1E112E] via-[#140C20] to-[#0A0512] p-8 sm:p-10 flex items-center justify-center relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-52 h-52 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="w-full max-w-sm rounded-2xl bg-stone-900/95 border border-purple-500/30 p-4 shadow-2xl backdrop-blur-md transition-all duration-300 group-hover:scale-[1.02] group-hover:border-purple-400/60">
+<div class="flex justify-between items-center pb-3 border-b border-white/10">
+<span class="text-xs font-semibold text-white tracking-wide">Nova Atelier</span>
+<span class="text-[10px] bg-purple-600/30 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-full font-mono">Synchronized</span>
+</div>
+<div class="py-4 space-y-3">
+<div class="h-28 rounded-xl bg-purple-950/70 border border-purple-500/20 p-3 flex items-end relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="text-left relative z-10">
+<span class="text-[10px] uppercase text-purple-300 font-mono font-medium">FW25 Limited</span>
+<h4 class="text-sm font-bold text-white tracking-tight">Cashmere Trench Coat</h4>
+<p class="text-xs text-stone-300 font-mono">$1,450 · 2 left in size M</p>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="flex-1 bg-white/5 border border-white/5 p-2.5 rounded-xl text-center">
+<span class="text-[10px] text-stone-400 font-mono">Instant Pay</span>
+<p class="text-xs font-bold text-white mt-0.5">FaceID Active</p>
+</div>
+<div class="flex-1 bg-white/5 border border-white/5 p-2.5 rounded-xl text-center">
+<span class="text-[10px] text-stone-400 font-mono">FPS Stability</span>
+<p class="text-xs font-bold text-emerald-400 mt-0.5">119.8 FPS</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Case Study 2: CapWave Audio -->
+<div class="group mb-12 rounded-[2.5rem] bg-white border border-[#E6E6EA] p-3 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-950/10 hover:border-cyan-300/80 relative overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-[#FCFBF9] overflow-hidden border border-stone-100">
+<!-- Left Column -->
+<div class="p-8 sm:p-12 lg:col-span-7 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-2xl bg-cyan-100/70 border border-cyan-200/90 shadow-xs flex items-center justify-center p-2.5 text-cyan-600 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M2 10v4"></path>
+<path d="M6 6v12"></path>
+<path d="M10 3v18"></path>
+<path d="M14 7v10"></path>
+<path d="M18 5v14"></path>
+<path d="M22 11v2"></path>
+</svg>
+</div>
+<div>
+<span class="px-3 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase bg-cyan-100/70 text-cyan-900 border border-cyan-200 font-semibold">Custom Shaders &amp; BLE</span>
+<span class="text-stone-400 text-xs font-mono ml-2">Flutter Engine · C++</span>
+</div>
+</div>
+<span class="hidden sm:inline-flex text-[10px] font-mono text-cyan-700 font-semibold bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-200/60">02 / Audio Tech</span>
+</div>
+<h3 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#101219] mb-4">CapWave Audio</h3>
+<p class="text-stone-600 text-sm sm:text-base leading-relaxed mb-6">
+              Low-latency spatial audio companion app utilizing custom OpenGL/SkSL fragment shaders for real-time Fourier waveform rendering and Bluetooth LE multi-device pairing.
+            </p>
+<!-- Metrics bar -->
+<div class="grid grid-cols-2 gap-4 py-5 border-y border-stone-200/60 my-6 bg-white rounded-2xl px-5 shadow-xs">
+<div>
+<div class="text-2xl sm:text-3xl font-bold text-cyan-600 font-mono tracking-tight">&lt; 14ms</div>
+<div class="text-xs text-stone-500 font-sans mt-0.5">Audio visualizer latency</div>
+</div>
+<div>
+<div class="text-2xl sm:text-3xl font-bold text-stone-900 font-mono tracking-tight">99.98%</div>
+<div class="text-xs text-stone-500 font-sans mt-0.5">Crash-free user metrics</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action -->
+<div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+<button class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#111113] hover:bg-black text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn">
+<span>Inspect Architecture</span>
+<span class="text-stone-400 group-hover/btn:translate-x-1 transition-transform">→</span>
+</button>
+<span class="text-xs text-stone-400 font-mono">Hardware Bridge</span>
+</div>
+</div>
+<!-- Right Visual Mockup Showcase -->
+<div class="lg:col-span-5 bg-gradient-to-br from-[#081822] via-[#0B151F] to-[#040A10] p-8 sm:p-10 flex items-center justify-center relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-52 h-52 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="w-full max-w-sm rounded-2xl bg-stone-900/95 border border-cyan-500/30 p-4 shadow-2xl backdrop-blur-md transition-all duration-300 group-hover:scale-[1.02] group-hover:border-cyan-400/60">
+<div class="flex justify-between items-center pb-3 border-b border-white/10">
+<span class="text-xs font-semibold text-white tracking-wide">Spatial Equalizer</span>
+<span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono">BLE Connected</span>
+</div>
+<!-- Reactive Equalizer Spectrum on Hover -->
+<div class="py-6 flex items-end justify-center gap-1.5 h-32">
+<div class="w-2 bg-cyan-400 rounded-full h-12 eq-1 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-400 rounded-full h-20 eq-2 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-300 rounded-full h-16 eq-3 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-400 rounded-full h-24 eq-4 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-500 rounded-full h-10 eq-5 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-300 rounded-full h-28 eq-6 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-400 rounded-full h-18 eq-7 transition-all duration-300"></div>
+<div class="w-2 bg-cyan-400 rounded-full h-14 eq-8 transition-all duration-300"></div>
+</div>
+<div class="flex justify-between text-xs text-stone-400 font-mono pt-2 border-t border-white/10">
+<span>32Hz - Sub</span><span>16kHz - Air</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Engineering Pride Section -->
+<section class="bg-[#0D0D11] text-white py-24 px-4 sm:px-6 mt-16 border-t border-stone-800">
+<div class="max-w-6xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-10 border-b border-stone-800">
+<div>
+<span class="text-xs font-mono uppercase tracking-widest text-stone-400">Track Record &amp; Reputation</span>
+<h2 class="font-editorial text-5xl sm:text-7xl text-white mt-2">Engineering <br/><span class="font-editorial-italic text-stone-400">pride.</span></h2>
+</div>
+<div class="mt-6 md:mt-0 max-w-md text-stone-400 text-sm">
+          Proven engineering discipline built through hundreds of production commits, rigorous code reviews, and high-stakes store rollouts.
+        </div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+<div class="border-l border-stone-800 pl-6">
+<div class="text-4xl sm:text-5xl font-editorial text-white">5+ yrs</div>
+<div class="text-xs text-stone-400 uppercase tracking-wider font-mono mt-1">Flutter &amp; Mobile Focus</div>
+</div>
+<div class="border-l border-stone-800 pl-6">
+<div class="text-4xl sm:text-5xl font-editorial text-white">14+</div>
+<div class="text-xs text-stone-400 uppercase tracking-wider font-mono mt-1">Production Apps Shipped</div>
+</div>
+<div class="border-l border-stone-800 pl-6">
+<div class="text-4xl sm:text-5xl font-editorial text-white">99.9%</div>
+<div class="text-xs text-stone-400 uppercase tracking-wider font-mono mt-1">Crash-free User Average</div>
+</div>
+<div class="border-l border-stone-800 pl-6">
+<div class="text-4xl sm:text-5xl font-editorial text-white">4.9 ★</div>
+<div class="text-xs text-stone-400 uppercase tracking-wider font-mono mt-1">App Store Average</div>
+</div>
+</div>
+<!-- Compact Technical Certifications Marquee Strip -->
+<div class="pt-8 border-t border-stone-800/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-stone-400">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span>Google Certified Flutter Developer</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+<span>OpenGL / SkSL Shader Architecture</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-purple-400"></span>
+<span>Clean Architecture / BLoC Pattern</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+<span>CI/CD Fastlane &amp; TestFlight Automation</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommendation Quote -->
+<section class="py-20 px-6 max-w-4xl mx-auto text-center">
+<div class="inline-flex justify-center mb-6">
+<span class="text-3xl text-stone-300 font-serif">“</span>
+</div>
+<blockquote class="font-editorial text-2xl sm:text-3xl md:text-4xl text-stone-900 leading-snug">
+      Mohamed has that rare combination of a designer’s eye for motion nuance and a senior systems engineer’s obsession with performance budgets. Our Flutter app feels more native than our old Swift codebase.
+    </blockquote>
+<div class="mt-6">
+<p class="text-xs font-bold uppercase tracking-wider text-stone-900">Alexandre V.</p>
+<p class="text-[11px] text-stone-500 font-mono">VP of Product · Hyperion Pay</p>
+</div>
+</section>
+<!-- Education & Certifications -->
+<section class="py-24 px-4 sm:px-6 max-w-6xl mx-auto" id="education">
+  <!-- Top Annotations & Section Header -->
+  <div class="relative mb-14">
+    <div class="hidden lg:flex flex-col items-start absolute -top-4 left-0 select-none pointer-events-none text-stone-500 z-10">
+      <div class="text-xs font-mono tracking-tight leading-snug rotate-[-5deg] text-stone-500/90 font-medium">Knowledge today,<br>better products tomorrow.</div>
+      <svg class="w-8 h-10 text-stone-400 mt-1 ml-6 rotate-[-10deg]" fill="none" stroke="currentColor" viewBox="0 0 36 48"><path d="M10 2 C6 18, 14 30, 24 40" stroke-dasharray="2 2" stroke-linecap="round" stroke-width="1.2"></path><path d="M18 39 L24 41 L25 34" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"></path></svg>
+    </div>
+    <div class="hidden lg:flex flex-col items-end absolute -top-4 right-0 select-none pointer-events-none text-stone-500 z-10">
+      <div class="text-xs font-mono tracking-tight text-right leading-snug rotate-[5deg] text-stone-500/90 font-medium">Continuous learning<br>for what's next.</div>
+      <svg class="w-8 h-10 text-stone-400 mt-1 mr-6 rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 36 48"><path d="M26 2 C30 18, 22 30, 12 40" stroke-dasharray="2 2" stroke-linecap="round" stroke-width="1.2"></path><path d="M18 39 L12 41 L11 34" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"></path></svg>
+    </div>
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200 bg-white shadow-xs text-[11px] font-sans font-medium uppercase tracking-wider text-stone-800 mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="">LEARNING • GROWING • BUILDING</span>
+      </div>
+      <h2 class="font-editorial text-4xl sm:text-6xl text-[#111113] tracking-tight leading-none">Education &amp; <span class="font-editorial-italic font-normal">Certifications.</span></h2>
+      <p class="text-stone-500 text-sm sm:text-base mt-3 leading-relaxed">A strong academic foundation, combined with continuous learning and hands-on experience, helps me build better products.</p>
+    </div>
+  </div>
+  <!-- Main Two-Column Layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+    <!-- Left Column: Education Card -->
+    <div class="lg:col-span-5 bg-white border border-stone-200/90 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-all duration-200 relative overflow-hidden">
+      <div>
+        <div class="flex items-center justify-between gap-2 mb-6">
+          <div class="w-10 h-10 rounded-xl border border-stone-200 bg-stone-50/50 flex items-center justify-center p-2 text-stone-800 shadow-xs">
+            <svg class="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          </div>
+          <span class="text-[11px] font-mono text-stone-400 font-medium tracking-wide">2018 - 2022 / UNDERGRADUATE DEGREE</span>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-[10px] font-mono font-medium text-emerald-700">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span class="">Completed</span>
+          </div>
+        </div>
+        <div class="text-left">
+          <h3 class="text-xl font-bold text-[#111113] tracking-tight leading-snug">B.Sc. Computer Science &amp; Software Engineering</h3>
+          <p class="text-xs font-medium text-stone-500 mt-1 mb-4">Cairo University</p>
+          <p class="text-stone-600 text-xs sm:text-sm leading-relaxed font-normal mb-8">A solid foundation in computer science fundamentals, software engineering, and problem solving. Gained theoretical knowledge and practical experience in algorithms, data structures, operating systems, and software design.</p>
+        </div>
+        <div class="text-left">
+          <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 font-semibold block mb-3">KEY AREAS</span>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Data Structures &amp; Algorithms</span>
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Software Engineering</span>
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Operating Systems</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Computer Networks</span>
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Databases</span>
+              <span class="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[11px] font-sans font-medium text-stone-700">Human-Computer Interaction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Column: Certifications Stack -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      <div class="flex items-center justify-between px-1 mb-1">
+        <span class="text-[11px] font-mono uppercase tracking-wider text-stone-400 font-semibold">CERTIFICATIONS</span>
+        <div class="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-stone-400">
+          <span class="w-8 h-[1px] bg-stone-300 inline-block"></span>
+          <span class="">KEEP LEARNING</span>
+        </div>
+      </div>
+      <div class="h-[520px] overflow-hidden mask-vertical-fade relative">
+        <div class="animate-vertical-loop flex flex-col gap-4 hover:[animation-play-state:paused]">
+          <div class="flex flex-col gap-4">
+            <!-- Certification 1: Flutter Development -->
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-blue-50/50 flex items-center justify-center p-2 text-stone-900 shrink-0">
+                  <svg class="w-5 h-5 text-black fill-current" viewBox="0 0 24 24"><path d="M14.314 0L2.3 12 6 15.7 21.714 0h-7.4zm0 9.292L7.714 15.893 11.414 19.6l6.6-6.6-3.7-3.708zm0 7.422l-2.286 2.286L14.314 21.3 20.3 15.3l-2.286-2.286-3.7 3.7z"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Flutter Development</h4>
+                    <span class="text-xs text-stone-500 font-normal">Google (Coursera) · 2023</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Build high-quality cross-platform apps with Flutter.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Flutter</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Dart</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Mobile Development</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">Google</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Professional Certificate</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">Flutter Development</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <!-- Certification 2: Machine Learning -->
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-amber-500/10 flex items-center justify-center p-2 text-amber-600 shrink-0">
+                  <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 2.2l7.5 4.1L12 12.4 4.5 8.3 12 4.2zm-8 5.6l7 3.8v7.4l-7-3.8V9.8zm9 11.2v-7.4l7-3.8v7.4l-7 3.8z"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Machine Learning with TensorFlow</h4>
+                    <span class="text-xs text-stone-500 font-normal">DeepLearning.AI (Coursera) · 2024</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Learn and apply machine learning concepts using TensorFlow.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">TensorFlow</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Machine Learning</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">AI</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">DeepLearning.AI</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Specialization</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">TensorFlow in Practice</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <!-- Certification 3: Programming in Dart -->
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-purple-50 flex items-center justify-center p-2 text-purple-600 shrink-0">
+                  <svg class="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Programming in Dart</h4>
+                    <span class="text-xs text-stone-500 font-normal">Meta (Coursera) · 2023</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Learn the fundamentals of Dart programming for Flutter development.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Dart</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Programming</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Mobile</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">Meta</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Course Certificate</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">Programming in Dart</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <!-- Certification 4: Mobile App Development -->
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-emerald-50 flex items-center justify-center p-2 text-emerald-700 font-black font-serif shrink-0 text-base">U</div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Mobile App Development</h4>
+                    <span class="text-xs text-stone-500 font-normal">Udemy · 2022</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Hands-on projects and real-world mobile app development.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Flutter</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">UI/UX</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">State Management</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-dashed border-stone-300 bg-stone-50/40 p-2 flex flex-col items-center justify-center text-center shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center gap-1 text-stone-400 mb-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                  <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <span class="text-[9px] font-medium text-stone-500 font-sans">Add Certificate Image</span>
+              </div>
+            </div>
+          </div>
+          <!-- Duplicate set for seamless loop -->
+          <div aria-hidden="true" class="flex flex-col gap-4">
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-blue-50/50 flex items-center justify-center p-2 text-stone-900 shrink-0">
+                  <svg class="w-5 h-5 text-black fill-current" viewBox="0 0 24 24"><path d="M14.314 0L2.3 12 6 15.7 21.714 0h-7.4zm0 9.292L7.714 15.893 11.414 19.6l6.6-6.6-3.7-3.708zm0 7.422l-2.286 2.286L14.314 21.3 20.3 15.3l-2.286-2.286-3.7 3.7z"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Flutter Development</h4>
+                    <span class="text-xs text-stone-500 font-normal">Google (Coursera) · 2023</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Build high-quality cross-platform apps with Flutter.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Flutter</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Dart</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Mobile Development</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">Google</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Professional Certificate</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">Flutter Development</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-amber-500/10 flex items-center justify-center p-2 text-amber-600 shrink-0">
+                  <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 2.2l7.5 4.1L12 12.4 4.5 8.3 12 4.2zm-8 5.6l7 3.8v7.4l-7-3.8V9.8zm9 11.2v-7.4l7-3.8v7.4l-7 3.8z"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Machine Learning with TensorFlow</h4>
+                    <span class="text-xs text-stone-500 font-normal">DeepLearning.AI (Coursera) · 2024</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Learn and apply machine learning concepts using TensorFlow.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">TensorFlow</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Machine Learning</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">AI</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">DeepLearning.AI</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Specialization</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">TensorFlow in Practice</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-purple-50 flex items-center justify-center p-2 text-purple-600 shrink-0">
+                  <svg class="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"></path></svg>
+                </div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Programming in Dart</h4>
+                    <span class="text-xs text-stone-500 font-normal">Meta (Coursera) · 2023</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Learn the fundamentals of Dart programming for Flutter development.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Dart</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Programming</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Mobile</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-stone-200 bg-stone-50/70 p-2 flex flex-col justify-between shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold text-stone-800 tracking-tight font-sans">Meta</span>
+                  <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <div class="text-left">
+                  <div class="text-[7.5px] uppercase font-mono text-stone-400 leading-none">Course Certificate</div>
+                  <div class="text-[8.5px] font-bold text-stone-700 leading-tight">Programming in Dart</div>
+                </div>
+                <div class="flex items-center gap-1.5"><div class="w-6 h-[1px] bg-stone-300"></div><div class="w-8 h-[1px] bg-stone-200"></div></div>
+              </div>
+            </div>
+            <div class="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl border border-stone-200 bg-emerald-50 flex items-center justify-center p-2 text-emerald-700 font-black font-serif shrink-0 text-base">U</div>
+                <div class="text-left min-w-0">
+                  <div class="flex flex-wrap items-center gap-x-2">
+                    <h4 class="text-sm font-bold text-[#111113]">Mobile App Development</h4>
+                    <span class="text-xs text-stone-500 font-normal">Udemy · 2022</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-1 mb-2.5 font-normal">Hands-on projects and real-world mobile app development.</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">Flutter</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">UI/UX</span>
+                    <span class="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 text-[10px] font-sans text-stone-600 font-medium">State Management</span>
+                  </div>
+                </div>
+              </div>
+              <div class="w-36 h-20 rounded-lg border border-dashed border-stone-300 bg-stone-50/40 p-2 flex flex-col items-center justify-center text-center shrink-0 relative shadow-xs hover:border-stone-400 cursor-pointer transition-colors">
+                <div class="flex items-center gap-1 text-stone-400 mb-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                  <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+                </div>
+                <span class="text-[9px] font-medium text-stone-500 font-sans">Add Certificate Image</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bottom Row: Beyond the Classroom -->
+  <div class="pt-10 border-t border-stone-200">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-left">
+      <div class="lg:col-span-1">
+        <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 font-semibold block mb-1">BEYOND THE CLASSROOM</span>
+        <h3 class="font-editorial text-2xl text-[#111113] leading-snug">Learning never really stops.</h3>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="w-7 h-7 rounded-lg border border-stone-200 bg-white flex items-center justify-center text-stone-700 mb-1 shadow-xs">
+          <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        </div>
+        <h4 class="text-xs font-bold text-[#111113]">Online Courses</h4>
+        <p class="text-[11px] text-stone-500 leading-relaxed font-normal">Continuously learning new technologies and best practices.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="w-7 h-7 rounded-lg border border-stone-200 bg-white flex items-center justify-center text-stone-700 mb-1 shadow-xs">
+          <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        </div>
+        <h4 class="text-xs font-bold text-[#111113]">Hands-on Projects</h4>
+        <p class="text-[11px] text-stone-500 leading-relaxed font-normal">Applying knowledge through real-world applications.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="w-7 h-7 rounded-lg border border-stone-200 bg-white flex items-center justify-center text-stone-700 mb-1 shadow-xs">
+          <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+        <h4 class="text-xs font-bold text-[#111113]">Communities</h4>
+        <p class="text-[11px] text-stone-500 leading-relaxed font-normal">Being part of developer communities and sharing ideas.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="w-7 h-7 rounded-lg border border-stone-200 bg-white flex items-center justify-center text-stone-700 mb-1 shadow-xs">
+          <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+        </div>
+        <h4 class="text-xs font-bold text-[#111113]">What's Next</h4>
+        <p class="text-[11px] text-stone-500 leading-relaxed font-normal">Keep learning, keep building, keep improving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Contact CTA & Footer -->
+<section class="py-24 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200">
+<span class="text-[11px] font-mono uppercase tracking-widest text-stone-500 mb-2 block">Initiate Contact</span>
+<h2 class="font-editorial text-5xl sm:text-7xl text-[#111113] tracking-tight mb-8">
+      Let’s build something <br/><span class="font-editorial-italic">unforgettable.</span>
+</h2>
+<div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-stone-100 border border-stone-200 text-xs sm:text-sm font-mono text-stone-800 mb-10 shadow-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>mohamed.ismael.dev@gmail.com</span>
+</div>
+<div class="flex justify-center gap-6 text-xs text-stone-500 font-mono pt-8 border-t border-stone-200">
+<a class="hover:text-black" href="https://github.com" target="_blank">GitHub</a>
+<a class="hover:text-black" href="https://linkedin.com" target="_blank">LinkedIn</a>
+<a class="hover:text-black" href="mailto:mohamed.ismael.dev@gmail.com">Direct Mail</a>
+</div>
+<p class="text-[11px] text-stone-400 font-mono mt-8">© 2026 Mohamed Ismael. All rights reserved. </p>
+</section>
+</main>
+<!-- Interactive Cursor Repulsion & Spring Physics Typography Engine -->
+<script>
+  (function() {
+    // 1. Wrap each character in .repel-interactive targets without breaking markup
+    const targets = document.querySelectorAll('.repel-interactive');
+    const letters = [];
+
+    targets.forEach(container => {
+      // Process text nodes recursively
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      const textNodes = [];
+      let currentNode;
+      while ((currentNode = walker.nextNode())) {
+        if (currentNode.nodeValue.trim().length > 0 || currentNode.nodeValue.indexOf(' ') !== -1) {
+          textNodes.push(currentNode);
+        }
+      }
+
+      textNodes.forEach(node => {
+        const text = node.nodeValue;
+        const fragment = document.createDocumentFragment();
+        
+        for (let i = 0; i < text.length; i++) {
+          const char = text[i];
+          if (char === ' ') {
+            const spaceSpan = document.createElement('span');
+            spaceSpan.className = 'repel-space';
+            spaceSpan.innerHTML = ' ';
+            fragment.appendChild(spaceSpan);
+          } else {
+            const span = document.createElement('span');
+            span.className = 'repel-char';
+            span.textContent = char;
+            fragment.appendChild(span);
+
+            letters.push({
+              el: span,
+              x: 0,
+              y: 0,
+              vx: 0,
+              vy: 0,
+              targetX: 0,
+              targetY: 0,
+              blur: 0,
+              leftNeighbor: null,
+              rightNeighbor: null,
+              rect: null
+            });
+          }
+        }
+        node.parentNode.replaceChild(fragment, node);
+      });
+    });
+
+    // Link left & right neighbors for natural impulse dispersal
+    for (let i = 0; i < letters.length; i++) {
+      if (i > 0) letters[i].leftNeighbor = letters[i - 1];
+      if (i < letters.length - 1) letters[i].rightNeighbor = letters[i + 1];
+    }
+
+    // Cache element bounding client boxes on resize or scroll
+    let mouse = { x: -9999, y: -9999, active: false };
+    function updateRects() {
+      letters.forEach(item => {
+        item.rect = item.el.getBoundingClientRect();
+      });
+    }
+    updateRects();
+    window.addEventListener('resize', updateRects, { passive: true });
+    window.addEventListener('scroll', updateRects, { passive: true });
+
+    // Track mouse / touch pointer
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    // Touch support for mobile devices
+    window.addEventListener('touchmove', e => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+        mouse.active = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    // Spring Physics Parameters
+    const TENSION = 0.15;
+    const FRICTION = 0.82;
+    const REPEL_RADIUS = 120;
+    const MAX_PUSH = 45;
+    const NEIGHBOR_PROPAGATION = 0.25;
+
+    function renderPhysics() {
+      for (let i = 0; i < letters.length; i++) {
+        const item = letters[i];
+        if (!item.rect) continue;
+
+        // Calculate center of character
+        const charCenterX = item.rect.left + item.rect.width / 2;
+        const charCenterY = item.rect.top + item.rect.height / 2;
+
+        const dx = charCenterX - mouse.x;
+        const dy = charCenterY - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        let pushX = 0;
+        let pushY = 0;
+        let blurVal = 0;
+
+        if (mouse.active && dist < REPEL_RADIUS && dist > 0.001) {
+          const factor = Math.pow(1 - dist / REPEL_RADIUS, 1.5);
+          const push = factor * MAX_PUSH;
+          pushX = (dx / dist) * push;
+          pushY = (dy / dist) * push;
+
+          // Add subtle focus blur when cursor gets extra close (< 35px)
+          if (dist < 35) {
+            blurVal = ((35 - dist) / 35) * 2.2;
+          }
+
+          // Propagate 25% impulse to immediate neighbors so words dynamically part
+          if (item.leftNeighbor) {
+            item.leftNeighbor.vx += pushX * NEIGHBOR_PROPAGATION * 0.2;
+            item.leftNeighbor.vy += pushY * NEIGHBOR_PROPAGATION * 0.2;
+          }
+          if (item.rightNeighbor) {
+            item.rightNeighbor.vx += pushX * NEIGHBOR_PROPAGATION * 0.2;
+            item.rightNeighbor.vy += pushY * NEIGHBOR_PROPAGATION * 0.2;
+          }
+        }
+
+        item.targetX = pushX;
+        item.targetY = pushY;
+
+        // Spring acceleration towards target position
+        const ax = (item.targetX - item.x) * TENSION;
+        const ay = (item.targetY - item.y) * TENSION;
+
+        item.vx = (item.vx + ax) * FRICTION;
+        item.vy = (item.vy + ay) * FRICTION;
+
+        item.x += item.vx;
+        item.y += item.vy;
+
+        // Smooth blur recovery
+        item.blur += (blurVal - item.blur) * 0.2;
+
+        // Apply transform if delta is perceptible (> 0.01px)
+        if (Math.abs(item.x) > 0.01 || Math.abs(item.y) > 0.01 || Math.abs(item.vx) > 0.01 || Math.abs(item.vy) > 0.01) {
+          const blurStr = item.blur > 0.1 ? ` blur(${item.blur.toFixed(2)}px)` : '';
+          item.el.style.transform = `translate3d(${item.x.toFixed(2)}px, ${item.y.toFixed(2)}px, 0)`;
+          item.el.style.filter = blurStr ? blurStr : 'none';
+        } else if (item.el.style.transform) {
+          item.el.style.transform = '';
+          item.el.style.filter = '';
+        }
+      }
+
+      requestAnimationFrame(renderPhysics);
+    }
+
+    requestAnimationFrame(renderPhysics);
+  })();
+</script>
+</body></html>

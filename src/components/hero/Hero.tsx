@@ -61,7 +61,7 @@ export default function Hero() {
         closest = i % SHOWCASE_IMAGES.length;
       }
     });
-    setCenterIdx(closest);
+    setCenterIdx((prev) => (prev === closest ? prev : closest));
   }, []);
 
   useEffect(() => {
@@ -73,11 +73,12 @@ export default function Hero() {
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, [detectCenter]);
+
   return (
     <section className="pt-28 sm:pt-36 pb-16 w-full flex flex-col items-center text-center">
       <div className="px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center text-center w-full">
         {/* Interactive portrait with orbiting social pills */}
-        <div className="relative mb-8 group cursor-pointer p-16 -m-16" tabIndex={0}>
+        <div className="relative mb-8 group cursor-pointer px-16 pt-20 pb-16 -mx-16 -mb-16 -mt-12" tabIndex={0}>
           {SOCIAL_LINKS.map((social, i) => {
             const Icon = social.icon;
             return (

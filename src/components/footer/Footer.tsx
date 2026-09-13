@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Github, Linkedin } from "lucide-react";
 import { SiDiscord, SiWhatsapp } from "react-icons/si";
+import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 
 const SOCIAL_LINKS = [
   { href: "https://github.com/Mohamedismaell", icon: Github, label: "GitHub" },
@@ -21,14 +22,14 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-[var(--border-subtle)] bg-[var(--background-secondary)] py-20 px-6">
+    <footer className="border-t border-[var(--border-subtle)] py-20 px-6">
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
         <span className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: "var(--text-muted)" }}>
           Initiate Contact
         </span>
         <h2 className="font-editorial text-5xl sm:text-7xl text-[var(--text-primary)] mb-6">
-          Let&apos;s build something <br />
-          <span className="font-editorial-italic">unforgettable.</span>
+          <CursorRepulsionText text="Let's build something" className="inline-block" /> <br />
+          <span className="font-editorial-italic inline-block"><CursorRepulsionText text="unforgettable." className="inline-block" /></span>
         </h2>
 
         {/* Copy Email Pill */}
@@ -62,15 +63,12 @@ export default function Footer() {
               {label}
             </a>
           ))}
-          <a href="mailto:mohamed.ismael.dev@gmail.com" className="hover:text-[var(--text-primary)] transition-colors">
-            Direct Mail
-          </a>
         </div>
 
         {/* Copyright */}
-        <div className="pt-8 border-t border-[var(--border-subtle)] w-full flex flex-col sm:flex-row items-center justify-between text-xs font-mono gap-4" style={{ color: "var(--text-muted)" }}>
+        <div className="pt-8 border-t border-[var(--border-subtle)] w-full flex items-center justify-center text-xs font-mono" style={{ color: "var(--text-muted)" }}>
           <div>© {new Date().getFullYear()} Mohamed Ismael. All rights reserved.</div>
-          <div>Crafted with Flutter spirit</div>
+          {/* <div>Crafted with Flutter spirit</div> */}
         </div>
       </div>
     </footer>

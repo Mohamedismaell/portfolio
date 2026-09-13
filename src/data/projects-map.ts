@@ -852,7 +852,7 @@ tasky: {
   ],
 
   stats: [
-    { label: "Screens", value: "7" },
+    { label: "Screens", value: "7+" },
     { label: "Features", value: "7+" },
     { label: "Tech", value: "10" },
     { label: "Challenges", value: "3" },
@@ -932,7 +932,7 @@ heroScreens: [
       "/projects/tasky/2D_preview/profile.png",
     ],
 results: {
-  screens: "7",
+  screens: "7+",
   features: "7+",
   tech: "10",
   linesOfCode: "1k+",

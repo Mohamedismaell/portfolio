@@ -33,10 +33,11 @@ export default function ResponsiveNavbar() {
   useEffect(() => {
     const onScroll = () => {
       if (isProjectDetails) return;
-      if (isAutoScrollingRef.current) return;
 
       const scrollY = window.scrollY;
       setScrolled(scrollY > 120);
+
+      if (isAutoScrollingRef.current) return;
 
       let current = "home";
       sectionIds.forEach((id) => {
