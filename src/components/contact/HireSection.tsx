@@ -1,19 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence, type Variants } from "framer-motion";
-import {
-  useState,
-  useEffect,
-  useRef,
-  type CSSProperties,
-  type FormEvent,
-  type KeyboardEvent,
-} from "react";
-import { ChevronDown, X, Send, BriefcaseBusiness } from "lucide-react";
-import Image from "next/image";
+import { motion, type Variants } from "framer-motion";
+import { useState, type FormEvent } from "react";
+import { Send, User, Mail, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import SectionWrapper from "@/components/ui/SectionWrapper";
-import { BORDERS, TEXT, GRADIENTS, SHADOWS } from "@/lib/theme";
+
+const INTENT_OPTIONS = [
+  "A project",
+  "A job opportunity",
+  "Something else",
+];
 
 const fieldVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
@@ -24,86 +21,12 @@ const fieldVariants: Variants = {
   }),
 };
 
-const SERVICES = [
-  "Flutter App Development",
-  "Cross-Platform Mobile Apps",
-  "UI Implementation from Figma",
-  "Clean Architecture Setup",
-  "State Management (Bloc / Cubit)",
-  "API Integration",
-  "Performance Optimization",
-  "Bug Fixing / Refactoring",
-  "App Deployment (Play Store / App Store)",
-  "Technical Consultation",
-  "Other",
-];
-
 const WEB3FORMS_ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
-  
-const inputClass =
-  "w-full rounded-[16px] px-4 py-4 text-sm outline-none transition-all placeholder:text-[var(--text-secondary)] sm:text-[14px]";
 
 export default function HireSection() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(0);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const filteredServices = SERVICES.filter(
-    (s) =>
-      s.toLowerCase().includes(query.toLowerCase()) && !selected.includes(s),
-  );
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(e.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setOpen(true);
-      setHighlightedIndex((p) =>
-        Math.min(p + 1, filteredServices.length - 1),
-      );
-    }
-
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightedIndex((p) => Math.max(p - 1, 0));
-    }
-
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (filteredServices[highlightedIndex]) {
-        setSelected((p) => [...p, filteredServices[highlightedIndex]]);
-        setQuery("");
-        setOpen(false);
-        setHighlightedIndex(0);
-      }
-    }
-
-    if (e.key === "Escape") {
-      setOpen(false);
-    }
-  };
-
-  const removeService = (service: string) => {
-    setSelected((p) => p.filter((s) => s !== service));
-  };
+  const [intent, setIntent] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -118,9 +41,7 @@ export default function HireSection() {
 
     const name = String(fd.get("name") ?? "").trim();
     const email = String(fd.get("email") ?? "").trim();
-    const phone = String(fd.get("phone") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
-    const botcheck = fd.get("botcheck");
 
     if (name.length < 2) {
       toast.error("Name must be at least 2 characters.");
@@ -132,11 +53,6 @@ export default function HireSection() {
       return;
     }
 
-    if (selected.length === 0) {
-      toast.error("Please select at least one service.");
-      return;
-    }
-
     setStatus("sending");
 
     const body = {
@@ -145,10 +61,8 @@ export default function HireSection() {
       from_name: name,
       name,
       email,
-      phone,
-      services: selected.join(", "),
+      intent,
       message,
-      botcheck: botcheck ? "true" : "",
     };
 
     try {
@@ -169,10 +83,7 @@ export default function HireSection() {
 
       toast.success("Message sent! I'll get back to you soon.");
       form.reset();
-      setSelected([]);
-      setQuery("");
-      setOpen(false);
-      setHighlightedIndex(0);
+      setIntent("");
       setStatus("sent");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (err: any) {
@@ -182,413 +93,160 @@ export default function HireSection() {
     }
   };
 
-  const baseInputStyle: CSSProperties = {
-    background: GRADIENTS.ghostBtn,
-    border: `1px solid ${BORDERS.subtle}`,
-    color: TEXT.primary,
-    boxShadow: SHADOWS.ghostBtn,
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-  };
-
-  const focusInputStyle: CSSProperties = {
-    background: GRADIENTS.cardBg,
-    border: `1px solid ${BORDERS.strong}`,
-    color: TEXT.primary,
-    boxShadow: SHADOWS.card,
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-  };
-
   return (
-    <SectionWrapper id="contact" className="pb-12 sm:pb-16 lg:pb-20">
-      <div className="mx-auto max-w-[1240px]">
-        <div
-          className="rounded-[30px] px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6"
-          style={{
-            background: GRADIENTS.solidCard,
-            border: `1px solid ${BORDERS.subtle}`,
-            boxShadow: SHADOWS.card,
-          }}
-        >
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(340px,0.9fr)_minmax(520px,1.1fr)] lg:gap-6 xl:grid-cols-[minmax(360px,0.88fr)_minmax(580px,1.12fr)]">
-            <div
-              className="rounded-[24px] p-5 sm:p-6"
-              style={{
-                background: GRADIENTS.cardBg,
-                border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: SHADOWS.card,
-              }}
-            >
-              <p
-                className="text-[11px] font-[800] uppercase tracking-[0.1em] sm:text-[12px]"
-                style={{ color: TEXT.badge }}
-              >
-                Hire Me
-              </p>
+    <SectionWrapper id="contact" className="py-24 px-4 sm:px-6">
+      <div className="mx-auto max-w-[650px]">
+        {/* Modal Card */}
+        <div className="relative bg-[#131418] border border-[#23252c] rounded-[28px] p-7 sm:p-9 shadow-2xl">
+          {/* Header */}
+          <header className="relative mb-7">
+            <span className="block text-[11px] font-mono font-medium tracking-[0.18em] text-neutral-400 uppercase mb-2.5">
+              Direct Inquiry
+            </span>
+            <h1 className="text-[40px] sm:text-[46px] leading-[1.08] text-[#f2f2f3] font-normal tracking-tight">
+              Let&apos;s{" "}
+              <span className="font-editorial-italic text-[45px] sm:text-[52px] font-light text-white">
+                talk.
+              </span>
+            </h1>
+            <p className="text-[13.5px] sm:text-[14px] leading-relaxed text-[#8f919a] mt-2.5 max-w-[430px]">
+              I&apos;m always open to discussing new opportunities, interesting ideas, or potential collaborations.
+            </p>
+          </header>
 
-              <h2
-                className="mt-2 text-[2rem] font-[800] leading-[0.98] tracking-[-0.06em] sm:text-[2.3rem] lg:text-[2.5rem]"
-                style={{ color: TEXT.primary }}
-              >
-                Let&apos;s build your next product
-              </h2>
-
-              <div className="mt-5 flex flex-col items-start gap-4 sm:flex-row">
-                <span
-                  className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px]"
-                  style={{
-                    background: GRADIENTS.primaryBtn,
-                    color: TEXT.inverse,
-                    boxShadow: SHADOWS.primaryBtn,
-                  }}
-                >
-                  <BriefcaseBusiness size={22} strokeWidth={2.2} />
-                </span>
-
-                <div className="min-w-0">
-                  <p
-                    className="text-[15px] leading-[1.75] sm:text-[16px]"
-                    style={{ color: TEXT.soft }}
-                  >
-                    Share your idea, app goals, or product needs. I can help
-                    with Flutter apps, architecture, UI implementation, API
-                    integration, optimization, and deployment.
-                  </p>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Two-column row: Name & Email Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-mono tracking-[0.14em] uppercase text-[#737580]">
+                  Your Name
+                </label>
+                <div className="relative rounded-2xl bg-[#18191f]/90 border border-[#26272f] hover:border-[#32343e] focus-within:!border-[#4a4d5c] focus-within:ring-1 focus-within:ring-[#4a4d5c] transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6e707b]">
+                    <User size={16} strokeWidth={1.8} />
+                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Jane Doe"
+                    required
+                    className="w-full bg-transparent border-0 pl-10 pr-3.5 py-3 text-sm text-[#e2e3e8] placeholder-[#575965] focus:outline-none focus:ring-0"
+                  />
                 </div>
               </div>
 
-              <div
-                className="mt-6 rounded-[20px] p-5"
-                style={{
-                  background: GRADIENTS.ghostBtn,
-                  border: `1px solid ${BORDERS.subtle}`,
-                  boxShadow: SHADOWS.ghostBtn,
-                }}
-              >
-                <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
-                  <div
-                    className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full sm:h-20 sm:w-20"
-                    style={{
-                      border: `2px solid ${BORDERS.medium}`,
-                      background: GRADIENTS.badge,
-                      boxShadow: SHADOWS.ghostBtn,
-                    }}
-                  >
-                    <Image
-                      src="/person_profile.jpg"
-                      alt="Mohamed Ismael"
-                      fill
-                      sizes="(max-width: 640px) 96px, 80px"
-                      className="object-cover object-top"
-                    />
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-mono tracking-[0.14em] uppercase text-[#737580]">
+                  Your Email
+                </label>
+                <div className="relative rounded-2xl bg-[#18191f]/90 border border-[#26272f] hover:border-[#32343e] focus-within:!border-[#4a4d5c] focus-within:ring-1 focus-within:ring-[#4a4d5c] transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6e707b]">
+                    <Mail size={16} strokeWidth={1.8} />
                   </div>
-
-                  <div className="min-w-0">
-                    <h3
-                      className="text-[18px] font-[800] leading-tight sm:text-[19px]"
-                      style={{ color: TEXT.primary }}
-                    >
-                      Mohamed Ismael
-                    </h3>
-
-                    <p
-                      className="mt-1 text-[13px] font-[700]"
-                      style={{ color: TEXT.badge }}
-                    >
-                      Flutter Developer
-                    </p>
-
-                    <p
-                      className="mt-2 text-[13.5px] leading-[1.7]"
-                      style={{ color: TEXT.soft }}
-                    >
-                      Every project is a chance to build something meaningful. I
-                      enjoy creating mobile apps with thoughtful design, solid
-                      architecture, and an experience users can rely on.
-                    </p>
-                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="jane@example.com"
+                    required
+                    className="w-full bg-transparent border-0 pl-10 pr-3.5 py-3 text-sm text-[#e2e3e8] placeholder-[#575965] focus:outline-none focus:ring-0"
+                  />
                 </div>
               </div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.12 }}
-              className="rounded-[24px] p-5 sm:p-6 lg:p-7"
-              style={{
-                background: GRADIENTS.cardBg,
-                border: `1px solid ${BORDERS.subtle}`,
-                boxShadow: SHADOWS.card,
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-              }}
-            >
-              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                <input
-                  type="checkbox"
-                  name="botcheck"
-                  className="hidden"
-                  style={{ display: "none" }}
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-
-                <motion.div
-                  custom={0}
-                  variants={fieldVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-                >
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    required
-                    onFocus={() => setFocusedField("name")}
-                    onBlur={() => setFocusedField(null)}
-                    className={inputClass}
-                    style={
-                      focusedField === "name"
-                        ? focusInputStyle
-                        : baseInputStyle
-                    }
-                  />
-
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    required
-                    onFocus={() => setFocusedField("email")}
-                    onBlur={() => setFocusedField(null)}
-                    className={inputClass}
-                    style={
-                      focusedField === "email"
-                        ? focusInputStyle
-                        : baseInputStyle
-                    }
-                  />
-                </motion.div>
-
-                <motion.div
-                  custom={1}
-                  variants={fieldVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone (Optional)"
-                    onFocus={() => setFocusedField("phone")}
-                    onBlur={() => setFocusedField(null)}
-                    className={inputClass}
-                    style={
-                      focusedField === "phone"
-                        ? focusInputStyle
-                        : baseInputStyle
-                    }
-                  />
-                </motion.div>
-
-                <motion.div
-                  custom={2}
-                  variants={fieldVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  ref={wrapperRef}
-                  className="relative"
-                >
-                  <div
-                    className="flex cursor-text flex-wrap items-center gap-2 rounded-[16px] px-4 py-3 transition-all"
-                    style={open ? focusInputStyle : baseInputStyle}
-                    onClick={() => setOpen(true)}
+            {/* Inquiry Reason Category Pills */}
+            <div className="space-y-2.5">
+              <label className="block text-[11px] font-mono tracking-[0.14em] uppercase text-[#737580]">
+                What brings you here?
+              </label>
+              <div className="flex flex-wrap items-center gap-2.5">
+                {INTENT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => setIntent(opt)}
+                    className={`px-5 py-2.5 rounded-full text-[13px] font-medium transition-all duration-150 border ${
+                      intent === opt
+                        ? "bg-[#1d1e25] text-white border-[#7b7e8d] shadow-[0_0_12px_rgba(255,255,255,0.06)]"
+                        : "bg-[#18191f] text-[#8e919c] border-[#262730] hover:border-[#3b3d49] hover:text-[#c4c6cf]"
+                    }`}
                   >
-                    {selected.map((item) => (
-                      <span
-                        key={item}
-                        className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-[700]"
-                        style={{
-                          background: GRADIENTS.badge,
-                          border: `1px solid ${BORDERS.medium}`,
-                          color: TEXT.badge,
-                        }}
-                      >
-                        {item}
-                        <X
-                          size={12}
-                          className="cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeService(item);
-                          }}
-                        />
-                      </span>
-                    ))}
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                    <input
-                      type="text"
-                      value={query}
-                      onChange={(e) => {
-                        setQuery(e.target.value);
-                        setOpen(true);
-                        setHighlightedIndex(0);
-                      }}
-                      onKeyDown={handleKeyDown}
-                      onFocus={() => setOpen(true)}
-                      placeholder={
-                        selected.length === 0 ? "Select services..." : ""
-                      }
-                      className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-[var(--text-secondary)]"
-                      style={{ color: TEXT.primary }}
-                    />
-
-                    <motion.div
-                      animate={{ rotate: open ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown size={16} style={{ color: TEXT.muted }} />
-                    </motion.div>
+            {/* Tell Me More: Textarea Field */}
+            <div className="space-y-2 pt-0.5">
+              <label className="block text-[11px] font-mono tracking-[0.14em] uppercase text-[#737580]">
+                Tell me more
+              </label>
+              <div className="relative rounded-2xl bg-[#18191f]/90 border border-[#26272f] hover:border-[#32343e] focus-within:!border-[#4a4d5c] focus-within:ring-1 focus-within:ring-[#4a4d5c] transition-colors p-3.5">
+                <div className="flex items-start gap-2.5">
+                  <div className="pt-0.5 text-[#6e707b] pointer-events-none flex-shrink-0">
+                    <MessageSquare size={16} strokeWidth={1.8} />
                   </div>
-
-                  <AnimatePresence>
-                    {open && filteredServices.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.18 }}
-                        className="absolute z-30 mt-2 max-h-52 w-full overflow-y-auto rounded-[18px]"
-                        style={{
-                          background: GRADIENTS.solidCard,
-                          border: `1px solid ${BORDERS.subtle}`,
-                          boxShadow: SHADOWS.card,
-                          backdropFilter: "blur(18px)",
-                          WebkitBackdropFilter: "blur(18px)",
-                        }}
-                      >
-                        {filteredServices.map((item, i) => (
-                          <div
-                            key={item}
-                            onClick={() => {
-                              setSelected((p) => [...p, item]);
-                              setQuery("");
-                              setOpen(false);
-                              setHighlightedIndex(0);
-                            }}
-                            onMouseEnter={() => setHighlightedIndex(i)}
-                            className="cursor-pointer px-4 py-3 text-sm transition-colors"
-                            style={{
-                              color:
-                                i === highlightedIndex
-                                  ? TEXT.primary
-                                  : TEXT.soft,
-                              background:
-                                i === highlightedIndex
-                                  ? GRADIENTS.badge
-                                  : "transparent",
-                            }}
-                          >
-                            {item}
-                          </div>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-
-                <motion.div
-                  custom={3}
-                  variants={fieldVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
                   <textarea
                     name="message"
-                    rows={7}
-                    placeholder="Tell me about your project..."
+                    rows={4}
+                    placeholder="Share details about your project, timeline, or anything else..."
                     required
-                    onFocus={() => setFocusedField("message")}
-                    onBlur={() => setFocusedField(null)}
-                    className={`${inputClass} resize-none`}
-                    style={
-                      focusedField === "message"
-                        ? focusInputStyle
-                        : baseInputStyle
-                    }
+                    className="w-full bg-transparent border-0 p-0 text-sm text-[#e2e3e8] placeholder-[#575965] focus:outline-none focus:ring-0 resize-y min-h-[90px]"
                   />
-                </motion.div>
+                </div>
+              </div>
+            </div>
 
-                <motion.div
-                  custom={4}
-                  variants={fieldVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  className="pt-1"
-                >
-                  <button
-                    type="submit"
-                    disabled={status === "sending" || status === "sent"}
-                    className="group relative flex w-full items-center justify-center gap-2.5 rounded-[16px] py-3.5 text-sm font-[700] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60"
-                    style={{
-                      background:
-                        status === "sent"
-                          ? GRADIENTS.badge
-                          : GRADIENTS.primaryBtn,
-                      border: `1px solid ${BORDERS.medium}`,
-                      color: status === "sent" ? TEXT.badge : TEXT.inverse,
-                      boxShadow:
-                        status !== "sent" ? SHADOWS.primaryBtn : "none",
-                    }}
-                  >
-                    {status === "sending" ? (
-                      <svg
-                        className="h-4 w-4 animate-spin"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v8H4z"
-                        />
-                      </svg>
-                    ) : (
-                      <Send
-                        size={15}
-                        className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      />
-                    )}
+            {/* Primary Submit Button */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={status === "sending" || status === "sent"}
+                className="w-full py-3.5 px-6 rounded-full bg-white text-[#111215] hover:bg-[#eaebee] active:scale-[0.99] font-medium text-[14.5px] transition-all duration-150 flex items-center justify-center gap-2.5 shadow-lg shadow-black/30 disabled:opacity-60 group"
+              >
+                {status === "sending" ? (
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                  </svg>
+                ) : (
+                  <Send
+                    size={16}
+                    className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150"
+                  />
+                )}
+                <span>
+                  {status === "sending"
+                    ? "Sending..."
+                    : status === "sent"
+                      ? "Message Sent"
+                      : "Send Message"}
+                </span>
+              </button>
+            </div>
+          </form>
 
-                    <span>
-                      {status === "sending"
-                        ? "Sending..."
-                        : status === "sent"
-                          ? "Message Sent"
-                          : "Send Message"}
-                    </span>
-                  </button>
-                </motion.div>
-              </form>
-            </motion.div>
-          </div>
+          {/* Footer */}
+          <footer className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-[12px] text-[#737580] pt-1">
+            <div className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5 text-[#737580] stroke-current" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+                <rect height="11" rx="2" ry="2" width="18" x="3" y="11" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <span>Your information is safe with me.</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>Usually reply within <strong className="font-semibold text-neutral-300">24 hours</strong>.</span>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22c55e]" />
+              </span>
+            </div>
+          </footer>
         </div>
       </div>
     </SectionWrapper>

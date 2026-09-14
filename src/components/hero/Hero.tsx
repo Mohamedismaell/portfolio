@@ -43,12 +43,14 @@ function PhoneCard({ project, isCenter }: { project: typeof SHOWCASE_IMAGES[0]; 
 }
 
 export default function Hero() {
-  const marqueeRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [centerIdx, setCenterIdx] = useState(0);
+  const xRef = useRef(0);
 
   const detectCenter = useCallback(() => {
-    if (!marqueeRef.current) return;
-    const cards = marqueeRef.current.querySelectorAll<HTMLElement>(".phone-showcase-card");
+    const track = trackRef.current;
+    if (!track) return;
+    const cards = track.querySelectorAll<HTMLElement>(".phone-showcase-card");
     const viewCenter = window.innerWidth / 2;
     let closest = 0;
     let minDist = Infinity;
@@ -74,11 +76,43 @@ export default function Hero() {
     return () => cancelAnimationFrame(raf);
   }, [detectCenter]);
 
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let raf: number;
+    let lastTime = performance.now();
+    const speed = 40;
+
+    const animate = (now: number) => {
+      const delta = now - lastTime;
+      lastTime = now;
+      xRef.current -= speed * (delta / 1000);
+
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0 && Math.abs(xRef.current) >= halfWidth) {
+        xRef.current += halfWidth;
+      }
+
+      track.style.transform = `translateX(${xRef.current}px)`;
+      raf = requestAnimationFrame(animate);
+    };
+
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <section className="pt-28 sm:pt-36 pb-16 w-full flex flex-col items-center text-center">
       <div className="px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center text-center w-full">
         {/* Interactive portrait with orbiting social pills */}
-        <div className="relative mb-8 group cursor-pointer px-16 pt-20 pb-16 -mx-16 -mb-16 -mt-12" tabIndex={0}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="relative mb-8 group cursor-pointer px-16 pt-20 pb-16 -mx-16 -mb-16 -mt-12"
+          tabIndex={0}
+        >
           {SOCIAL_LINKS.map((social, i) => {
             const Icon = social.icon;
             return (
@@ -107,7 +141,7 @@ export default function Hero() {
               priority
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Editorial headline with cursor repulsion */}
         <motion.div
@@ -116,15 +150,15 @@ export default function Hero() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="font-editorial text-6xl sm:text-8xl md:text-9xl font-normal tracking-tight text-[var(--text-primary)] max-w-5xl leading-none"
         >
-          <CursorRepulsionText text="Let's see" className="block" />
-          <CursorRepulsionText text="where this goes." className="block" />
+          <div className="block"><CursorRepulsionText text="Let's see" /></div>
+          <div className="block mt-2"><CursorRepulsionText text="where this goes." /></div>
         </motion.div>
       </div>
 
       {/* Marquee of phone showcase cards */}
       <div className="w-full mt-12 sm:mt-16 relative py-6 overflow-hidden">
         <div className="w-full relative overflow-hidden mask-gradient-edges py-4">
-          <div ref={marqueeRef} className="flex w-max items-center py-8 select-none animate-marquee cursor-grab active:cursor-grabbing">
+          <div ref={trackRef} className="flex w-max items-center py-8 select-none cursor-grab active:cursor-grabbing will-change-transform">
             {/* First track */}
             <div className="flex items-center gap-5 sm:gap-7 shrink-0 pr-5 sm:pr-7">
               {SHOWCASE_IMAGES.map((project, i) => (

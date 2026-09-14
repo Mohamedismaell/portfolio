@@ -137,7 +137,7 @@ export default function CursorRepulsionText({
   }, [startAnimation, text.length]);
 
   return (
-    <div
+    <span
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -156,6 +156,6 @@ export default function CursorRepulsionText({
           {char === " " ? "\u00A0" : char}
         </span>
       ))}
-    </div>
+    </span>
   );
 }

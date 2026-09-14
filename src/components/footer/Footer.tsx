@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         {copied && (
-          <p className="text-xs font-mono text-emerald-600 mb-4 font-semibold">✓ Copied to clipboard!</p>
+          <p className="text-xs font-mono text-emerald-400 mb-4 font-semibold">✓ Copied to clipboard!</p>
         )}
 
         {/* Social Links */}

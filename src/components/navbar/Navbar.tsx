@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+
 import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
 
 const NAV_ITEMS = [
@@ -92,6 +92,32 @@ export default function ResponsiveNavbar() {
 
   return (
     <>
+      {/* Fixed MI logo — top left, always visible with pulse animation */}
+      <motion.div
+        className="fixed top-5 left-5 z-[130] pointer-events-auto"
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <button
+          onClick={() => scrollToSection("home")}
+          className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center transition-shadow hover:shadow-lg animate-logo-pulse"
+          style={{ background: "var(--background-secondary)" }}
+        >
+          <svg viewBox="0 0 600 400" className="w-7 h-7" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0,400) scale(0.1,-0.1)">
+              {["M3537 3603 c-4 -6 -10 -292 -13 -635 -6 -622 -6 -623 -28 -674 -35 -76 -84 -119 -162 -144 -36 -11 -76 -20 -88 -21 -11 0 7 -7 40 -14 81 -18 135 -46 173 -92 62 -75 60 -53 65 -918 2 -442 8 -801 14 -814 14 -38 22 333 22 1005 0 655 0 655 64 731 43 50 120 84 204 91 l63 5 -4 -544 c-2 -393 -7 -554 -15 -581 -31 -93 -109 -168 -196 -189 -18 -4 41 -8 139 -8 606 -6 745 -6 785 0 42 6 43 6 9 8 -150 5 -263 107 -289 260 -7 45 -10 329 -8 906 l3 840 23 57 c42 104 132 172 245 185 147 16 36 22 -420 23 -277 0 -503 -2 -503 -4 0 -3 22 -12 49 -21 63 -21 120 -82 152 -161 23 -58 23 -65 24 -409 l0 -350 -58 3 c-114 6 -184 46 -232 133 l-30 54 -7 630 c-4 346 -9 636 -10 645 -3 10 -6 11 -11 3z",
+                "M1397 3073 c-99 -2 -156 -7 -152 -13 3 -6 18 -10 33 -10 46 0 144 -54 192 -106 47 -50 173 -207 405 -504 685 -877 766 -977 994 -1235 151 -170 192 -235 212 -338 12 -56 4 -149 -17 -202 -28 -71 113 116 156 207 98 209 73 403 -78 618 -46 65 -638 843 -891 1170 -245 317 -282 355 -377 393 -47 18 -231 26 -477 20z",
+                "M1680 1893 c0 -707 -1 -717 -64 -850 -65 -135 -175 -218 -305 -230 -34 -3 -64 -10 -67 -14 -3 -5 206 -9 465 -9 259 0 471 4 471 9 0 4 -25 11 -55 14 -162 17 -286 137 -346 337 -23 74 -23 83 -27 694 l-3 618 -27 34 c-15 19 -30 34 -34 34 -5 0 -8 -287 -8 -637z",
+                "M2980 1837 c19 -25 91 -118 159 -207 206 -270 277 -399 305 -557 20 -114 30 -71 31 132 0 148 -3 180 -23 248 -40 141 -106 242 -207 318 -61 46 -174 93 -250 105 l-49 7 34 -46z",
+              ].map((d, i) => (
+                <path key={i} d={d} fill="var(--text-primary)" />
+              ))}
+            </g>
+          </svg>
+        </button>
+      </motion.div>
+
       <header className="fixed top-5 inset-x-0 z-[120] flex justify-center px-4 pointer-events-none">
         <motion.div
           layout
@@ -141,15 +167,18 @@ export default function ResponsiveNavbar() {
                 className="flex items-center gap-3 py-1.5 pl-2 pr-2.5"
               >
                 {/* Brand */}
-                <div className="flex items-center gap-2 pl-2 pr-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
-                  <button
-                    onClick={() => scrollToSection("home")}
-                    className="text-xs font-bold text-[var(--text-primary)] hover:opacity-80 transition-opacity tracking-tight whitespace-nowrap"
-                  >
-                    {t("hero.title")}
-                  </button>
-                </div>
+                <button
+                  onClick={() => scrollToSection("home")}
+                  className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 pl-2 pr-1 pointer-events-auto"
+                >
+                  <Image
+                    src="/mi_logo.png"
+                    alt="MI Logo"
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-contain"
+                  />
+                </button>
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-1 text-xs font-medium text-[var(--text-muted)] px-2">
@@ -170,8 +199,16 @@ export default function ResponsiveNavbar() {
 
                 {/* Right actions */}
                 <div className="flex items-center gap-1.5">
-                  <LanguageSwitcher />
                   <ThemeToggle />
+                  <a
+                    href="/Mohamed_Ismael_CV.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden md:flex text-xs bg-[var(--text-primary)] hover:opacity-90 text-[var(--text-inverse)] px-3.5 py-1.5 rounded-full font-medium transition-all items-center gap-1.5 group shadow-sm"
+                  >
+                    <span>Resume</span>
+                    <span className="text-[var(--text-muted)] group-hover:translate-x-0.5 transition-transform">↓</span>
+                  </a>
                   <button
                     onClick={openContactModal}
                     className="hidden md:flex text-xs bg-[var(--text-primary)] hover:opacity-90 text-[var(--text-inverse)] px-3.5 py-1.5 rounded-full font-medium transition-all items-center gap-1.5 group shadow-sm"
@@ -232,6 +269,14 @@ export default function ResponsiveNavbar() {
                   ))}
                 </div>
                 <div className="my-3 h-px bg-[var(--border-subtle)]" />
+                <a
+                  href="/Mohamed_Ismael_CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full rounded-[16px] px-4 py-3 text-sm font-bold bg-[var(--background-secondary)] text-[var(--text-primary)] text-center block"
+                >
+                  Resume ↓
+                </a>
                 <button
                   onClick={openContactModal}
                   className="w-full rounded-[16px] px-4 py-3 text-sm font-bold bg-[var(--text-primary)] text-[var(--text-inverse)] text-center"

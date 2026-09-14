@@ -2,8 +2,9 @@ import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import ResponsiveNavbar from "@/components/navbar/Navbar";
-import { Manrope, Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Manrope, Inter, JetBrains_Mono, Instrument_Serif, Caveat } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
+import LoadingWrapper from "@/components/animations/LoadingWrapper";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -32,6 +33,13 @@ const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-serif",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -85,7 +93,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir="ltr"
-      className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable}`}
+      className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${caveat.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -119,6 +127,7 @@ export default async function LocaleLayout({
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <LoadingWrapper />
           <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
             <div
               className="absolute inset-0 theme-transition"

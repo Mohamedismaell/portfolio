@@ -110,7 +110,9 @@ export const projectsMap: Record<string, any> = {
 
   github: "https://github.com/Mohamedismaell/MindTrip",
 
-  image: "/projects/MindTrip/2D_preview/cover.png",
+  image: "/projects/MindTrip/mindtrip_logo.png",
+
+  heroCover: "/projects/MindTrip/mind_trip_cover.png",
 
   heroScreens: [
   "https://youtu.be/8QZpCPYGpNE?si=5420RqDnble_UyQJ", 
@@ -362,16 +364,16 @@ sections: [
     liveDemo: null,
     comingSoon: false,
 
-    eyebrow: "News Product",
-    subtitle: "Flutter Developer · Content Experience",
+    eyebrow: "Mobile Application",
+    subtitle: "A smarter way to read the world.",
     overview:
-      "Quick Read is a modular news app focused on fast content delivery, offline-friendly reading, and clean multi-screen state handling across feed, categories, bookmarks, and detail views.",
+      "Quick Read is a modular, high-performance news app designed to deliver lightning-fast article feeds, offline-first reading, and smooth category exploration. Built with modern Flutter clean architecture and local Hive caching for an instant, stutter-free experience.",
 
     quickFacts: [
-      { label: "Platform", value: "iOS + Android" },
-      { label: "Content", value: "REST API news feeds" },
-      { label: "Storage", value: "Hive offline caching" },
-      { label: "Focus", value: "Fast feed rendering" },
+      { label: "Platform", value: "iOS • Android" },
+      { label: "Architecture", value: "Clean (BLoC)" },
+      { label: "Storage", value: "Hive (Offline)" },
+      { label: "Focus", value: "Content Speed" },
     ],
 
     links: [
@@ -384,64 +386,67 @@ sections: [
     ],
 
     stats: [
-      { label: "Screens", value: "9" },
-      { label: "Flows", value: "3" },
-      { label: "Tech", value: "10+" },
+      { label: "Screens", value: "9+" },
+      { label: "Main Flows", value: "3" },
+      { label: "Features", value: "10+" },
       { label: "Challenges", value: "2" },
     ],
 developmentProcess: [
-  "Requirements & API planning",
-  "Architecture and project setup",
-  "News feed implementation",
-  "Offline caching integration",
-  "Performance optimization",
-  "Testing & refinement",
+  "Requirements & Planning",
+  "UI/UX Design & Typography",
+  "Core Architecture Setup",
+  "Hive Offline Engine",
+  "Profiling & Release",
 ],
 results: {
   screens: "9+",
-  features: "8+",
+  features: "10+",
   technologies: "10",
   packages: "12+",
     linesOfCode: "3K+",
   githubUrl: "https://github.com/Mohamedismaell/News",
 },
     shortDescription:
-      "A high-performance cross-platform news application engineered with scalable Clean Architecture, optimized state management, and intelligent caching strategies. Built to deliver real-time content updates, seamless offline reading, and a refined, production-ready user experience.",
+      "Quick Read is a modular, high-performance news app designed to deliver lightning-fast article feeds, offline-first reading, and smooth category exploration. Built with modern Flutter clean architecture and local Hive caching for an instant, stutter-free experience.",
 
     description:
-      "Quick Read was architected using a modular Clean Architecture structure to ensure long-term scalability, maintainability, and testability. The application integrates robust REST API handling, structured caching mechanisms, and optimized UI rendering to deliver consistent performance across devices. Every layer was designed for separation of concerns, enabling rapid feature expansion without compromising stability.",
+      "Quick Read was built with a strict focus on clean architecture, offline-first local storage, and high-framerate rendering across low and high-end hardware. Every layer was designed for separation of concerns, enabling rapid feature expansion without compromising stability.",
 
    highlights: [
-  "Feature-First Clean Architecture implementation",
-  "Offline article caching with Hive",
-  "Optimized API handling using Dio",
-  "Responsive Material 3 interface",
-  "Cubit-based state management with selective rebuilds",
+  "Clean Architecture implementation",
+  "Offline-first with Hive cache",
+  "Simple and intuitive reader UI",
+  "Instant category filtering & search",
+  "Reading progress & cached stats",
+  "Dark and light theme support",
 ],
 
     features: [
-      "Category-driven news browsing system",
+      "Onboarding with curated interests",
+      "Instant streaming article feed",
+      "Distraction-free reader view",
+      "Category-based exploration",
+      "Offline library with cached articles",
       "Real-time search with dynamic filtering",
-      "Persistent bookmark management with offline support",
-      "Strict Clean Architecture layer separation",
-      "Structured API caching with expiration logic",
+      "Persistent bookmark management",
+      "Responsive Material 3 interface",
     ],
 
     challenge:
-      "Coordinating multiple API endpoints, synchronizing state across independent screens, and maintaining smooth UI performance while enforcing strict architectural boundaries.",
+      "Ensuring instantaneous article access with zero loading spinners even on unstable cellular connections, while preventing frame drops during high-speed scrolling through image-heavy article feeds.",
 
     solution:
-      "Implemented Clean Architecture with Cubit-driven state isolation, modular repositories, and reusable presentation components to ensure scalability, predictable state flow, and optimized rebuild performance.",
+      "Implemented a dual-tier Hive key-value cache for instant UI rendering from disk while syncing diffs in the background. Wrapped news cards in RepaintBoundary widgets, leveraged cached network image pools with downscaled memory limits, and isolated BLoC rebuild trees from scroll view listeners.",
 
 tech: [
   "Flutter",
   "Dart",
-  "Clean Architecture",
-  "Bloc / Cubit",
+  "BLoC/Cubit",
+  "Hive DB",
   "Dio",
+  "GoRouter",
+  "Clean Architecture",
   "REST API",
-  "Hive",
-  "CachedNetworkImage",
   "Responsive UI",
 ],
     github: "https://github.com/Mohamedismaell/News",
@@ -473,9 +478,21 @@ tech: [
     sections: [
       {
         label: "SCREEN 01",
-        title: "Home Feed Experience",
+        title: "Onboarding",
         description:
-          "A dynamic news feed powered by REST APIs, engineered with smooth scrolling, optimized rebuild cycles, and intelligent loading state handling to ensure a fluid reading experience.",
+          "Curated interests & setup. Personalize your feed with the topics you care about.",
+        features: [
+          "Curated interest selection",
+          "Personalized feed setup",
+          "Smooth onboarding flow",
+        ],
+        image: "/projects/news/onboarding(1).png",
+      },
+      {
+        label: "SCREEN 02",
+        title: "Article Feed",
+        description:
+          "Instant streaming feed. A dynamic news feed powered by REST APIs with smooth scrolling, optimized rebuild cycles, and intelligent loading state handling.",
         features: [
           "Real-time API-driven content rendering",
           "Efficient image loading and caching",
@@ -484,10 +501,22 @@ tech: [
         image: "/projects/news/homedisplay.png",
       },
       {
-        label: "SCREEN 02",
-        title: "Category Filtering System",
+        label: "SCREEN 03",
+        title: "Reader View",
         description:
-          "A scalable filtering mechanism allowing users to explore news categories through dynamic API requests, structured Cubit state handling, and clean domain separation.",
+          "Distraction-free typography. A focused reading experience with optimized text rendering and offline support.",
+        features: [
+          "Clean reading typography",
+          "Offline article access",
+          "Reading progress tracking",
+        ],
+        image: "/projects/news/post_details.png",
+      },
+      {
+        label: "SCREEN 04",
+        title: "Categories",
+        description:
+          "Instant topic exploration. A scalable filtering mechanism allowing users to explore news categories through dynamic API requests.",
         features: [
           "Dynamic category-based API calls",
           "Cubit-driven selective rebuilds",
@@ -496,10 +525,10 @@ tech: [
         image: "/projects/news/categories.png",
       },
       {
-        label: "SCREEN 03",
-        title: "Bookmarks & Saved Articles",
+        label: "SCREEN 05",
+        title: "Offline Library",
         description:
-          "A persistent bookmark system enabling offline-first access to saved articles using local storage with optimized retrieval performance.",
+          "Cached stories anywhere. A persistent bookmark system enabling offline-first access to saved articles using local storage.",
         features: [
           "Hive-based local persistence",
           "Instant bookmark toggle mechanism",
@@ -531,19 +560,19 @@ tech: [
   challenges: [
   {
     icon: "performance",
-    title: "Scalable State Flow",
+    title: "Offline-First Synchronization",
     challenge:
-      "Managing independent feature states across multiple news screens while maintaining responsive UI performance.",
+      "Ensuring instantaneous article access with zero loading spinners even on unstable cellular connections.",
     solution:
-      "Separated business logic into feature-specific Cubits and optimized rebuilds through granular state emissions and reusable presentation components.",
+      "Implemented a dual-tier Hive key-value cache. Remote feeds serialize into local storage instantly, allowing the UI to render from disk immediately while syncing diffs in the background.",
   },
   {
-    icon: "database",
-    title: "Caching Strategy",
+    icon: "layers",
+    title: "Stutter-Free Feed Scrolling",
     challenge:
-      "Delivering a fast reading experience while supporting offline access and minimizing unnecessary network requests.",
+      "Preventing frame drops during high-speed scrolling through image-heavy article feeds.",
     solution:
-      "Combined Hive local storage with a repository-driven caching strategy to provide quick content retrieval and controlled data refreshes.",
+      "Wrapped news cards in RepaintBoundary widgets, leveraged cached network image pools with downscaled memory limits, and isolated BLoC rebuild trees from scroll view listeners.",
   },
 ],
   },

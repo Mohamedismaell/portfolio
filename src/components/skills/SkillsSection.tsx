@@ -103,7 +103,7 @@ export default function SkillsSection() {
             >
               <div>
                 {/* Icon in bordered card */}
-                <div className="w-12 h-12 mb-4 flex items-center justify-center rounded-md border-2 border-[var(--text-primary)] bg-white shadow-xs group-hover:translate-x-0.5 transition-transform duration-200">
+                <div className="w-12 h-12 mb-4 flex items-center justify-center rounded-md border-2 border-[var(--text-primary)] bg-white dark:bg-[var(--surface-solid)] shadow-xs group-hover:translate-x-0.5 transition-transform duration-200">
                   <Image src={card.icon} alt="" width={28} height={28} className="w-7 h-7" />
                 </div>
                 {/* Blueprint artwork */}

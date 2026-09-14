@@ -16,30 +16,32 @@ const PROJECTS = [
     accent: "#5596FE",
     accentLight: "rgba(85,150,254,0.12)",
     accentBorder: "rgba(85,150,254,0.25)",
-    image: "/projects/MindTrip/2D_preview/cover.png",
+    image: "/projects/MindTrip/mindtrip_logo.png",
     stat1Value: "40+",
     stat1Label: "Screens Built",
     stat2Value: "15+",
     stat2Label: "Features Shipped",
     number: "01",
     category: "AI & Travel",
+    icon: "compass",
   },
   {
     key: "news_app",
     slug: "news-app",
     name: "Quick Read",
-    eyebrow: "News Product",
-    tags: "FLUTTER · BLOC · OFFLINE-FIRST · REST API",
+    eyebrow: "Mobile Application",
+    tags: "FLUTTER · BLOC · HIVE · OFFLINE-FIRST",
     accent: "#475AD7",
     accentLight: "rgba(71,90,215,0.12)",
     accentBorder: "rgba(71,90,215,0.25)",
-    image: "/projects/news/cover.png",
+    image: "/projects/news/quick_read_logo.png",
     stat1Value: "9+",
     stat1Label: "Screens",
     stat2Value: "10+",
-    stat2Label: "Technologies",
+    stat2Label: "Features",
     number: "02",
     category: "News & Media",
+    icon: "newspaper",
   },
   {
     key: "book_reading_app",
@@ -50,13 +52,14 @@ const PROJECTS = [
     accent: "#E06C75",
     accentLight: "rgba(224,108,117,0.12)",
     accentBorder: "rgba(224,108,117,0.25)",
-    image: "/projects/book_reading/2d_preview/home.png",
+    image: "/projects/book_reading/TinyShelf_logo.png",
     stat1Value: "8+",
     stat1Label: "Screens",
     stat2Value: "15+",
     stat2Label: "Technologies",
     number: "03",
     category: "Books & Reading",
+    icon: "book",
   },
   {
     key: "tasky",
@@ -67,13 +70,14 @@ const PROJECTS = [
     accent: "#15B86C",
     accentLight: "rgba(21,184,108,0.12)",
     accentBorder: "rgba(21,184,108,0.25)",
-    image: "/projects/tasky/normal/Screenshot 2026-02-15 185327.png",
+    image: "/projects/tasky/tasky_logo.png",
     stat1Value: "7",
     stat1Label: "Screens",
     stat2Value: "10",
     stat2Label: "Technologies",
     number: "04",
     category: "Productivity",
+    icon: "check-circle",
   },
 ];
 
@@ -84,7 +88,7 @@ export default function ProjectsSection() {
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200/80 bg-white/90 shadow-xs text-[11px] font-mono uppercase tracking-widest text-stone-600 mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200/80 bg-white/90 dark:border-[var(--border-subtle)] dark:bg-[var(--surface-solid)] shadow-xs text-[11px] font-mono uppercase tracking-widest text-stone-600 dark:text-[var(--text-muted)] mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Selected Case Studies</span>
           </div>
@@ -92,7 +96,7 @@ export default function ProjectsSection() {
             <CursorRepulsionText text="Projects I've" className="inline-block" />{" "}
             <span className="font-editorial-italic font-normal inline-block"><CursorRepulsionText text="built." className="inline-block" /></span>
           </h2>
-          <p className="text-stone-500 text-sm sm:text-base mt-3 max-w-lg mx-auto leading-relaxed">
+          <p className="text-stone-500 dark:text-[var(--text-muted)] text-sm sm:text-base mt-3 max-w-lg mx-auto leading-relaxed">
             Production software serving thousands of daily active users across iOS and Android.
           </p>
         </div>
@@ -106,10 +110,10 @@ export default function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.08 }}
-              className="group mb-12 rounded-[2.5rem] bg-white border border-[#E6E6EA] p-3 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden"
+              className="group mb-12 rounded-[2.5rem] bg-white border border-[#E6E6EA] dark:bg-[var(--surface-solid)] dark:border-[var(--border-subtle)] p-3 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden"
             >
               <div
-                className="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-[#FCFBF9] overflow-hidden border border-stone-100"
+                className="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-[#FCFBF9] dark:bg-[var(--background-secondary)] overflow-hidden border border-stone-100 dark:border-[var(--border-subtle)]"
               >
                 {/* Left Column - Project Data */}
                 <div className="p-8 sm:p-12 lg:col-span-7 flex flex-col justify-between">
@@ -124,11 +128,7 @@ export default function ProjectsSection() {
                             color: project.accent,
                           }}
                         >
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
-                            <path d="M6 3h12l4 6-10 12L2 9z" />
-                            <path d="M2 9h20" />
-                            <path d="M10 3l-2 6 4 12 4-12-2-6" />
-                          </svg>
+                          <ProjectIcon icon={project.icon} />
                         </div>
                         <div>
                           <span
@@ -141,7 +141,7 @@ export default function ProjectsSection() {
                           >
                             {project.eyebrow}
                           </span>
-                          <span className="text-stone-400 text-xs font-mono ml-2">{project.category}</span>
+                          <span className="text-stone-400 dark:text-[var(--text-muted)] text-xs font-mono ml-2">{project.category}</span>
                         </div>
                       </div>
                       <span
@@ -160,12 +160,12 @@ export default function ProjectsSection() {
                       {project.name}
                     </h3>
 
-                    <p className="text-stone-600 text-sm sm:text-base leading-relaxed mb-6">
+                    <p className="text-stone-600 dark:text-[var(--text-soft)] text-sm sm:text-base leading-relaxed mb-6">
                       {project.tags}
                     </p>
 
                     {/* Metrics bar */}
-                    <div className="grid grid-cols-2 gap-4 py-5 border-y border-stone-200/60 my-6 bg-white rounded-2xl px-5 shadow-xs">
+                    <div className="grid grid-cols-2 gap-4 py-5 border-y border-stone-200/60 dark:border-[var(--border-subtle)] my-6 bg-white dark:bg-[var(--surface-solid)] rounded-2xl px-5 shadow-xs">
                       <div>
                         <div
                           className="text-2xl sm:text-3xl font-bold font-mono tracking-tight"
@@ -173,13 +173,13 @@ export default function ProjectsSection() {
                         >
                           {project.stat1Value}
                         </div>
-                        <div className="text-xs text-stone-500 font-sans mt-0.5">{project.stat1Label}</div>
+                        <div className="text-xs text-stone-500 dark:text-[var(--text-muted)] font-sans mt-0.5">{project.stat1Label}</div>
                       </div>
                       <div>
-                        <div className="text-2xl sm:text-3xl font-bold text-stone-900 font-mono tracking-tight">
+                        <div className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-[var(--text-primary)] font-mono tracking-tight">
                           {project.stat2Value}
                         </div>
-                        <div className="text-xs text-stone-500 font-sans mt-0.5">{project.stat2Label}</div>
+                        <div className="text-xs text-stone-500 dark:text-[var(--text-muted)] font-sans mt-0.5">{project.stat2Label}</div>
                       </div>
                     </div>
                   </div>
@@ -191,9 +191,9 @@ export default function ProjectsSection() {
                       className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#111113] hover:bg-black text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn"
                     >
                       <span>View Case Breakdown</span>
-                      <span className="text-stone-400 group-hover/btn:translate-x-1 transition-transform">→</span>
+                      <span className="text-stone-400 dark:text-[var(--text-muted)] group-hover/btn:translate-x-1 transition-transform">→</span>
                     </Link>
-                    <span className="text-xs text-stone-400 font-mono">iOS & Android</span>
+                    <span className="text-xs text-stone-400 dark:text-[var(--text-muted)] font-mono">iOS & Android</span>
                   </div>
                 </div>
 
@@ -214,4 +214,49 @@ export default function ProjectsSection() {
       </div>
     </SectionWrapper>
   );
+}
+
+function ProjectIcon({ icon }: { icon: string }) {
+  const className = "w-6 h-6";
+  const props = { className, fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const, strokeWidth: 2 };
+
+  switch (icon) {
+    case "compass":
+      return (
+        <svg {...props} viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+        </svg>
+      );
+    case "newspaper":
+      return (
+        <svg {...props} viewBox="0 0 24 24">
+          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+          <path d="M18 14h-8" />
+          <path d="M15 18h-5" />
+          <path d="M10 6h8v4h-8V6Z" />
+        </svg>
+      );
+    case "book":
+      return (
+        <svg {...props} viewBox="0 0 24 24">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+        </svg>
+      );
+    case "check-circle":
+      return (
+        <svg {...props} viewBox="0 0 24 24">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...props} viewBox="0 0 24 24">
+          <path d="M6 3h12l4 6-10 12L2 9z" />
+          <path d="M2 9h20" />
+          <path d="M10 3l-2 6 4 12 4-12-2-6" />
+        </svg>
+      );
+  }
 }

@@ -426,6 +426,30 @@ html[data-theme-transition] *::after {
   animation: marquee 34.2s linear infinite;
 }
 
+/* Fade out */
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+/* Logo subtle pulse */
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(17, 17, 19, 0.08); }
+  50% { transform: scale(1.05); box-shadow: 0 0 12px 2px rgba(17, 17, 19, 0.06); }
+}
+
+.animate-logo-pulse {
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+.animate-logo-pulse:hover {
+  animation-play-state: paused;
+}
+
 /* Mask gradient edges for marquee */
 .mask-gradient-edges {
   mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
@@ -442,12 +466,12 @@ html[data-theme-transition] *::after {
   pointer-events: none;
   transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
   z-index: 40;
-  --orbit-r: 108px;
+  --orbit-r: 131px;
 }
 
 @media (min-width: 640px) {
   .orbit-item {
-    --orbit-r: 132px;
+    --orbit-r: 160px;
   }
 }
 
@@ -500,4 +524,58 @@ html[data-theme-transition] *::after {
 /* Phone showcase card styling */
 .phone-showcase-card {
   flex-shrink: 0;
+}
+
+/* ─── Stitch Case Study Styles ─── */
+
+.font-script {
+  font-family: var(--font-script), "Caveat", cursive;
+}
+
+.font-serif-italic {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+}
+
+.soft-card-shadow {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.phone-mockup {
+  background: #090A0C;
+  border: 6px solid #1C1E22;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-mockup-sm {
+  background: #090A0C;
+  border: 5px solid #1E2024;
+  border-radius: 34px;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.16);
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 14px;
+  background: #000000;
+  border-radius: 20px;
+  z-index: 30;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
