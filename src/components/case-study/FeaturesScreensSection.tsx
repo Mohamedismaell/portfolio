@@ -77,14 +77,14 @@ export default function FeaturesScreensSection({
             <button
               onClick={() => scrollByAmount(-1)}
               aria-label="Previous screen"
-              className="w-8 h-8 rounded-full border border-[var(--subtle-border)] bg-white flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition"
+              className="w-8 h-8 rounded-full border border-[var(--subtle-border)] bg-white flex items-center justify-center text-neutral-600 hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm transition-all"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => scrollByAmount(1)}
               aria-label="Next screen"
-              className="w-8 h-8 rounded-full border border-[var(--subtle-border)] bg-white flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition"
+              className="w-8 h-8 rounded-full border border-[var(--subtle-border)] bg-white flex items-center justify-center text-neutral-600 hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm transition-all"
             >
               <ArrowRight className="w-3.5 h-3.5" />
             </button>

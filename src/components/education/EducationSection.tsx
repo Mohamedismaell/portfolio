@@ -106,7 +106,7 @@ function CertIcon({ type }: { type: string }) {
     udemy: "bg-[#A435F0]/10",
   };
   return (
-    <div className={`w-10 h-10 rounded-xl border border-stone-200 dark:border-[var(--border-subtle)] ${bgMap[type]} flex items-center justify-center shrink-0`}>
+    <div className={`w-10 h-10 rounded-xl border border-stone-200 ${bgMap[type]} flex items-center justify-center shrink-0`}>
       <img src={iconMap[type]} alt="" className="w-6 h-6 object-contain" />
     </div>
   );
@@ -176,7 +176,7 @@ export default function EducationSection() {
         </div>
         {/* Central Header Content */}
         <div className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200 bg-white dark:border-[var(--border-subtle)] dark:bg-[var(--surface-solid)] shadow-xs text-[11px] font-sans font-medium uppercase tracking-wider text-stone-800 dark:text-[var(--text-primary)] mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-200 bg-white shadow-xs text-[11px] font-sans font-medium uppercase tracking-wider text-stone-700 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span>{t("eyebrow")}</span>
           </div>
@@ -197,11 +197,11 @@ export default function EducationSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="lg:col-span-5 bg-white border border-stone-200/90 dark:bg-[var(--surface-solid)] dark:border-[var(--border-subtle)] rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-all duration-200 relative overflow-hidden"
+          className="lg:col-span-5 bg-white border border-stone-200/90 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-all duration-200 relative overflow-hidden"
         >
           <div>
             <div className="flex items-center justify-between gap-2 mb-6">
-              <div className="w-10 h-10 rounded-xl border border-stone-200 bg-stone-50/50 dark:border-[var(--border-subtle)] dark:bg-[var(--background-secondary)] flex items-center justify-center p-2 text-stone-800 dark:text-[var(--text-primary)] shadow-xs">
+              <div className="w-10 h-10 rounded-xl border border-stone-200 bg-white flex items-center justify-center p-2 text-stone-700 shadow-xs">
                 <svg className="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c3 3 9 3 12 0v-5" />
@@ -231,14 +231,14 @@ export default function EducationSection() {
               <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap gap-1.5">
                   {KEY_AREAS.slice(0, 3).map((area) => (
-                    <span key={area} className="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 dark:border-[var(--border-subtle)] dark:bg-[var(--background-secondary)] text-[11px] font-sans font-medium text-stone-700 dark:text-[var(--text-soft)]">
+                    <span key={area} className="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/80 text-[11px] font-sans font-medium text-stone-700">
                       {area}
                     </span>
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {KEY_AREAS.slice(3).map((area) => (
-                    <span key={area} className="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 dark:border-[var(--border-subtle)] dark:bg-[var(--background-secondary)] text-[11px] font-sans font-medium text-stone-700 dark:text-[var(--text-soft)]">
+                    <span key={area} className="px-3 py-1 rounded-full border border-stone-200 bg-stone-50/80 text-[11px] font-sans font-medium text-stone-700">
                       {area}
                     </span>
                   ))}
@@ -267,7 +267,7 @@ export default function EducationSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white border border-stone-200/90 dark:bg-[var(--surface-solid)] dark:border-[var(--border-subtle)] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200 group"
+                className="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-200 group"
               >
                 <div className="flex items-start gap-3.5 flex-1 min-w-0">
                   <CertIcon type={cert.icon} />
@@ -281,7 +281,7 @@ export default function EducationSection() {
                     <p className="text-xs text-stone-600 dark:text-[var(--text-soft)] mt-1 mb-2.5 font-normal">{cert.desc}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {cert.tags.map((tag) => (
-                        <span key={tag} className="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50 dark:border-[var(--border-subtle)] dark:bg-[var(--background-secondary)] text-[10px] font-sans text-stone-600 dark:text-[var(--text-soft)] font-medium">
+                        <span key={tag} className="px-2.5 py-0.5 rounded-md border border-stone-200 bg-stone-50/80 text-[10px] font-sans text-stone-700 font-medium">
                           {tag}
                         </span>
                       ))}
@@ -293,7 +293,7 @@ export default function EducationSection() {
                     href={cert.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full h-full rounded-lg border border-stone-200 bg-stone-50/70 dark:border-[var(--border-subtle)] dark:bg-[var(--background-secondary)] p-1 flex items-center justify-center shadow-xs hover:border-stone-400 dark:hover:border-[var(--text-muted)] hover:shadow-sm cursor-pointer transition-all overflow-hidden"
+                    className="w-full h-full rounded-lg border border-stone-200 bg-white p-1 flex items-center justify-center shadow-xs hover:border-stone-300 hover:shadow-sm cursor-pointer transition-all overflow-hidden"
                   >
                     <img
                       src={cert.image}
@@ -301,7 +301,7 @@ export default function EducationSection() {
                       className="w-full h-full object-cover rounded"
                     />
                   </a>
-                  <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-56 h-40 rounded-xl border border-stone-200 bg-white dark:border-[var(--border-subtle)] dark:bg-[var(--surface-solid)] shadow-lg opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none transition-all duration-300 z-50 overflow-hidden p-1.5">
+                  <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-56 h-40 rounded-xl border border-stone-200 bg-white shadow-lg opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none transition-all duration-300 z-50 overflow-hidden p-1.5">
                     <img
                       src={cert.image}
                       alt={cert.title}
@@ -328,7 +328,7 @@ export default function EducationSection() {
           </div>
           {BEYOND_ITEMS.map((item) => (
             <div key={item.title} className="flex flex-col gap-1">
-              <div className="w-7 h-7 rounded-lg border border-stone-200 bg-white dark:border-[var(--border-subtle)] dark:bg-[var(--surface-solid)] flex items-center justify-center text-stone-700 dark:text-[var(--text-soft)] mb-1 shadow-xs">
+              <div className="w-7 h-7 rounded-lg border border-stone-200 bg-white flex items-center justify-center text-stone-600 mb-1 shadow-xs">
                 <BeyondIcon type={item.icon} />
               </div>
               <h4 className="text-xs font-bold text-[var(--text-primary)]">{item.title}</h4>

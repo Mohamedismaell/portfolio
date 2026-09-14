@@ -113,7 +113,7 @@ export default function ProjectsSection() {
               className="group mb-12 rounded-[2.5rem] bg-white border border-[#E6E6EA] dark:bg-[var(--surface-solid)] dark:border-[var(--border-subtle)] p-3 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden"
             >
               <div
-                className="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-[#FCFBF9] dark:bg-[var(--background-secondary)] overflow-hidden border border-stone-100 dark:border-[var(--border-subtle)]"
+                className="grid grid-cols-1 lg:grid-cols-12 rounded-[2rem] bg-white overflow-hidden border border-stone-100 dark:border-[var(--border-subtle)]"
               >
                 {/* Left Column - Project Data */}
                 <div className="p-8 sm:p-12 lg:col-span-7 flex flex-col justify-between">
@@ -188,10 +188,10 @@ export default function ProjectsSection() {
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#111113] hover:bg-black text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--text-primary)] hover:bg-[var(--accent-deep)] text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn"
                     >
                       <span>View Case Breakdown</span>
-                      <span className="text-stone-400 dark:text-[var(--text-muted)] group-hover/btn:translate-x-1 transition-transform">→</span>
+                      <svg className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                     </Link>
                     <span className="text-xs text-stone-400 dark:text-[var(--text-muted)] font-mono">iOS & Android</span>
                   </div>

@@ -51,15 +51,33 @@ export default function ContactModal() {
     }
     setStatus("sending");
     try {
-      const res = await fetch("/api/contact", {
+      const payload = {
+        access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+        name,
+        email,
+        subject: intent || "New Contact",
+        message,
+      };
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, message, intent, email }),
+        body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Failed to send");
+      const text = await res.text();
+      console.log("Web3Forms raw response:", text);
+      let data: Record<string, unknown>;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Web3Forms returned non-JSON:", text.slice(0, 500));
+        throw new Error("Invalid response from server");
+      }
+      console.log("Web3Forms parsed:", data);
+      if (!data.success) throw new Error((data.message as string) || "Failed to send");
       toast.success("Message sent! I'll get back to you soon.");
       handleClose();
-    } catch {
+    } catch (err) {
+      console.error("Contact form error:", err);
       toast.error("Something went wrong. Please try again.");
       setStatus("idle");
     }

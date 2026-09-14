@@ -52,7 +52,7 @@ export default function EditorialBio() {
           <div className="pt-2">
             <button
               onClick={scrollToProjects}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-primary)] hover:underline uppercase tracking-wider"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-primary)] hover:underline hover:opacity-70 uppercase tracking-wider transition-opacity"
             >
               {t("exploreApps")} <span>↓</span>
             </button>

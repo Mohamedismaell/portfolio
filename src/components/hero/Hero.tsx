@@ -122,7 +122,7 @@ export default function Hero() {
                   target={social.href.startsWith("mailto:") ? undefined : "_blank"}
                   rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
                   aria-label={social.label}
-                  className="w-14 h-14 rounded-full bg-white/90 dark:bg-stone-800/90 backdrop-blur-md border border-[#E4E3DC] dark:border-stone-700 shadow-lg flex items-center justify-center text-stone-800 dark:text-stone-200 transition-all duration-200 hover:scale-110 hover:bg-black hover:text-white hover:border-black"
+                  className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md border border-[var(--subtle-border)] shadow-lg flex items-center justify-center text-[var(--text-primary)] transition-all duration-200 hover:scale-110 hover:bg-[var(--text-primary)] hover:text-white hover:border-[var(--text-primary)]"
                 >
                   <Icon size={20} />
                 </a>
@@ -131,7 +131,7 @@ export default function Hero() {
           })}
 
           {/* Arch portrait frame */}
-          <div className="relative w-44 h-44 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-stone-200 dark:border-stone-700 shadow-xl">
+          <div className="relative w-44 h-44 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-white shadow-xl">
             <Image
               src="/person_profile.jpg"
               alt="Mohamed Ismael"

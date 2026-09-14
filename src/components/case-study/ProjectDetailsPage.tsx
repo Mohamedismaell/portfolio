@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/routing";
 import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 import FadeIn from "@/components/ui/FadeIn";
+import ContactModal from "@/components/contact/ContactModal";
 import FeaturesScreensSection from "./FeaturesScreensSection";
 import ChallengesGrid from "./ChallengesGrid";
 import ProjectOverviewRow from "./ProjectOverviewRow";
@@ -231,12 +232,13 @@ export default function ProjectDetailsPage({
   const subheading = project.subtitle || project.role;
 
   return (
+    <>
     <main className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-12">
       {/* ─── Top Navigation ─── */}
       <header className="flex items-center justify-between mb-12 sm:mb-16">
         <button
           onClick={() => router.back()}
-          className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-medium text-neutral-800 bg-white border border-[var(--subtle-border)] rounded-full hover:bg-neutral-50 transition-colors shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-medium text-neutral-800 bg-white border border-[var(--subtle-border)] rounded-full hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm transition-all shadow-xs"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M10 19l-7-7m0 0l7-7m-7 7h18" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} />
@@ -314,10 +316,10 @@ export default function ProjectDetailsPage({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-medium transition shadow-sm ${
+                  className={`inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-medium transition-all shadow-sm ${
                     isPrimary
-                      ? "bg-neutral-900 text-white hover:bg-neutral-800"
-                      : "bg-white border border-[var(--subtle-border)] text-neutral-800 hover:bg-neutral-50"
+                      ? "bg-neutral-900 text-white hover:bg-[var(--text-primary)] hover:shadow-md"
+                      : "bg-white border border-[var(--subtle-border)] text-neutral-800 hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm"
                   }`}
                 >
                   {iconEl}
@@ -431,16 +433,16 @@ export default function ProjectDetailsPage({
             <div className="flex items-center justify-center gap-3 mt-8">
               <a
                 href="/#projects"
-                className="bg-neutral-900 text-white px-6 py-2.5 rounded-full text-xs font-medium hover:bg-neutral-800 transition"
+                className="bg-neutral-900 text-white px-6 py-2.5 rounded-full text-xs font-medium hover:bg-[var(--text-primary)] hover:shadow-md transition-all"
               >
                 View All Projects
               </a>
-              <a
-                href="/#contact"
-                className="bg-white border border-[var(--subtle-border)] text-neutral-800 px-6 py-2.5 rounded-full text-xs font-medium hover:bg-neutral-50 transition"
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}
+                className="bg-white border border-[var(--subtle-border)] text-neutral-800 px-6 py-2.5 rounded-full text-xs font-medium hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm transition-all"
               >
                 Let&apos;s Talk
-              </a>
+              </button>
             </div>
             <div className="absolute right-0 sm:-right-8 top-4 hidden md:block text-right">
               <p className="font-script text-neutral-400 text-xl leading-none rotate-6">Ideas into real products.</p>
@@ -454,14 +456,16 @@ export default function ProjectDetailsPage({
           <div className="flex flex-col sm:flex-row items-center justify-between pt-12 mt-8 border-t border-[var(--subtle-border)]/40 text-xs text-neutral-500 gap-4">
             <div>&copy; {new Date().getFullYear()} Mohamed Ismael. All rights reserved.</div>
             <div className="flex items-center gap-6 font-medium text-neutral-600">
-              <a href="https://github.com/Mohamedismaell" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition">GitHub</a>
-              <a href="https://linkedin.com/in/mohamed-ismail-dev" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition">LinkedIn</a>
-              <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition">Discord</a>
-              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition">WhatsApp</a>
+              <a href="https://github.com/Mohamedismaell" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors">GitHub</a>
+              <a href="https://linkedin.com/in/mohamed-ismail-dev" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors">LinkedIn</a>
+              <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors">Discord</a>
+              <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors">WhatsApp</a>
             </div>
           </div>
         </footer>
       )}
     </main>
+    <ContactModal />
+    </>
   );
 }

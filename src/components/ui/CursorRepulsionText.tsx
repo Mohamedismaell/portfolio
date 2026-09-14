@@ -58,6 +58,7 @@ export default function CursorRepulsionText({
   const [letters, setLetters] = useState<LetterState[]>(
     Array.from({ length: text.length }, () => ({ x: 0, y: 0, blur: 0 }))
   );
+  const [isHoverDevice, setIsHoverDevice] = useState(false);
   const rafRef = useRef<number>(0);
   const velocitiesRef = useRef<{ x: number; y: number }[]>(
     Array.from({ length: text.length }, () => ({ x: 0, y: 0 }))
@@ -66,6 +67,11 @@ export default function CursorRepulsionText({
     Array.from({ length: text.length }, () => ({ x: 0, y: 0 }))
   );
   const loopRef = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setIsHoverDevice(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+  }, []);
 
   useEffect(() => {
     loopRef.current = () => {
@@ -96,8 +102,9 @@ export default function CursorRepulsionText({
     rafRef.current = requestAnimationFrame(loopRef.current);
   }, []);
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isHoverDevice || e.pointerType !== "mouse") return;
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
@@ -128,19 +135,20 @@ export default function CursorRepulsionText({
 
       startAnimation();
     },
-    [startAnimation]
+    [startAnimation, isHoverDevice]
   );
 
-  const handleMouseLeave = useCallback(() => {
+  const handlePointerLeave = useCallback(() => {
+    if (!isHoverDevice) return;
     targetRef.current = Array.from({ length: text.length }, () => ({ x: 0, y: 0 }));
     startAnimation();
-  }, [startAnimation, text.length]);
+  }, [startAnimation, text.length, isHoverDevice]);
 
   return (
     <span
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className={`relative inline-block cursor-default ${className}`}
     >
       {text.split("").map((char, i) => (

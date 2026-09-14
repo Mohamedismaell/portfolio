@@ -4,10 +4,8 @@ import { getMessages } from "next-intl/server";
 import ResponsiveNavbar from "@/components/navbar/Navbar";
 import { Manrope, Inter, JetBrains_Mono, Instrument_Serif, Caveat } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
-import LoadingWrapper from "@/components/animations/LoadingWrapper";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -126,55 +124,52 @@ export default async function LocaleLayout({
         className="relative overflow-x-hidden font-sans theme-transition"
         suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <LoadingWrapper />
-          <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-            <div
-              className="absolute inset-0 theme-transition"
-              style={{
-                background: "var(--gradient-page-bg)",
-              }}
-            />
-
-            <div
-              className="absolute -left-24 -top-24 h-[460px] w-[460px] rounded-full opacity-70 blur-[72px] theme-transition dark:opacity-15"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(180,180,180,0.10) 0%, transparent 48%)",
-              }}
-            />
-
-            <div
-              className="absolute right-[-80px] top-[80px] h-[360px] w-[360px] rounded-full opacity-55 blur-[76px] theme-transition dark:opacity-10"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(180,180,180,0.08) 0%, transparent 52%)",
-              }}
-            />
-          </div>
-
-          <NextIntlClientProvider messages={messages}>
-            <ResponsiveNavbar />
-
-            <div className="relative z-0">
-              <PageTransition>{children}</PageTransition>
-            </div>
-          </NextIntlClientProvider>
-
-          <Toaster
-            richColors
-            position="bottom-right"
-            toastOptions={{
-              className: "theme-transition",
-              style: {
-                background: "var(--surface-solid)",
-                color: "var(--text-primary)",
-                border: "1px solid var(--border-subtle)",
-                boxShadow: "var(--shadow-card)",
-              },
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+          <div
+            className="absolute inset-0 theme-transition"
+            style={{
+              background: "var(--gradient-page-bg)",
             }}
           />
-        </ThemeProvider>
+
+          <div
+            className="absolute -left-24 -top-24 h-[460px] w-[460px] rounded-full opacity-70 blur-[72px] theme-transition"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(237,207,170,0.14) 0%, transparent 48%)",
+            }}
+          />
+
+          <div
+            className="absolute right-[-80px] top-[80px] h-[360px] w-[360px] rounded-full opacity-55 blur-[76px] theme-transition"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(237,207,170,0.10) 0%, transparent 52%)",
+            }}
+          />
+        </div>
+
+        <NextIntlClientProvider messages={messages}>
+          <ResponsiveNavbar />
+
+          <div className="relative z-0">
+            <PageTransition>{children}</PageTransition>
+          </div>
+        </NextIntlClientProvider>
+
+        <Toaster
+          richColors
+          position="bottom-right"
+          toastOptions={{
+            className: "theme-transition",
+            style: {
+              background: "var(--surface-solid)",
+              color: "var(--text-primary)",
+              border: "1px solid var(--border-subtle)",
+              boxShadow: "var(--shadow-card)",
+            },
+          }}
+        />
       </body>
     </html>
   );

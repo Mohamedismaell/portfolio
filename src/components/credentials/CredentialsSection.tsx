@@ -72,7 +72,7 @@ export default function CredentialsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-stone-900/60 border border-stone-800 rounded-3xl p-8 flex flex-col justify-between"
+              className="bg-[#151722] border border-[#212433] rounded-3xl p-8 flex flex-col justify-between"
             >
               <div>
                 <span className={`text-xs font-mono uppercase tracking-wider text-${card.color}-400`}>
@@ -82,7 +82,7 @@ export default function CredentialsSection() {
                 <p className="text-stone-400 text-sm leading-relaxed mb-6">{t(card.descKey)}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {card.skills.map((skill) => (
-                    <span key={skill} className="px-2.5 py-1 rounded bg-stone-800 text-[11px] text-stone-300 font-mono">
+                    <span key={skill} className="px-2.5 py-1 rounded bg-stone-800/90 border border-stone-700/60 text-[11px] text-stone-300 font-mono">
                       {skill}
                     </span>
                   ))}
