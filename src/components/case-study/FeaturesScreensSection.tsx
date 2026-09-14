@@ -20,32 +20,38 @@ export default function FeaturesScreensSection({
   sections: SectionItem[];
 }) {
   const safeSections = useMemo(() => sections?.filter(Boolean) ?? [], [sections]);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const autoScrollRef = useRef<NodeJS.Timeout | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const xRef = useRef(0);
 
-  // Auto-scroll
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el || !safeSections.length) return;
+    const track = trackRef.current;
+    if (!track || safeSections.length === 0) return;
 
-    autoScrollRef.current = setInterval(() => {
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 0) return;
-      if (el.scrollLeft >= maxScroll - 2) {
-        el.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        el.scrollLeft += 1;
+    let raf: number;
+    let lastTime = performance.now();
+    const speed = 40;
+
+    const animate = (now: number) => {
+      const delta = now - lastTime;
+      lastTime = now;
+      xRef.current -= speed * (delta / 1000);
+
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0 && Math.abs(xRef.current) >= halfWidth) {
+        xRef.current += halfWidth;
       }
-    }, 33);
 
-    return () => {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+      track.style.transform = `translateX(${xRef.current}px)`;
+      raf = requestAnimationFrame(animate);
     };
+
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
   }, [safeSections.length]);
 
   const scrollByAmount = useCallback((direction: number) => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: direction * 280, behavior: "smooth" });
+    if (!trackRef.current) return;
+    xRef.current -= direction * 280;
   }, []);
 
   if (!safeSections.length) return null;
@@ -87,27 +93,45 @@ export default function FeaturesScreensSection({
       </div>
 
       {/* Screens Row */}
-      <div
-        ref={scrollRef}
-        className="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar pb-2"
-      >
-        {safeSections.map((section, idx) => (
-          <div key={`${section.title}-${idx}`} className="flex flex-col shrink-0 w-[200px] sm:w-[240px]">
-            <div className="rounded-2xl overflow-hidden bg-neutral-100 flex items-center justify-center h-[400px] sm:h-[480px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={section.image}
-                alt={section.title}
-                className="w-full h-full object-contain"
-              />
+      <div className="overflow-hidden pb-2">
+        <div ref={trackRef} className="flex w-max gap-4 sm:gap-5 will-change-transform">
+          {/* First set */}
+          {safeSections.map((section, idx) => (
+            <div key={`a-${section.title}-${idx}`} className="flex flex-col shrink-0 w-[200px] sm:w-[240px]">
+              <div className="rounded-2xl overflow-hidden bg-neutral-100 flex items-center justify-center h-[400px] sm:h-[480px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={section.image}
+                  alt={section.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="mt-4">
+                <span className="text-xs font-bold text-neutral-400">{String(idx + 1).padStart(2, "0")}</span>
+                <h5 className="text-sm font-semibold text-neutral-900">{section.title}</h5>
+                <p className="text-xs text-neutral-500 line-clamp-2">{section.description}</p>
+              </div>
             </div>
-            <div className="mt-4">
-              <span className="text-xs font-bold text-neutral-400">{String(idx + 1).padStart(2, "0")}</span>
-              <h5 className="text-sm font-semibold text-neutral-900">{section.title}</h5>
-              <p className="text-xs text-neutral-500 line-clamp-2">{section.description}</p>
+          ))}
+          {/* Duplicate for seamless loop */}
+          {safeSections.map((section, idx) => (
+            <div key={`b-${section.title}-${idx}`} className="flex flex-col shrink-0 w-[200px] sm:w-[240px]">
+              <div className="rounded-2xl overflow-hidden bg-neutral-100 flex items-center justify-center h-[400px] sm:h-[480px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={section.image}
+                  alt={section.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="mt-4">
+                <span className="text-xs font-bold text-neutral-400">{String(idx + 1).padStart(2, "0")}</span>
+                <h5 className="text-sm font-semibold text-neutral-900">{section.title}</h5>
+                <p className="text-xs text-neutral-500 line-clamp-2">{section.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
