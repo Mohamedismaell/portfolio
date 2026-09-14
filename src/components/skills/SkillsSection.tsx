@@ -32,7 +32,6 @@ const BLUEPRINT_CARDS = [
   {
     number: "02",
     title: "Product & UI",
-    badge: "Design to Code",
     descKey: "card2Desc" as const,
     image: "/uiolddesign.png",
     icon: (
@@ -49,7 +48,6 @@ const BLUEPRINT_CARDS = [
   {
     number: "03",
     title: "Backend Integration",
-    badge: "Data That Works",
     descKey: "card3Desc" as const,
     image: "/databaseolddesign.png",
     icon: (
@@ -121,34 +119,23 @@ export default function SkillsSection() {
             <motion.div
               key={card.number}
               variants={cardVariants}
-              className="bg-white border border-stone-200/90 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow duration-200 relative overflow-hidden group"
+              className="bg-white border border-stone-200/90 rounded-[28px] flex flex-col overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 relative group"
             >
-              <div>
-                {/* Top Header Row */}
-                <div className="flex items-center justify-between gap-2 mb-6">
-                  <div className="w-11 h-11 rounded-2xl border border-stone-200 bg-white flex items-center justify-center p-2.5 shadow-xs text-black">
-                    {card.icon}
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-stone-200 bg-stone-50/70 text-[10px] font-sans font-medium text-stone-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                    <span className="text-left">
-                      {card.badge.split(", ")[0]}
-                      <br className="sm:hidden" />
-                      {card.badge.split(", ")[1] ? ` ${card.badge.split(", ")[1]}` : ""}
-                    </span>
-                  </div>
+              {/* Full-bleed Image with stacked icon */}
+              <div className="relative w-full h-52 sm:h-60 select-none">
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className="object-cover w-full h-full"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="absolute top-4 left-4 z-10 w-11 h-11 rounded-2xl border border-stone-200 bg-white flex items-center justify-center p-2.5 shadow-xs text-black">
+                  {card.icon}
                 </div>
-                {/* Center Blueprint Image */}
-                <div className="h-48 rounded-2xl bg-white border border-dashed border-stone-200/90 relative overflow-hidden mb-6 select-none">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    className="object-cover w-full h-full"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                {/* Bottom Textual Meta */}
+              </div>
+              {/* Bottom Textual Meta */}
+              <div className="p-6 sm:p-7 flex flex-col flex-1">
                 <div className="text-left">
                   <span className="text-xs font-mono text-stone-400 font-medium block mb-1">{card.number}</span>
                   <h3 className="text-xl font-bold text-[#111113] tracking-tight">{card.title}</h3>
