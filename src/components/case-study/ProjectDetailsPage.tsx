@@ -318,7 +318,7 @@ export default function ProjectDetailsPage({
                   rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-medium transition-all shadow-sm ${
                     isPrimary
-                      ? "bg-neutral-900 text-white hover:bg-[var(--text-primary)] hover:shadow-md"
+                      ? "bg-neutral-900 text-white hover:opacity-90 hover:shadow-md"
                       : "bg-white border border-[var(--subtle-border)] text-neutral-800 hover:bg-[var(--background-secondary)] hover:border-stone-300 hover:shadow-sm"
                   }`}
                 >
@@ -433,7 +433,7 @@ export default function ProjectDetailsPage({
             <div className="flex items-center justify-center gap-3 mt-8">
               <a
                 href="/#projects"
-                className="bg-neutral-900 text-white px-6 py-2.5 rounded-full text-xs font-medium hover:bg-[var(--text-primary)] hover:shadow-md transition-all"
+                className="bg-neutral-900 text-white px-6 py-2.5 rounded-full text-xs font-medium hover:opacity-90 hover:shadow-md transition-all"
               >
                 View All Projects
               </a>

@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import ResponsiveNavbar from "@/components/navbar/Navbar";
 import { Manrope, Inter, JetBrains_Mono, Instrument_Serif, Caveat } from "next/font/google";
 import PageTransition from "@/components/animations/PageTransition";
+import LoadingWrapper from "@/components/animations/LoadingWrapper";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
@@ -150,6 +151,7 @@ export default async function LocaleLayout({
         </div>
 
         <NextIntlClientProvider messages={messages}>
+          <LoadingWrapper />
           <ResponsiveNavbar />
 
           <div className="relative z-0">

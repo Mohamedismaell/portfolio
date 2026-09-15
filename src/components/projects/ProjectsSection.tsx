@@ -188,7 +188,7 @@ export default function ProjectsSection() {
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--text-primary)] hover:bg-[var(--accent-deep)] text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--text-primary)] hover:opacity-90 hover:shadow-md text-white font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm group/btn"
                     >
                       <span>View Case Breakdown</span>
                       <svg className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
