@@ -3,7 +3,6 @@
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 
 const containerVariants: Variants = {
@@ -97,10 +96,14 @@ export default function SkillsSection() {
             <span>{t("eyebrow")}</span>
           </div>
           <h2 className="font-editorial text-5xl sm:text-6xl text-[var(--text-primary)] tracking-tight leading-none">
+<<<<<<< HEAD
             <CursorRepulsionText text="What I" className="inline-block" />{" "}
             <span className="font-editorial-italic font-normal inline-block">
               <CursorRepulsionText text="Build" className="inline-block" />
             </span>
+=======
+            {t("title")} <span className="font-editorial-italic font-normal">{t("title").split(" ").pop()}</span>
+>>>>>>> parent of 9e38a5f (Refactor code structure for improved readability and maintainability)
           </h2>
           <p className="text-sm sm:text-base mt-3 max-w-xl mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
             {t("subtitle")}

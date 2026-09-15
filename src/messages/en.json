@@ -46,7 +46,7 @@
     "titleItalic": "unforgettable.",
     "emailCopied": "Copied to clipboard!",
     "copyright": "All rights reserved.",
-    "credits": ""
+    "credits": "Crafted with Flutter spirit"
   },
   "contact": {
     "eyebrow": "DIRECT INQUIRY",
@@ -68,20 +68,5 @@
     "projects": "Work",
     "education": "Education",
     "letsTalk": "Let's Talk"
-  },
-  "education": {
-    "eyebrow": "LEARNING • GROWING • BUILDING",
-    "title": "Education &",
-    "titleItalic": "Certifications.",
-    "description": "A strong academic foundation, combined with continuous learning and hands-on experience, helps me build better products.",
-    "completed": "Completed",
-    "degreeTitle": "B.Sc. Computer Science & Software Engineering",
-    "university": "Cairo University",
-    "degreeDesc": "A solid foundation in computer science fundamentals, software engineering, and problem solving. Gained theoretical knowledge and practical experience in algorithms, data structures, operating systems, and software design.",
-    "keyAreas": "KEY AREAS",
-    "certifications": "CERTIFICATIONS",
-    "keepLearning": "KEEP LEARNING",
-    "beyondClassroom": "BEYOND THE CLASSROOM",
-    "beyondTitle": "Learning never really stops."
   }
 }

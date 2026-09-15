@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 import { useAnimatedScroll } from "@/lib/useAnimatedScroll";
 
 export default function EditorialBio() {
@@ -28,13 +27,9 @@ export default function EditorialBio() {
           className="md:col-span-7"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-editorial font-normal leading-[1.1] text-[var(--text-primary)]">
-            <CursorRepulsionText text="I build mobile experiences" className="inline-block" />{" "}
-            <CursorRepulsionText text="that refuse to be ignored." className="inline-block" />{" "}
-            <CursorRepulsionText text="Bridging the gap between" className="inline-block" />{" "}
-            <span className="font-editorial-italic inline-block"><CursorRepulsionText text="obsessive design" className="inline-block" /></span>{" "}
-            <CursorRepulsionText text="and" className="inline-block" />{" "}
-            <span className="font-editorial-italic inline-block"><CursorRepulsionText text="rock-solid production" className="inline-block" /></span>{" "}
-            <span className="font-editorial-italic inline-block"><CursorRepulsionText text="Flutter code." className="inline-block" /></span>
+            I build mobile experiences that refuse to be ignored. Bridging the gap between{" "}
+            <span className="font-editorial-italic">obsessive design</span> and{" "}
+            <span className="font-editorial-italic">rock-solid production Flutter code</span>.
           </h2>
         </motion.div>
 

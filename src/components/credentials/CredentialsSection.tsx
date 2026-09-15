@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 
 const NUMBERS = [
   { value: "4+", labelKey: "projectsBuilt" as const },
@@ -39,8 +38,8 @@ export default function CredentialsSection() {
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-stone-400">{t("eyebrow")}</span>
             <h2 className="font-editorial text-5xl sm:text-7xl text-white mt-2">
-              <CursorRepulsionText text="Built with" className="inline-block" /> <br />
-              <span className="font-editorial-italic text-stone-400 inline-block"><CursorRepulsionText text="curiosity." className="inline-block" /></span>
+              {t("title")} <br />
+              <span className="font-editorial-italic text-stone-400">{t("titleItalic")}</span>
             </h2>
           </div>
           <div className="mt-6 md:mt-0 max-w-md text-stone-400 text-sm leading-relaxed">
