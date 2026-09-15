@@ -21,24 +21,31 @@ export default function ResponsiveNavbar() {
   const { animateScroll, isAutoScrollingRef, stopAnimation } =
     useAnimatedScroll();
 
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastScrollY = useRef(0);
+  const trackedScroll = useRef(false);
 
   const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
   const isProjectDetails = pathname.includes("/projects/");
 
   useEffect(() => {
     const onScroll = () => {
-      if (isProjectDetails) return;
-
       const scrollY = window.scrollY;
       setScrolled(scrollY > 120);
 
+      if (isProjectDetails) return;
       if (isAutoScrollingRef.current) return;
 
-      let current = "home";
+      // On initial load nothing should be selected — only start following
+      // sections after the user actually scrolls.
+      if (!trackedScroll.current) {
+        trackedScroll.current = true;
+        return;
+      }
+
+      let current = scrollY < 140 ? "" : "home";
       sectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el && scrollY >= el.offsetTop - 140) {
