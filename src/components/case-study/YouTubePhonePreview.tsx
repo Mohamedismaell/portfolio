@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import ImageLoadingPlaceholder from "@/components/ui/ImageLoadingPlaceholder";
 
 type YouTubePhonePreviewProps = {
   url: string;
@@ -37,6 +38,7 @@ export default function YouTubePhonePreview({
   title = "MindTrip live demo",
 }: YouTubePhonePreviewProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const videoId = useMemo(() => getYouTubeVideoId(url), [url]);
 
@@ -61,13 +63,17 @@ export default function YouTubePhonePreview({
           aria-label={`Play ${title}`}
           className="group absolute inset-0 h-full w-full overflow-hidden"
         >
+          {isLoading && <ImageLoadingPlaceholder />}
           <Image
             src={thumbnailUrl}
             alt={title}
             fill
             unoptimized
             priority
-            className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
+            onLoad={() => setIsLoading(false)}
+            className={`object-cover object-center transition-all duration-500 group-hover:scale-[1.03] ${
+              isLoading ? "opacity-0" : "opacity-100"
+            }`}
             sizes="(max-width: 1024px) 100vw, 700px"
           />
 {/* <>

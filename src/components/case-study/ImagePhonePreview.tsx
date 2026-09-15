@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import ImageLoadingPlaceholder from "@/components/ui/ImageLoadingPlaceholder";
 import { BORDERS, GRADIENTS } from "@/lib/theme";
 
 type ImagePhonePreviewProps = {
@@ -18,16 +20,22 @@ export default function ImagePhonePreview({
   index = 0,
   onDotClick,
 }: ImagePhonePreviewProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <div className="flex h-full w-full items-center justify-center px-2 py-2 sm:px-3">
       <div className="relative w-full max-w-[980px]">
         <div className="relative min-h-[320px] w-full sm:min-h-[420px] lg:min-h-[520px]">
+          {isLoading && <ImageLoadingPlaceholder />}
           <Image
             src={src}
             alt={alt}
             fill
             priority
-            className="object-contain"
+            onLoad={() => setIsLoading(false)}
+            className={`object-contain transition-opacity duration-500 ${
+              isLoading ? "opacity-0" : "opacity-100"
+            }`}
             sizes="(max-width: 640px) 92vw, (max-width: 1024px) 80vw, 980px"
           />
         </div>

@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/routing";
 import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
 import FadeIn from "@/components/ui/FadeIn";
 import ContactModal from "@/components/contact/ContactModal";
+import ImageLoadingPlaceholder from "@/components/ui/ImageLoadingPlaceholder";
 import FeaturesScreensSection from "./FeaturesScreensSection";
 import ChallengesGrid from "./ChallengesGrid";
 import ProjectOverviewRow from "./ProjectOverviewRow";
@@ -142,6 +143,7 @@ export default function ProjectDetailsPage({
 }) {
   const router = useRouter();
   const [ready, setReady] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -345,21 +347,29 @@ export default function ProjectDetailsPage({
             {regularScreens.length ? (
               <AutoPlayScreens screens={regularScreens} />
             ) : project.heroCover ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="relative flex items-center justify-center h-full w-full">
+                {!heroLoaded && <ImageLoadingPlaceholder />}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={project.heroCover}
                   alt={project.title}
-                  className="max-h-full max-w-full object-contain"
+                  onLoad={() => setHeroLoaded(true)}
+                  className={`max-h-full max-w-full object-contain transition-opacity duration-500 ${
+                    heroLoaded ? "opacity-100" : "opacity-0"
+                  }`}
                 />
               </div>
             ) : project.image ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="relative flex items-center justify-center h-full w-full">
+                {!heroLoaded && <ImageLoadingPlaceholder />}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="max-h-full max-w-full object-contain"
+                  onLoad={() => setHeroLoaded(true)}
+                  className={`max-h-full max-w-full object-contain transition-opacity duration-500 ${
+                    heroLoaded ? "opacity-100" : "opacity-0"
+                  }`}
                 />
               </div>
             ) : null}

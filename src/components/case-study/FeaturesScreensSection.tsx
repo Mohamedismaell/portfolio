@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import CursorRepulsionText from "@/components/ui/CursorRepulsionText";
+import ImageLoadingPlaceholder from "@/components/ui/ImageLoadingPlaceholder";
 
 type SectionItem = {
   label?: string;
@@ -11,6 +12,25 @@ type SectionItem = {
   features?: string[];
   image: string;
 };
+
+function LazyScreenImage({ src, alt }: { src: string; alt: string }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div className="relative h-full w-full">
+      {isLoading && <ImageLoadingPlaceholder />}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        onLoad={() => setIsLoading(false)}
+        className={`h-full w-full object-contain transition-opacity duration-500 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+      />
+    </div>
+  );
+}
 
 export default function FeaturesScreensSection({
   projectName,
@@ -99,12 +119,7 @@ export default function FeaturesScreensSection({
           {safeSections.map((section, idx) => (
             <div key={`a-${section.title}-${idx}`} className="flex flex-col shrink-0 w-[200px] sm:w-[240px]">
               <div className="rounded-2xl overflow-hidden bg-neutral-100 flex items-center justify-center h-[400px] sm:h-[480px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={section.image}
-                  alt={section.title}
-                  className="w-full h-full object-contain"
-                />
+                <LazyScreenImage src={section.image} alt={section.title} />
               </div>
               <div className="mt-4">
                 <span className="text-xs font-bold text-neutral-400">{String(idx + 1).padStart(2, "0")}</span>
@@ -117,12 +132,7 @@ export default function FeaturesScreensSection({
           {safeSections.map((section, idx) => (
             <div key={`b-${section.title}-${idx}`} className="flex flex-col shrink-0 w-[200px] sm:w-[240px]">
               <div className="rounded-2xl overflow-hidden bg-neutral-100 flex items-center justify-center h-[400px] sm:h-[480px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={section.image}
-                  alt={section.title}
-                  className="w-full h-full object-contain"
-                />
+                <LazyScreenImage src={section.image} alt={section.title} />
               </div>
               <div className="mt-4">
                 <span className="text-xs font-bold text-neutral-400">{String(idx + 1).padStart(2, "0")}</span>
