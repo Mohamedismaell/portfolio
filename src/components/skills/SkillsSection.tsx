@@ -23,9 +23,13 @@ const BLUEPRINT_CARDS = [
     descKey: "card1Desc" as const,
     image: "/flutterold-design.png",
     icon: (
-      <svg className="w-6 h-6 fill-current text-black" viewBox="0 0 24 24">
-        <path d="M14.314 0L2.3 12 6 15.7 21.714 0h-7.4zm0 9.292L7.714 15.893 11.414 19.6l6.6-6.6-3.7-3.708zm0 7.422l-2.286 2.286L14.314 21.3 20.3 15.3l-2.286-2.286-3.7 3.7z" />
-      </svg>
+      <Image
+        src="/flutter-svgrepo-com(1).svg"
+        alt="Flutter"
+        width={24}
+        height={24}
+        className="w-6 h-6"
+      />
     ),
     skills: ["Flutter", "Dart", "Bloc / Cubit", "Clean Architecture", "REST APIs", "Local Storage"],
   },

@@ -210,7 +210,10 @@ export default function EducationSection() {
               <span className="text-[11px] font-mono text-stone-400 dark:text-[var(--text-muted)] font-medium tracking-wide">
                 {DEGREE.period} / {DEGREE.type}
               </span>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/30 text-[10px] font-mono font-medium text-emerald-700 dark:text-emerald-400">
+              <div
+                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-medium text-emerald-700"
+                style={{ borderColor: "var(--border-subtle)", background: "var(--background-secondary)" }}
+              >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span>{t("completed")}</span>
               </div>
